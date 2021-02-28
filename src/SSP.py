@@ -1,0 +1,1 @@
+"""The StockSwingPredictor (SSP) tool."""

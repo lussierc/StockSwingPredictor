@@ -35,7 +35,7 @@ def welcome_message():
 
 
 def user_UI_choice():
-    """Gets the user's choices to run the program with."""
+    """Gets the user's UI choice to run the program with."""
 
     user_choice = 0  # set default value for user UI choice
 
@@ -65,6 +65,31 @@ def cml_startup_message():
         + "\n   -------------------------------------------\n\n"
     )
 
+def get_user_stocks():
+    """Gets the user's stock tickers."""
+
+    print(color.BOLD + color.UNDERLINE + "Please enter your Stock Ticker Symbol(s) below:" + color.END + color.END)
+
+    done = False
+    stocks = ""
+
+    while done is not True:
+        stock = input("* Enter your Stock Ticker Symbol: ")
+        stocks = stocks + " " + stock
+
+        print("     * Would you like to add more stocks?")
+        continue_dec = input("       * Y or N?: ").upper()
+
+        if continue_dec == 'Y':
+            pass
+        else:
+            done = True
+
+    print("Here are your chosen stocks: ", stocks)
+    return stocks
+
+
 
 def run_cml():
     cml_startup_message()
+    get_user_stocks()

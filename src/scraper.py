@@ -5,7 +5,7 @@ import bs4
 import requests
 from bs4 import BeautifulSoup
 
-def scrape_yahoo_finance():
+def scrape_yahoo_finance_real_time():
     """Gathers real time stock prices and info from Yahoo! Finance."""
 
     # initialize scraper:
@@ -24,3 +24,7 @@ def scrape_yahoo_finance():
     avg_volume = str(soup.find_all("td", {'class': 'Ta(end) Fw(600) Lh(14px)'})[7].find('span').text)
 
     return price, previous_close, open_price, bid, ask, market_cap, avg_volume, volume
+
+def scrape_yahoo_finance_historical():
+    """Scrape historical stock price data from Yahoo! Finanace."""
+    

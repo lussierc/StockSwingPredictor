@@ -2,6 +2,7 @@
 
 import scraper
 
+
 class color:
     """Defines different colors and text formatting settings to be used for CML output printing."""
 
@@ -56,6 +57,7 @@ def user_UI_choice():
 
     return user_choice
 
+
 def cml_startup_message():
     """CML Interface startup message."""
     print(
@@ -66,10 +68,17 @@ def cml_startup_message():
         + "\n   -------------------------------------------\n\n"
     )
 
+
 def get_user_stocks():
     """Gets the user's stock tickers."""
 
-    print(color.BOLD + color.UNDERLINE + "Please enter your Stock Ticker Symbol(s) below:" + color.END + color.END)
+    print(
+        color.BOLD
+        + color.UNDERLINE
+        + "Please enter your Stock Ticker Symbol(s) below:"
+        + color.END
+        + color.END
+    )
 
     done = False
     stocks = []
@@ -81,14 +90,13 @@ def get_user_stocks():
         print("     * Would you like to add more stocks?")
         continue_dec = input("       * Y or N?: ").upper()
 
-        if continue_dec == 'Y':
+        if continue_dec == "Y":
             pass
         else:
             done = True
 
     print("Here are your chosen stocks: ", stocks)
     return stocks
-
 
 
 def run_cml():

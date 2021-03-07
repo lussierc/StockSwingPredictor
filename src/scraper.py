@@ -3,6 +3,7 @@
 # import scraping libraries:
 import yfinance as yf
 
+
 def scrape_yahoo_finance_info(stocks):
     """Gathers real time stock prices and info from Yahoo! Finance."""
 
@@ -21,6 +22,7 @@ def scrape_yahoo_finance_current(stocks):
         # get historical market data
         current = ticker.history(period="1d")
         print(current)
+
 
 def scrape_yahoo_finance_historical(stocks):
     """Scrape historical stock price data from Yahoo! Finanace."""

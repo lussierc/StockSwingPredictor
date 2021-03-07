@@ -72,14 +72,11 @@ def get_user_stocks():
     print(color.BOLD + color.UNDERLINE + "Please enter your Stock Ticker Symbol(s) below:" + color.END + color.END)
 
     done = False
-    stocks = ""
+    stocks = []
 
     while done is not True:
         stock = input("* Enter your Stock Ticker Symbol: ")
-        if stocks == "":
-            stocks += stock
-        else:
-            stocks = stocks + " " + stock
+        stocks.append(stock)
 
         print("     * Would you like to add more stocks?")
         continue_dec = input("       * Y or N?: ").upper()
@@ -98,3 +95,5 @@ def run_cml():
     cml_startup_message()
     stocks = get_user_stocks()
     scraper.scrape_yahoo_finance_historical(stocks)
+    scraper.scrape_yahoo_finance_info(stocks)
+    scraper.scrape_yahoo_finance_current(stocks)

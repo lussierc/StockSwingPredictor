@@ -102,6 +102,8 @@ def get_user_stocks():
 def run_cml():
     cml_startup_message()
     stocks = get_user_stocks()
-    scraper.scrape_stock_info(stocks)
-    scraper.scrape_stock_current_data(stocks)
-    scraper.scrape_historical_data(stocks)
+    stock_info = scraper.scrape_stock_info(stocks)
+    current_data = scraper.scrape_stock_current_data(stocks)
+    historical_data = scraper.scrape_historical_data(stocks)
+
+    print(stock_info, current_data, historical_data)

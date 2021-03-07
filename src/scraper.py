@@ -14,8 +14,6 @@ def scrape_stock_info(stocks):
 
         info_list.append(ticker.info)
 
-        print(ticker.info)
-
     return info_list
 
 
@@ -31,8 +29,6 @@ def scrape_stock_current_data(stocks):
         current = ticker.history(period="1d")
 
         current_data.append(current)
-
-        print(current)
 
     return current_data
 
@@ -50,7 +46,5 @@ def scrape_historical_data(stocks):
         hist = ticker.history(period="1y")
 
         historical_data.append(hist)
-
-        print(current)
 
     return historical_data

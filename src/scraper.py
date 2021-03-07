@@ -5,7 +5,7 @@ import yfinance as yf
 
 
 def scrape_stock_info(stocks):
-    """Gathers real time stock prices and info from Yahoo! Finance."""
+    """Gathers real time stock info from Yahoo! Finance."""
 
     info_list = []
 
@@ -18,7 +18,7 @@ def scrape_stock_info(stocks):
 
 
 def scrape_stock_current_data(stocks):
-    """Scrape 1day price info or last day's price info."""
+    """Scrape 1day price info or last day's price info. Real-time price info"""
 
     current_data = []
 
@@ -35,7 +35,7 @@ def scrape_stock_current_data(stocks):
 
 
 def scrape_historical_data(stocks):
-    """Scrape historical stock price data from Yahoo! Finanace."""
+    """Scrape historical stock price data from Yahoo! Finance."""
 
     historical_data = []
 

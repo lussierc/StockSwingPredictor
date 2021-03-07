@@ -1,5 +1,6 @@
 """Will house the Command Line Interface (CML) for the tool."""
 
+import scraper
 
 class color:
     """Defines different colors and text formatting settings to be used for CML output printing."""
@@ -75,7 +76,10 @@ def get_user_stocks():
 
     while done is not True:
         stock = input("* Enter your Stock Ticker Symbol: ")
-        stocks = stocks + " " + stock
+        if stocks == "":
+            stocks += stock
+        else:
+            stocks = stocks + " " + stock
 
         print("     * Would you like to add more stocks?")
         continue_dec = input("       * Y or N?: ").upper()
@@ -92,4 +96,5 @@ def get_user_stocks():
 
 def run_cml():
     cml_startup_message()
-    get_user_stocks()
+    stocks = get_user_stocks()
+    scraper.scrape_yahoo_finance_historical(stocks)

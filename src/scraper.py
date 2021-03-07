@@ -4,6 +4,7 @@
 import bs4
 import requests
 from bs4 import BeautifulSoup
+import yfinance as yf
 
 def scrape_yahoo_finance_real_time():
     """Gathers real time stock prices and info from Yahoo! Finance."""
@@ -25,6 +26,14 @@ def scrape_yahoo_finance_real_time():
 
     return price, previous_close, open_price, bid, ask, market_cap, avg_volume, volume
 
-def scrape_yahoo_finance_historical():
+def scrape_yahoo_finance_historical(stocks):
     """Scrape historical stock price data from Yahoo! Finanace."""
-    
+
+    msft = yf.Ticker(stocks)
+
+    # get stock info
+    msft.info
+
+    # get historical market data
+    hist = msft.history(period="1y")
+    print(hist)

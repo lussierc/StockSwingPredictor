@@ -4,47 +4,61 @@
 import yfinance as yf
 
 
-def scrape_stock_info(stocks):
+def run_scraper(stocks):
+    """Runs the scraper and stores the scraped data."""
+
+    scraped_data = []
+
+    for stock in stocks:
+        stock_data = []
+        stock_data.append(stock)
+        stock_data.append(scrape_stock_info(stock))
+        stock_data.append(scrape_stock_current_data(stock))
+        stock_data.append(scrape_stock_historical_data(stock))
+        scraped_data.append(stock_data)
+    print(scraped_data)
+
+    return scraped_data
+
+
+def scrape_stock_info(stock):
     """Gathers real time stock info from Yahoo! Finance."""
 
-    info_list = []
+    ticker = yf.Ticker(stock)
 
-    for stock in stocks:
-        ticker = yf.Ticker(stock)
-
-        info_list.append(ticker.info)
-
-    return info_list
+    return ticker.info
 
 
-def scrape_stock_current_data(stocks):
+def scrape_stock_current_data(stock):
     """Scrape 1day price info or last day's price info. Real-time price info"""
 
-    current_data = []
+    ticker = yf.Ticker(stock)
 
-    for stock in stocks:
-        ticker = yf.Ticker(stock)
+    # get historical market data
+    current = ticker.history(period="1d")
 
-        # get historical market data
-        current = ticker.history(period="1d")
+    current_dict = data_cleaner(current)
 
-        current_data.append(current)
-
-    return current_data
+    return current_dict
 
 
-
-def scrape_historical_data(stocks):
+def scrape_stock_historical_data(stock):
     """Scrape historical stock price data from Yahoo! Finance."""
 
-    historical_data = []
+    ticker = yf.Ticker(stock)
 
-    for stock in stocks:
-        ticker = yf.Ticker(stock)
+    # get historical market data
+    hist = ticker.history(period="1y")
 
-        # get historical market data
-        hist = ticker.history(period="1y")
+    hist_dict = data_cleaner(hist)
 
-        historical_data.append(hist)
+    return hist_dict
 
-    return historical_data
+
+def data_cleaner(df):
+    """Cleans data by converting scraped dataframes to dictionaries."""
+
+    df = df.reset_index()
+    dict = df.T.to_dict().values()
+
+    return dict

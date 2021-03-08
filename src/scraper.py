@@ -15,6 +15,9 @@ def run_scraper(stocks):
         scraped_data.append(stock_data)
     print(scraped_data)
 
+    return scraped_data
+
+
 def scrape_stock_info(stock):
     """Gathers real time stock info from Yahoo! Finance."""
 
@@ -47,6 +50,7 @@ def scrape_stock_historical_data(stock):
     hist_dict = data_cleaner(hist)
 
     return hist_dict
+
 
 def data_cleaner(df):
     """Cleans data by converting scraped dataframes to dictionaries."""

@@ -104,4 +104,4 @@ def run_cml():
 
     stocks = get_user_stocks()
 
-    scraper.run_scraper(stocks)
+    scraped_data = scraper.run_scraper(stocks)

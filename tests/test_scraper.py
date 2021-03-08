@@ -6,29 +6,26 @@ from src import scraper
 def test_basic_scrape_stock_info():
     """Tests to ensure that a dictionary of stock information is scraped."""
 
-    stocks = ['AAPL', 'DKNG', 'MSFT']
+    stock = "AAPL"
 
-    info_list = scraper.scrape_stock_info(stocks)
+    info_list = scraper.scrape_stock_info(stock)
 
     assert info_list is not None
-    assert len(info_list) == 3
 
 def test_basic_scrape_stock_current_data():
     """Tests to ensure that a dataframe of one-day stock price data is scraped."""
 
-    stocks = ['AAPL', 'DKNG', 'MSFT', 'DDOG']
+    stock = "DKNG"
 
-    data_list = scraper.scrape_stock_info(stocks)
+    data_dicts = scraper.scrape_stock_info(stock)
 
-    assert data_list is not None
-    assert len(data_list) == 4
+    assert data_dicts is not None
 
 def test_basic_scrape_historical_data():
     """Tests to ensure that a dataframe of historical stock price data is scraped."""
 
-    stocks = ['AAPL', 'DKNG', 'ZM']
+    stock = "DDOG"
 
-    data_list = scraper.scrape_stock_info(stocks)
+    data_dicts = scraper.scrape_stock_info(stock)
 
-    assert data_list is not None
-    assert len(data_list) != 2
+    assert data_dicts is not None

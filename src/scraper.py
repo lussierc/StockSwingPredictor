@@ -3,7 +3,10 @@
 # import scraping libraries:
 import yfinance as yf
 
+
 def run_scraper(stocks):
+    """Runs the scraper and stores the scraped data."""
+
     scraped_data = []
 
     for stock in stocks:

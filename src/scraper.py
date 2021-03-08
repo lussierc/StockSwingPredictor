@@ -10,11 +10,11 @@ def run_scraper(stocks):
     scraped_data = []
 
     for stock in stocks:
-        stock_data = []
-        stock_data.append(stock)
-        stock_data.append(scrape_stock_info(stock))
-        stock_data.append(scrape_stock_current_data(stock))
-        stock_data.append(scrape_stock_historical_data(stock))
+        stock_data = {'stock': '', 'stock_info': {}, 'stock_current_data': '', 'stock_historical_data': ''}
+        stock_data['stock'] = stock
+        stock_data['stock_info'] = scrape_stock_info(stock)
+        stock_data['stock_current_data'] = scrape_stock_current_data(stock)
+        stock_data['stock_historical_data'] = scrape_stock_historical_data(stock)
         scraped_data.append(stock_data)
     print(scraped_data)
 
@@ -56,9 +56,8 @@ def scrape_stock_historical_data(stock):
 
 
 def data_cleaner(df):
-    """Cleans data by converting scraped dataframes to dictionaries."""
+    """Cleans data by fixing date column of scraped data."""
 
     df = df.reset_index()
-    dict = df.T.to_dict().values()
 
-    return dict
+    return df

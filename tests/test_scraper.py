@@ -14,6 +14,19 @@ def test_basic_scrape_stock_info():
     assert info_list is not None
 
 
+def test_scrape_stock_specific_info():
+    """Tests to ensure that specific stock info is properly scraped."""
+
+    stock = "MSFT"
+
+    info_list = scraper.scrape_stock_info(stock)
+
+    assert info_list is not None
+    assert info_list["sector"] == "Technology"
+    assert info_list["country"] == "United States"
+    assert info_list["city"] == "Redmond"
+
+
 def test_basic_scrape_stock_current_data():
     """Tests to ensure that a dictionary of one-day stock price data is scraped."""
 
@@ -37,7 +50,7 @@ def test_basic_scrape_historical_data():
 def test_run_scraper():
     """Tests the run_scraper function to ensure data is scraped properly."""
 
-    stocks = ['AAPL', 'DKNG', 'MSFT', 'DDOG']
+    stocks = ["AAPL", "DKNG", "MSFT", "DDOG"]
 
     scraped_data = scraper.run_scraper(stocks)
 
@@ -46,6 +59,6 @@ def test_run_scraper():
 
     assert scraped_data is not None
     assert len(scraped_data) == 4
-    
-    assert stock_list_1[0] == 'AAPL'
-    assert stock_list_3[0] == 'MSFT'
+
+    assert stock_list_1[0] == "AAPL"
+    assert stock_list_3[0] == "MSFT"

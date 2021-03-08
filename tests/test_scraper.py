@@ -34,12 +34,18 @@ def test_basic_scrape_historical_data():
     assert data_dicts is not None
 
 
-def test_basic_run_scraper():
+def test_run_scraper():
     """Tests the run_scraper function to ensure data is scraped properly."""
 
     stocks = ['AAPL', 'DKNG', 'MSFT', 'DDOG']
 
     scraped_data = scraper.run_scraper(stocks)
 
+    stock_list_1 = scraped_data[0]
+    stock_list_3 = scraped_data[2]
+
     assert scraped_data is not None
     assert len(scraped_data) == 4
+    
+    assert stock_list_1[0] == 'AAPL'
+    assert stock_list_3[0] == 'MSFT'

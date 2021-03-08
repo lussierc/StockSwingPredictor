@@ -3,6 +3,7 @@
 import pytest
 from src import scraper
 
+
 def test_basic_scrape_stock_info():
     """Tests to ensure that a dictionary of stock information is scraped."""
 
@@ -12,8 +13,9 @@ def test_basic_scrape_stock_info():
 
     assert info_list is not None
 
+
 def test_basic_scrape_stock_current_data():
-    """Tests to ensure that a dataframe of one-day stock price data is scraped."""
+    """Tests to ensure that a dictionary of one-day stock price data is scraped."""
 
     stock = "DKNG"
 
@@ -21,11 +23,23 @@ def test_basic_scrape_stock_current_data():
 
     assert data_dicts is not None
 
+
 def test_basic_scrape_historical_data():
-    """Tests to ensure that a dataframe of historical stock price data is scraped."""
+    """Tests to ensure that a dictionary of historical stock price data is scraped."""
 
     stock = "DDOG"
 
     data_dicts = scraper.scrape_stock_info(stock)
 
     assert data_dicts is not None
+
+
+def test_basic_run_scraper():
+    """Tests the run_scraper function to ensure data is scraped properly."""
+
+    stocks = ['AAPL', 'DKNG', 'MSFT', 'DDOG']
+
+    scraped_data = scraper.run_scraper(stocks)
+
+    assert scraped_data is not None
+    assert len(scraped_data) == 4

@@ -2,7 +2,7 @@
 
 # import scraping library:
 import yfinance as yf
-
+import data_cleaner
 
 def run_scraper(stocks):
     """Runs the scraper and stores the scraped data."""
@@ -35,7 +35,7 @@ def scrape_stock_current_data(stock):
 
     current = ticker.history(period="1d")  # get current market data
 
-    current_dict = data_cleaner(current)
+    current_dict = data_cleaner.scraped_df_cleaner(current)
 
     return current_dict
 
@@ -47,14 +47,6 @@ def scrape_stock_historical_data(stock):
 
     hist = ticker.history(period="1y")  # get historical market data
 
-    hist_dict = data_cleaner(hist)
+    hist_dict = data_cleaner.scraped_df_cleaner(hist)
 
     return hist_dict
-
-
-def data_cleaner(df):
-    """Cleans data by fixing date column of scraped data."""
-
-    df = df.reset_index()  # resets the df index so dates are a column
-    print("TYPE", type(df))
-    return df

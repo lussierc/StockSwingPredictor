@@ -73,10 +73,17 @@ def svr_prediction(stock_data):
     x_forecast = np.array(df.drop(['Prediction'],1))[-forecast_out:]
 
     print("Today's Close Price = ", df['Close'][-forecast_out])
-    print("Tomorrows: Predictions:")
+    print("Tomorrow's Predictions:")
     # print the predictions for the number of forecasted days:
     svr_prediction = svr.predict(x_forecast)
     print("  - SVR Prediction = ", svr_prediction)
 
     lr_prediction = lr.predict(x_forecast)
     print("  - LR Prediction = ",lr_prediction)
+
+    if df['Close'][-forecast_out] >= svr_prediction:
+        print("DOWN SWING")
+    elif df['Close'][-forecast_out] <= svr_prediction:
+        print("UP SWING")
+    else:
+        print("ERROR")

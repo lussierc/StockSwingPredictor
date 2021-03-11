@@ -4,7 +4,7 @@
 import yfinance as yf
 
 
-def run_scraper(stocks):
+def perform_scraping(stocks):
     """Runs the scraper and stores the scraped data."""
 
     scraped_data = []  # this list will hold the dictionaries of scraped stock data
@@ -16,7 +16,7 @@ def run_scraper(stocks):
             "stock_current_data": "",
             "stock_historical_data": "",
         }  # define dict to store individual stock's data
-        
+
         stock_data["stock"] = stock
         stock_data["stock_info"] = scrape_stock_info(stock)
         stock_data["stock_current_data"] = scrape_stock_current_data(stock)

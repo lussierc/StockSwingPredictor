@@ -107,6 +107,6 @@ def run_cml():
 
     stocks = get_user_stocks()  # get the user's input of stock ticker symbols
 
-    scraped_data = scraper.run_scraper(stocks)  # scrape data for given stocks
+    scraped_data = scraper.perform_scraping(stocks)  # scrape data for given stocks
 
     finalized_data = prediction.run_predictor(scraped_data)

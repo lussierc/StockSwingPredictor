@@ -52,7 +52,7 @@ def test_run_scraper():
 
     stocks = ["AAPL", "DKNG", "MSFT", "DDOG"]
 
-    scraped_data = scraper.run_scraper(stocks)
+    scraped_data = scraper.perform_scraping(stocks)
 
     stock_list_1 = scraped_data[0]
     stock_list_3 = scraped_data[2]

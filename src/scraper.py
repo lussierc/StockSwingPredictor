@@ -2,7 +2,6 @@
 
 # import scraping library:
 import yfinance as yf
-import data_cleaner
 
 
 def run_scraper(stocks):
@@ -17,10 +16,12 @@ def run_scraper(stocks):
             "stock_current_data": "",
             "stock_historical_data": "",
         }  # define dict to store individual stock's data
+        
         stock_data["stock"] = stock
         stock_data["stock_info"] = scrape_stock_info(stock)
         stock_data["stock_current_data"] = scrape_stock_current_data(stock)
         stock_data["stock_historical_data"] = scrape_stock_historical_data(stock)
+
         scraped_data.append(stock_data)
 
     return scraped_data
@@ -41,9 +42,7 @@ def scrape_stock_current_data(stock):
 
     current = ticker.history(period="1d")  # get current market data
 
-    current_dict = data_cleaner.scraped_df_cleaner(current)
-
-    return current_dict
+    return current
 
 
 def scrape_stock_historical_data(stock):
@@ -53,6 +52,4 @@ def scrape_stock_historical_data(stock):
 
     hist = ticker.history(period="1y")  # get historical market data
 
-    hist_dict = data_cleaner.scraped_df_cleaner(hist)
-
-    return hist_dict
+    return hist

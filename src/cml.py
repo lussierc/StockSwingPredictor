@@ -2,6 +2,7 @@
 
 import prediction, scraper
 
+
 class color:
     """Defines different colors and text formatting settings to be used for CML output printing."""
 

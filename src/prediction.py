@@ -33,7 +33,9 @@ def svr_prediction(stock_data):
         ["Close"]
     ]  # get the close price from the historical data (independent variable)
 
-    forecast_out = 1  # how many days out in the future do we want to predict?
+    dates, prices = data_cleaner.clean_scraped_prediction_data(df)
+
+    forecast_out = 3  # how many days out in the future do we want to predict?
 
     # create another column to store the target/dependent variable (shifted days_out up):
     df["Prediction"] = historical_data[["Close"]].shift(-forecast_out)
@@ -91,6 +93,7 @@ def svr_prediction(stock_data):
     print("  - SVR Prediction = ", svr_prediction)
 
     lr_prediction = lr.predict(x_forecast)
+    print(x_forecast)
     print("  - LR Prediction = ", lr_prediction)
 
     if df["Close"][-forecast_out] >= svr_prediction:

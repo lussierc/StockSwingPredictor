@@ -1,13 +1,12 @@
 """Contains data cleaning functions used throughout the project."""
 
 import numpy as np
+import pandas as pd
 
-
-def scraped_df_cleaner(df):
+def reset_df_index(df):
     """Cleans data by fixing date column of scraped data."""
 
-    # df = df.reset_index()  # resets the df index so dates are a column
-    # print("TYPE", type(df))
+    df = df.reset_index()  # resets the df index so dates are a column
     return df
 
 
@@ -24,3 +23,28 @@ def clean_historical_data(historical_data):
     print(prices)
 
     return dates, prices
+
+def clean_full_dates(date):
+    """Converts a timestamp object to a date."""
+
+    date = date.date()
+
+    return str(date)
+
+def clean_scraped_prediction_data(df):
+    """Cleans a historical or current stock price df."""
+
+    data = df.copy()
+    data = reset_df_index(data)
+    #
+    # for date in data['Date']:
+    #     date = clean_full_dates(date)
+    #     date = date.split('-')[2]
+    #
+    # data['Date'] = pd.to_numeric(data['Date'])
+    # i = 0
+    # for date in data:
+    #     #date['num_date'] += i
+    #     i += 1
+    print("HERE")
+    return [ data.index.tolist(), data['Close'].tolist() ]

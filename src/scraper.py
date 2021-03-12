@@ -50,6 +50,6 @@ def scrape_stock_historical_data(stock):
 
     ticker = yf.Ticker(stock)
 
-    hist = ticker.history(period="1y")  # get historical market data
+    hist = ticker.history(period="3mo")  # get historical market data
 
     return hist

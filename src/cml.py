@@ -1,6 +1,6 @@
 """Will house the Command Line Interface (CML) for the tool."""
 
-import prediction, scraper
+import prediction, prediction2, scraper, data_cleaner
 
 
 class color:
@@ -109,4 +109,4 @@ def run_cml():
 
     scraped_data = scraper.perform_scraping(stocks)  # scrape data for given stocks
 
-    finalized_data = prediction.run_predictor(scraped_data)
+    finalized_data = prediction2.run_predictor(scraped_data)

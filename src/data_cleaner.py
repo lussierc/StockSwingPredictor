@@ -36,7 +36,7 @@ def clean_scraped_prediction_data(df):
 
     data = df.copy()
     data = reset_df_index(data)
-    #
+
     # for date in data['Date']:
     #     date = clean_full_dates(date)
     #     date = date.split('-')[2]
@@ -46,5 +46,5 @@ def clean_scraped_prediction_data(df):
     # for date in data:
     #     #date['num_date'] += i
     #     i += 1
-    print("HERE")
+
     return [ data.index.tolist(), data['Close'].tolist() ]

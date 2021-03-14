@@ -27,3 +27,9 @@ TOTAL               77     48    38%
 
 ============================================================================================ 4 passed in 13.57s ============================================================================================
 ```
+
+### Preliminary Prediction Results
+*The results of running different SVR models on sample data of the DKNG stock:*
+![SVR Results](resources/svr_results.png)
+
+After running these models with different stock data sets, the RBF SVR model seems to be by far the most accurate.

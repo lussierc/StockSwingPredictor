@@ -31,34 +31,13 @@ def run_predictor(scraped_data):
 
         swing_prediction = predict_price_swing(price_prediction, prev_close)
 
-        print(swing_prediction)
-
         stock_data["prediction_results"] = store_prediction_results(
             stock_data, price_prediction, prev_close, swing_prediction
         )
 
-        print("RESULTS = ", stock_data["prediction_results"])
+        finalized_data.append(stock_data) # store prediction results
 
-        # finalized_data.append(stock_finalized_data) # TODO: FINALIZE STORAGE OF DATA WITH PREDICTIONS
-    # return finalized_data
-
-
-def store_prediction_results(
-    stock_data, price_prediction, prev_close, swing_prediction
-):
-    """Store results from stock prediction."""
-
-    prediction_results = {
-        "swing_prediction": "",
-        "price_prediction": 0,
-        "prev_close": 0,
-    }
-
-    prediction_results["swing_prediction"] = swing_prediction
-    prediction_results["price_prediction"] = price_prediction
-    prediction_results["prev_close"] = prev_close
-
-    return prediction_results
+    return finalized_data
 
 
 def svr_predict(dates, prices, next_date):
@@ -112,21 +91,6 @@ def svr_predict(dates, prices, next_date):
     return svr_rbf.predict(next_date)[0], prices[-1]
 
 
-def predict_price_swing(prediction, prev_close):
-    """Performs the program's price swing prediction."""
-
-    if prediction > prev_close:
-        price_swing = "Up"
-    elif prediction < prev_close:
-        price_swing = "Down"
-    elif prediction == prev_close:
-        price_swing = "None"
-    else:
-        price_swing = "Error"
-
-    return price_swing
-
-
 def create_svr_models():
     """Creates SVR models."""
 
@@ -145,3 +109,36 @@ def train_svr_models(svr_lin, svr_poly, svr_rbf, dates, prices):
     svr_rbf.fit(dates, prices)
 
     return svr_lin, svr_poly, svr_rbf
+
+
+def predict_price_swing(prediction, prev_close):
+    """Performs the program's price swing prediction."""
+
+    if prediction > prev_close:
+        price_swing = "Up"
+    elif prediction < prev_close:
+        price_swing = "Down"
+    elif prediction == prev_close:
+        price_swing = "None"
+    else:
+        price_swing = "Error"
+
+    return price_swing
+
+
+def store_prediction_results(
+    stock_data, price_prediction, prev_close, swing_prediction
+):
+    """Store results from stock prediction."""
+
+    prediction_results = {
+        "swing_prediction": "",
+        "price_prediction": 0,
+        "prev_close": 0,
+    }
+
+    prediction_results["swing_prediction"] = swing_prediction
+    prediction_results["price_prediction"] = price_prediction
+    prediction_results["prev_close"] = prev_close
+
+    return prediction_results

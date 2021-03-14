@@ -43,7 +43,9 @@ def clean_scraped_prediction_data(df):
     #     i += 1
 
     dates_to_list = data.index.tolist()
-    dates = np.reshape(dates_to_list, (len(dates_to_list), 1))  # convert to 1d dimension
+    dates = np.reshape(
+        dates_to_list, (len(dates_to_list), 1)
+    )  # convert to 1d dimension
 
     prices = data["Close"].tolist()
 

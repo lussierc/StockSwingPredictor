@@ -110,3 +110,5 @@ def run_cml():
     scraped_data = scraper.perform_scraping(stocks)  # scrape data for given stocks
 
     finalized_data = prediction.run_predictor(scraped_data)
+
+    print("finalized_data", finalized_data)

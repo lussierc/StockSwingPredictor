@@ -3,6 +3,7 @@
 import numpy as np
 import pandas as pd
 
+
 def reset_df_index(df):
     """Cleans data by fixing date column of scraped data."""
 
@@ -24,12 +25,6 @@ def clean_historical_data(historical_data):
 
     return dates, prices
 
-def clean_full_dates(date):
-    """Converts a timestamp object to a date."""
-
-    date = date.date()
-
-    return str(date)
 
 def clean_scraped_prediction_data(df):
     """Cleans a historical or current stock price df."""
@@ -38,7 +33,7 @@ def clean_scraped_prediction_data(df):
     data = reset_df_index(data)
 
     # for date in data['Date']:
-    #     date = clean_full_dates(date)
+    #     date = str(date.date())
     #     date = date.split('-')[2]
     #
     # data['Date'] = pd.to_numeric(data['Date'])
@@ -47,4 +42,9 @@ def clean_scraped_prediction_data(df):
     #     #date['num_date'] += i
     #     i += 1
 
-    return [ data.index.tolist(), data['Close'].tolist() ]
+    dates_to_list = data.index.tolist()
+    dates = np.reshape(dates_to_list, (len(dates_to_list), 1))  # convert to 1d dimension
+
+    prices = data["Close"].tolist()
+
+    return dates, prices

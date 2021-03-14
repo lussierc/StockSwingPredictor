@@ -37,11 +37,10 @@ def run_predictor(scraped_data):
     # return finalized_data
 
 
-def svr_predict(dates, prices, x):
+def svr_predict(dates, prices, next_date):
     """Performs SVR training and prediction of stock prices."""
 
-    dates = np.reshape(dates, (len(dates), 1))  # convert to 1xn dimension
-    x = np.reshape(x, (len(x), 1))
+    next_date = np.reshape(next_date, (len(next_date), 1))
 
     svr_lin, svr_poly, svr_rbf = create_svr_models()  # creates and sets up SVR models
     svr_lin, svr_poly, svr_rbf = train_svr_models(
@@ -70,23 +69,23 @@ def svr_predict(dates, prices, x):
         " - Current/today's closing price: ",
         prices[-1],
         "\n - Date in sequence being predicted (tomorrow):",
-        x,
+        next_date,
     )
     print(
         " - Tomorrow's Predictions:",
-        svr_rbf.predict(x)[0],
-        svr_lin.predict(x)[0],
-        svr_poly.predict(x)[0],
+        svr_rbf.predict(next_date)[0],
+        svr_lin.predict(next_date)[0],
+        svr_poly.predict(next_date)[0],
     )
 
     plt.scatter(
-        x, svr_rbf.predict(x)[0], c="y", label="Next Day Prediction"
+        next_date, svr_rbf.predict(x)[0], c="y", label="Next Day Prediction"
     )  # print the next day's prediction on the plot
 
     plt.legend()  # define plot legend
     plt.show()  # display the plot
 
-    return svr_rbf.predict(x)[0], prices[-1]
+    return svr_rbf.predict(next_date)[0], prices[-1]
 
 
 def predict_price_swing(prediction, prev_close):

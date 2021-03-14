@@ -15,8 +15,6 @@ def run_predictor(scraped_data):
     finalized_data = []
 
     for stock_data in scraped_data:
-        print(stock_data["stock"])
-
         historical_data = stock_data["stock_historical_data"]
 
         df = historical_data[
@@ -35,7 +33,7 @@ def run_predictor(scraped_data):
             stock_data, price_prediction, prev_close, swing_prediction
         )
 
-        finalized_data.append(stock_data) # store prediction results
+        finalized_data.append(stock_data)  # store prediction results
 
     return finalized_data
 

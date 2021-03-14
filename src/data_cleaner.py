@@ -20,9 +20,6 @@ def clean_historical_data(historical_data):
     dates = np.reshape(dates, (len(dates), 1))  # convert dates to a 1-d vector
     prices = np.reshape(prices, (len(prices), 1))  # convert dates to a 1-d vector
 
-    print(dates)
-    print(prices)
-
     return dates, prices
 
 

@@ -1,7 +1,6 @@
 """Will scrape the necessary real-time stock price and extraneous data for the tool."""
 
-# import scraping library:
-import yfinance as yf
+import yfinance as yf  # import scraping library
 
 
 def perform_scraping(stocks):

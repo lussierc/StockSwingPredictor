@@ -27,8 +27,11 @@ def run_predictor(scraped_data):
 
         next_date = len(dates) + 1
 
-        svr_predict(dates, prices, [next_date])
+        price_prediction, prev_close = svr_predict(dates, prices, [next_date])
 
+        swing_prediction = predict_price_swing(price_prediction, prev_close)
+
+        print(swing_prediction)
         # finalized_data.append(stock_finalized_data) # TODO: FINALIZE STORAGE OF DATA WITH PREDICTIONS
     # return finalized_data
 
@@ -59,7 +62,21 @@ def svr_predict(dates, prices, x):
     plt.legend()
     plt.show()
 
-    return svr_rbf.predict(x)[0], svr_lin.predict(x)[0], svr_poly.predict(x)[0]
+    return svr_rbf.predict(x)[0], prices[-1]
+
+def predict_price_swing(prediction, prev_close):
+    """Performs the program's price swing prediction."""
+
+    if prediction > prev_close:
+        price_swing = "Up"
+    elif prediction < prev_close:
+        price_swing = "Down"
+    elif prediction == prev_close:
+        price_swing = "None"
+    else:
+        price_swing = "Error"
+
+    return price_swing
 
 def create_svr_models():
     """Creates SVR models."""

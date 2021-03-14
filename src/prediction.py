@@ -33,8 +33,32 @@ def run_predictor(scraped_data):
 
         print(swing_prediction)
 
+        stock_data["prediction_results"] = store_prediction_results(
+            stock_data, price_prediction, prev_close, swing_prediction
+        )
+
+        print("RESULTS = ", stock_data["prediction_results"])
+
         # finalized_data.append(stock_finalized_data) # TODO: FINALIZE STORAGE OF DATA WITH PREDICTIONS
     # return finalized_data
+
+
+def store_prediction_results(
+    stock_data, price_prediction, prev_close, swing_prediction
+):
+    """Store results from stock prediction."""
+
+    prediction_results = {
+        "swing_prediction": "",
+        "price_prediction": 0,
+        "prev_close": 0,
+    }
+
+    prediction_results["swing_prediction"] = swing_prediction
+    prediction_results["price_prediction"] = price_prediction
+    prediction_results["prev_close"] = prev_close
+
+    return prediction_results
 
 
 def svr_predict(dates, prices, next_date):
@@ -79,7 +103,7 @@ def svr_predict(dates, prices, next_date):
     )
 
     plt.scatter(
-        next_date, svr_rbf.predict(x)[0], c="y", label="Next Day Prediction"
+        next_date, svr_rbf.predict(next_date)[0], c="y", label="Next Day Prediction"
     )  # print the next day's prediction on the plot
 
     plt.legend()  # define plot legend

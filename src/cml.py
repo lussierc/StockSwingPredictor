@@ -1,6 +1,6 @@
 """Will house the Command Line Interface (CML) for the tool."""
 
-import scraper
+import prediction, scraper, data_cleaner
 
 
 class color:
@@ -60,6 +60,7 @@ def user_UI_choice():
 
 def cml_startup_message():
     """CML Interface startup message."""
+
     print(
         "\n\n   -------------------------------------------\n"
         + color.BOLD
@@ -70,7 +71,7 @@ def cml_startup_message():
 
 
 def get_user_stocks():
-    """Gets the user's stock tickers."""
+    """Gets the user's stock ticker symbols."""
 
     print(
         color.BOLD
@@ -100,8 +101,14 @@ def get_user_stocks():
 
 
 def run_cml():
-    cml_startup_message()
+    """Runs the CML UI."""
 
-    stocks = get_user_stocks()
+    cml_startup_message()  # print the start-up message for the CML
 
-    scraped_data = scraper.run_scraper(stocks)
+    stocks = get_user_stocks()  # get the user's input of stock ticker symbols
+
+    scraped_data = scraper.perform_scraping(stocks)  # scrape data for given stocks
+
+    finalized_data = prediction.run_predictor(scraped_data)
+
+    print("finalized_data", finalized_data)

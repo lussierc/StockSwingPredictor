@@ -1,22 +1,27 @@
 """Will scrape the necessary real-time stock price and extraneous data for the tool."""
 
-# import scraping libraries:
-import yfinance as yf
+import yfinance as yf  # import scraping library
 
 
-def run_scraper(stocks):
+def perform_scraping(stocks):
     """Runs the scraper and stores the scraped data."""
 
-    scraped_data = []
+    scraped_data = []  # this list will hold the dictionaries of scraped stock data
 
     for stock in stocks:
-        stock_data = []
-        stock_data.append(stock)
-        stock_data.append(scrape_stock_info(stock))
-        stock_data.append(scrape_stock_current_data(stock))
-        stock_data.append(scrape_stock_historical_data(stock))
+        stock_data = {
+            "stock": "",
+            "stock_info": {},
+            "stock_current_data": "",
+            "stock_historical_data": "",
+        }  # define dict to store individual stock's data
+
+        stock_data["stock"] = stock
+        stock_data["stock_info"] = scrape_stock_info(stock)
+        stock_data["stock_current_data"] = scrape_stock_current_data(stock)
+        stock_data["stock_historical_data"] = scrape_stock_historical_data(stock)
+
         scraped_data.append(stock_data)
-    print(scraped_data)
 
     return scraped_data
 
@@ -34,12 +39,9 @@ def scrape_stock_current_data(stock):
 
     ticker = yf.Ticker(stock)
 
-    # get historical market data
-    current = ticker.history(period="1d")
+    current = ticker.history(period="1d")  # get current market data
 
-    current_dict = data_cleaner(current)
-
-    return current_dict
+    return current
 
 
 def scrape_stock_historical_data(stock):
@@ -47,18 +49,6 @@ def scrape_stock_historical_data(stock):
 
     ticker = yf.Ticker(stock)
 
-    # get historical market data
-    hist = ticker.history(period="1y")
+    hist = ticker.history(period="3mo")  # get historical market data
 
-    hist_dict = data_cleaner(hist)
-
-    return hist_dict
-
-
-def data_cleaner(df):
-    """Cleans data by converting scraped dataframes to dictionaries."""
-
-    df = df.reset_index()
-    dict = df.T.to_dict().values()
-
-    return dict
+    return hist

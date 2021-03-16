@@ -29,6 +29,7 @@ def clean_scraped_prediction_data(df):
     data = df.copy()
     data = reset_df_index(data)
 
+    ### TODO: FIX WAY DATES ARE CLEANED
     # for date in data['Date']:
     #     date = str(date.date())
     #     date = date.split('-')[2]

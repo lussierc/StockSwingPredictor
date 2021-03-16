@@ -1,4 +1,4 @@
-"""Will test the functions of the scraper."""
+"""Tests the functions of the scraper that gathers price data from Yahoo! Finance."""
 
 import pytest
 from src import scraper

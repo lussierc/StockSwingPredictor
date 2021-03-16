@@ -99,24 +99,34 @@ def get_user_stocks():
     print("Here are your chosen stocks: ", stocks)
     return stocks
 
-def print_table():
-    """Given completely scored stocks, print a table of major attributes."""
+def print_tables(finalized_data):
+    """Given scraped and predicted stock data, print a table of major attributes."""
 
-    table = PrettyTable()
-    table.field_names = [
-        "Stock",
-        "avg_stock_sent_score",
-    ]  # define field names for table
+    for stock_data in finalized_data:
+        print("Would you like to print out the prediction results for: ", stock_data["stock"], "?")
+        print_res = input("  * Y or N?: ").upper()
+        if print_res == "Y":
+            table = PrettyTable()
+            table.field_names = [
+                "swing_prediction",
+                "price_prediction",
+                "prev_close",
+                "svr_rbf_score",
+            ]  # define field names for table
 
-    for stock_dict in fin_scored_stocks:
-        table.add_row(
-            [
-                stock_dict["stock"],
-                stock_dict["avg_stock_sent_score"],
-            ]
-        )  # add data to table
+            predictions = stock_data["prediction_results"]
+            table.add_row(
+                [
+                    predictions["swing_prediction"],
+                    predictions["price_prediction"],
+                    predictions["prev_close"],
+                    predictions["svr_rbf_score"],
+                ]
+            )  # add data to table
 
-    print(table)  # print prettytable of scored stock info
+            print(table)  # print prettytable of scored stock info
+        else:
+            pass
 
 def run_cml():
     """Runs the CML UI."""
@@ -130,3 +140,5 @@ def run_cml():
     finalized_data = prediction.run_predictor(scraped_data)
 
     print("finalized_data", finalized_data)
+
+    print_tables(finalized_data)

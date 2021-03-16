@@ -1,7 +1,7 @@
 """Will house the Command Line Interface (CML) for the tool."""
 
 import prediction, scraper, data_cleaner
-
+from prettytable import PrettyTable
 
 class color:
     """Defines different colors and text formatting settings to be used for CML output printing."""
@@ -99,6 +99,24 @@ def get_user_stocks():
     print("Here are your chosen stocks: ", stocks)
     return stocks
 
+def print_table():
+    """Given completely scored stocks, print a table of major attributes."""
+
+    table = PrettyTable()
+    table.field_names = [
+        "Stock",
+        "avg_stock_sent_score",
+    ]  # define field names for table
+
+    for stock_dict in fin_scored_stocks:
+        table.add_row(
+            [
+                stock_dict["stock"],
+                stock_dict["avg_stock_sent_score"],
+            ]
+        )  # add data to table
+
+    print(table)  # print prettytable of scored stock info
 
 def run_cml():
     """Runs the CML UI."""

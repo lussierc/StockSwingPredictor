@@ -130,7 +130,7 @@ def print_tables(finalized_data):
 
             table2 = PrettyTable()
             stock_info = stock_data["stock_info"]
-            table2.field_names = [
+            variables = [
                 "longName",
                 "symbol",
                 "sector",
@@ -149,26 +149,10 @@ def print_tables(finalized_data):
                 "averageVolume10days",
             ]  # define field names for table
 
-            table2.add_row(
-                [
-                    stock_info["longName"],
-                    stock_info["symbol"],
-                    stock_info["sector"],
-                    stock_info["industry"],
-                    stock_info["fullTimeEmployees"],
-                    stock_info["open"],
-                    stock_info["regularMarketPreviousClose"],
-                    stock_info["fiftyDayAverage"],
-                    stock_info["twoHundredDayAverage"],
-                    stock_info["dayLow"],
-                    stock_info["dayHigh"],
-                    stock_info["fiftyTwoWeekLow"],
-                    stock_info["fiftyTwoWeekHigh"],
-                    stock_info["volume"],
-                    stock_info["averageVolume"],
-                    stock_info["averageVolume10days"],
-                ]
-            )  # add data to table
+            table2.field_names = ["Variable", "Information"]
+
+            for variable in variables:
+                table2.add_row([variable, stock_info[variable]])
 
             print(table2)
             print(stock_info['longBusinessSummary'])

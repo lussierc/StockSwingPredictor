@@ -90,7 +90,7 @@ def get_user_stocks():
         stocks.append(stock)
 
         print("     * Would you like to add more stocks?")
-        continue_dec = input("       * Y or N?: ").upper()
+        continue_dec = input(color.GREEN + "       * Y or N?: " + color.END).upper()
 
         if continue_dec == "Y":
             pass
@@ -105,12 +105,12 @@ def print_tables(finalized_data):
     """Given scraped and predicted stock data, print a table of major attributes."""
 
     for stock_data in finalized_data:
-        print(
-            "Would you like to print out the prediction results for: ",
-            stock_data["stock"],
-            "?",
+        print("\n\n\n" + color.BOLD + color.UNDERLINE +
+            "Would you like to print out the prediction results for: " +
+            stock_data["stock"] +
+            " ?" + color.END + color.END
         )
-        print_res = input("  * Y or N?: ").upper()
+        print_res = input(color.GREEN + "   * Y or N?: " + color.END).upper()
         if print_res == "Y":
             table = PrettyTable()
             table.field_names = [
@@ -135,12 +135,13 @@ def print_tables(finalized_data):
             pass
             ###############################
 
-        print(
-            "Would you like to print out the stock information for: ",
-            stock_data["stock"],
-            "?",
+        print("\n\n\n" + color.BOLD + color.UNDERLINE +
+            "Would you like to print out the stock information for: " +
+            stock_data["stock"] +
+            " ?" + color.END + color.END
         )
-        print_res = input("  * Y or N?: ").upper()
+        print_res = input(color.GREEN + "   * Y or N?: " + color.END).upper()
+
         if print_res == "Y":
             table2 = PrettyTable()
             stock_info = stock_data["stock_info"]
@@ -171,7 +172,7 @@ def print_tables(finalized_data):
             print(table2)
             print(
                 color.BOLD
-                + "Business Summary:   "
+                + "\nBusiness Summary:   "
                 + color.END
                 + stock_info["longBusinessSummary"]
             )

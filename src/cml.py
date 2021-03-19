@@ -115,7 +115,7 @@ def print_tables(finalized_data):
             table.field_names = [
                 "swing_prediction",
                 "price_prediction",
-                "prev_close",
+                "prev_close/current_price",
                 "svr_rbf_score",
             ]  # define field names for table
 
@@ -132,7 +132,6 @@ def print_tables(finalized_data):
             print(table)  # print prettytable of scored stock info
         else:
             pass
-            ###############################
 
         print("\n\n\n" + color.BOLD + color.UNDERLINE +
             "Would you like to print out the stock information for: " +
@@ -188,7 +187,7 @@ def run_cml():
     stocks = get_user_stocks()  # get the user's input of stock ticker symbols
 
     print() # spacing purposes
-    
+
     scraped_data = scraper.perform_scraping(stocks)  # scrape data for given stocks
 
     finalized_data = prediction.run_predictor(scraped_data)

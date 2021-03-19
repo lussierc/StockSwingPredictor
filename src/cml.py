@@ -3,6 +3,7 @@
 import prediction, scraper, data_cleaner
 from prettytable import PrettyTable
 
+
 class color:
     """Defines different colors and text formatting settings to be used for CML output printing."""
 
@@ -99,11 +100,16 @@ def get_user_stocks():
     print("Here are your chosen stocks: ", stocks)
     return stocks
 
+
 def print_tables(finalized_data):
     """Given scraped and predicted stock data, print a table of major attributes."""
 
     for stock_data in finalized_data:
-        print("Would you like to print out the prediction results for: ", stock_data["stock"], "?")
+        print(
+            "Would you like to print out the prediction results for: ",
+            stock_data["stock"],
+            "?",
+        )
         print_res = input("  * Y or N?: ").upper()
         if print_res == "Y":
             table = PrettyTable()
@@ -125,9 +131,17 @@ def print_tables(finalized_data):
             )  # add data to table
 
             print(table)  # print prettytable of scored stock info
-
+        else:
+            pass
             ###############################
 
+        print(
+            "Would you like to print out the stock information for: ",
+            stock_data["stock"],
+            "?",
+        )
+        print_res = input("  * Y or N?: ").upper()
+        if print_res == "Y":
             table2 = PrettyTable()
             stock_info = stock_data["stock_info"]
             variables = [
@@ -155,10 +169,16 @@ def print_tables(finalized_data):
                 table2.add_row([variable, stock_info[variable]])
 
             print(table2)
-            print(stock_info['longBusinessSummary'])
+            print(
+                color.BOLD
+                + "Business Summary:   "
+                + color.END
+                + stock_info["longBusinessSummary"]
+            )
 
         else:
             pass
+
 
 def run_cml():
     """Runs the CML UI."""
@@ -170,7 +190,5 @@ def run_cml():
     scraped_data = scraper.perform_scraping(stocks)  # scrape data for given stocks
 
     finalized_data = prediction.run_predictor(scraped_data)
-
-    print("finalized_data", finalized_data)
 
     print_tables(finalized_data)

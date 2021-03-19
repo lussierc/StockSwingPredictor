@@ -261,7 +261,6 @@
 - longBusinessSummary
 - industry
 - twoHundredDayAverage
-- averageDailyVolume10Day
 - regularMarketPreviousClose
 - fiftyDayAverage
 - open

@@ -125,6 +125,54 @@ def print_tables(finalized_data):
             )  # add data to table
 
             print(table)  # print prettytable of scored stock info
+
+            ###############################
+
+            table2 = PrettyTable()
+            stock_info = stock_data["stock_info"]
+            table2.field_names = [
+                "longName",
+                "symbol",
+                "sector",
+                "industry",
+                "fullTimeEmployees",
+                "open",
+                "regularMarketPreviousClose",
+                "fiftyDayAverage",
+                "twoHundredDayAverage",
+                "dayLow",
+                "dayHigh",
+                "fiftyTwoWeekLow",
+                "fiftyTwoWeekHigh",
+                "volume",
+                "averageVolume",
+                "averageVolume10days",
+            ]  # define field names for table
+
+            table2.add_row(
+                [
+                    stock_info["longName"],
+                    stock_info["symbol"],
+                    stock_info["sector"],
+                    stock_info["industry"],
+                    stock_info["fullTimeEmployees"],
+                    stock_info["open"],
+                    stock_info["regularMarketPreviousClose"],
+                    stock_info["fiftyDayAverage"],
+                    stock_info["twoHundredDayAverage"],
+                    stock_info["dayLow"],
+                    stock_info["dayHigh"],
+                    stock_info["fiftyTwoWeekLow"],
+                    stock_info["fiftyTwoWeekHigh"],
+                    stock_info["volume"],
+                    stock_info["averageVolume"],
+                    stock_info["averageVolume10days"],
+                ]
+            )  # add data to table
+
+            print(table2)
+            print(stock_info['longBusinessSummary'])
+
         else:
             pass
 

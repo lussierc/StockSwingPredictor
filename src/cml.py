@@ -97,7 +97,6 @@ def get_user_stocks():
         else:
             done = True
 
-    print("Here are your chosen stocks: ", stocks)
     return stocks
 
 
@@ -188,8 +187,10 @@ def run_cml():
 
     stocks = get_user_stocks()  # get the user's input of stock ticker symbols
 
+    print() # spacing purposes
+    
     scraped_data = scraper.perform_scraping(stocks)  # scrape data for given stocks
 
     finalized_data = prediction.run_predictor(scraped_data)
 
-    print_tables(finalized_data)
+    print_tables(finalized_data) # prints out tables of finalized data & predictions

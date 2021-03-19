@@ -15,6 +15,7 @@ def run_predictor(scraped_data):
     finalized_data = []
 
     for stock_data in scraped_data:
+        print("* Making predictions for ", stock_data["stock"], " ....")
         historical_data = stock_data["stock_historical_data"]
 
         df = historical_data[
@@ -52,19 +53,6 @@ def svr_predict(dates, prices, next_date):
 
     svr_rbf_score = test_svr_models(dates, prices, svr_lin, svr_poly, svr_rbf)
 
-    print(
-        " - Current/today's closing price: ",
-        prices[-1],
-        "\n - Date in sequence being predicted (tomorrow):",
-        next_date,
-    )
-    print(
-        " - Tomorrow's Predictions:",
-        svr_rbf.predict(next_date)[0],
-        svr_lin.predict(next_date)[0],
-        svr_poly.predict(next_date)[0],
-    )
-
     plot_predictions(dates, prices, svr_rbf, svr_lin, svr_poly, next_date)
 
     return svr_rbf.predict(next_date)[0], prices[-1], svr_rbf_score
@@ -86,8 +74,6 @@ def train_svr_models(svr_lin, svr_poly, svr_rbf, dates, prices):
     svr_lin.fit(dates, prices)  # Fit regression model
     svr_poly.fit(dates, prices)
     svr_rbf.fit(dates, prices)
-
-    print(svr_rbf.score(dates, prices))
 
     return svr_lin, svr_poly, svr_rbf
 
@@ -156,6 +142,7 @@ def store_prediction_results(
         "swing_prediction": "",
         "price_prediction": 0,
         "prev_close": 0,
+        "svr_rbf_score": 0,
     }
 
     prediction_results["swing_prediction"] = swing_prediction

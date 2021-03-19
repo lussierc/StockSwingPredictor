@@ -1,4 +1,4 @@
-# FORMATTED STOCK INFO DICT FOR DKNG
+# Formatted Stock Info for DKNG:
 
 {
     "zip": "02116",
@@ -125,3 +125,150 @@
     "regularMarketPrice": 65.75,
     "logo_url": "https://logo.clearbit.com/draftkings.com",
 }
+
+# Formatted Stock Info for AAPL:
+{
+    "zip": "95014",
+    "sector": "Technology",
+    "fullTimeEmployees": 147000,
+    "longBusinessSummary": "Apple Inc. designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories worldwide. It also sells various related services. The company offers iPhone, a line of smartphones; Mac, a line of personal computers; iPad, a line of multi-purpose tablets; and wearables, home, and accessories comprising AirPods, Apple TV, Apple Watch, Beats products, HomePod, iPod touch, and other Apple-branded and third-party accessories. It also provides AppleCare support services; cloud services store services; and operates various platforms, including the App Store, that allow customers to discover and download applications and digital content, such as books, music, video, games, and podcasts. In addition, the company offers various services, such as Apple Arcade, a game subscription service; Apple Music, which offers users a curated listening experience with on-demand radio stations; Apple News , a subscription news and magazine service; Apple TV , which offers exclusive original content; Apple Card, a co-branded credit card; and Apple Pay, a cashless payment service, as well as licenses its intellectual property. The company serves consumers, and small and mid-sized businesses; and the education, enterprise, and government markets. It sells and delivers third-party applications for its products through the App Store. The company also sells its products through its retail and online stores, and direct sales force; and third-party cellular network carriers, wholesalers, retailers, and resellers. Apple Inc. was founded in 1977 and is headquartered in Cupertino, California.",
+    "city": "Cupertino",
+    "phone": "408-996-1010",
+    "state": "CA",
+    "country": "United States",
+    "companyOfficers": [],
+    "website": "http://www.apple.com",
+    "maxAge": 1,
+    "address1": "One Apple Park Way",
+    "industry": "Consumer Electronics",
+    "previousClose": 124.76,
+    "regularMarketOpen": 122.88,
+    "twoHundredDayAverage": 123.08562,
+    "trailingAnnualDividendYield": 0.006468419,
+    "payoutRatio": 0.2177,
+    "volume24Hr": None,
+    "regularMarketDayHigh": 123.18,
+    "navPrice": None,
+    "averageDailyVolume10Day": 113017112,
+    "totalAssets": None,
+    "regularMarketPreviousClose": 124.76,
+    "fiftyDayAverage": 128.61343,
+    "trailingAnnualDividendRate": 0.807,
+    "open": 122.88,
+    "toCurrency": None,
+    "averageVolume10days": 113017112,
+    "expireDate": None,
+    "yield": None,
+    "algorithm": None,
+    "dividendRate": 0.82,
+    "exDividendDate": 1612483200,
+    "beta": 1.251354,
+    "circulatingSupply": None,
+    "startDate": None,
+    "regularMarketDayLow": 121.59,
+    "priceHint": 2,
+    "currency": "USD",
+    "trailingPE": 33.00922,
+    "regularMarketVolume": 73225626,
+    "lastMarket": None,
+    "maxSupply": None,
+    "openInterest": None,
+    "marketCap": 2043195817984,
+    "volumeAllCurrencies": None,
+    "strikePrice": None,
+    "averageVolume": 111768971,
+    "priceToSalesTrailing12Months": 6.946456,
+    "dayLow": 121.59,
+    "ask": 121.95,
+    "ytdReturn": None,
+    "askSize": 1200,
+    "volume": 73225626,
+    "fiftyTwoWeekHigh": 145.09,
+    "forwardPE": 26.005342,
+    "fromCurrency": None,
+    "fiveYearAvgDividendYield": 1.42,
+    "fiftyTwoWeekLow": 53.1525,
+    "bid": 121.97,
+    "tradeable": False,
+    "dividendYield": 0.0068,
+    "bidSize": 1400,
+    "dayHigh": 123.18,
+    "exchange": "NMS",
+    "shortName": "Apple Inc.",
+    "longName": "Apple Inc.",
+    "exchangeTimezoneName": "America/New_York",
+    "exchangeTimezoneShortName": "EDT",
+    "isEsgPopulated": False,
+    "gmtOffSetMilliseconds": "-14400000",
+    "quoteType": "EQUITY",
+    "symbol": "AAPL",
+    "messageBoardId": "finmb_24937",
+    "market": "us_market",
+    "annualHoldingsTurnover": None,
+    "enterpriseToRevenue": 7.287,
+    "beta3Year": None,
+    "profitMargins": 0.21735,
+    "enterpriseToEbitda": 25.168,
+    "52WeekChange": 1.0387287,
+    "morningStarRiskRating": None,
+    "forwardEps": 4.68,
+    "revenueQuarterlyGrowth": None,
+    "sharesOutstanding": 16788100096,
+    "fundInceptionDate": None,
+    "annualReportExpenseRatio": None,
+    "bookValue": 3.936,
+    "sharesShort": 100799312,
+    "sharesPercentSharesOut": 0.006,
+    "fundFamily": None,
+    "lastFiscalYearEnd": 1601078400,
+    "heldPercentInstitutions": 0.59661996,
+    "netIncomeToCommon": 63929999360,
+    "trailingEps": 3.687,
+    "lastDividendValue": 0.205,
+    "SandP52WeekChange": 0.652609,
+    "priceToBook": 30.920986,
+    "heldPercentInsiders": 0.00065,
+    "nextFiscalYearEnd": 1664150400,
+    "mostRecentQuarter": 1608940800,
+    "shortRatio": 0.97,
+    "sharesShortPreviousMonthDate": 1611878400,
+    "floatShares": 16770804261,
+    "enterpriseValue": 2143298256896,
+    "threeYearAverageReturn": None,
+    "lastSplitDate": 1598832000,
+    "lastSplitFactor": "4:1",
+    "legalType": None,
+    "lastDividendDate": 1612483200,
+    "morningStarOverallRating": None,
+    "earningsQuarterlyGrowth": 0.293,
+    "dateShortInterest": 1614297600,
+    "pegRatio": 1.91,
+    "lastCapGain": None,
+    "shortPercentOfFloat": 0.006,
+    "sharesShortPriorMonth": 91862600,
+    "impliedSharesOutstanding": None,
+    "category": None,
+    "fiveYearAverageReturn": None,
+    "regularMarketPrice": 122.88,
+    "logo_url": "https://logo.clearbit.com/apple.com",
+}
+
+## Info I Want:
+- longName
+- dayHigh
+- sector
+- fullTimeEmployees
+- longBusinessSummary
+- industry
+- twoHundredDayAverage
+- averageDailyVolume10Day
+- regularMarketPreviousClose
+- fiftyDayAverage
+- open
+- averageVolume10days
+- averageVolume
+- dayLow
+- volume
+- fiftyTwoWeekHigh
+- fiftyTwoWeekLow
+- symbol

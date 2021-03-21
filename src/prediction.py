@@ -113,6 +113,7 @@ def plot_predictions(dates, prices, svr_rbf, svr_lin, svr_poly, lr, dtr, en, las
     plt.scatter(
         dates, prices, c="k", label="Data"
     )  # print original data points that the model will try to predict
+    # plot and run SVR (SVM) predictions:
     plt.plot(
         dates, svr_lin.predict(dates), c="g", label="Linear model"
     )  # predict given dates prices with a linear SVR model
@@ -122,19 +123,21 @@ def plot_predictions(dates, prices, svr_rbf, svr_lin, svr_poly, lr, dtr, en, las
     plt.plot(
         dates, svr_poly.predict(dates), c="blue", label="Polynomial model"
     )  # predict given dates prices with a poly SVR model
+    # plot and run other ML predictions:
     plt.plot(
         dates, lr.predict(dates), c="orange", label="LR"
-    )  # predict given dates prices with a poly SVR model
+    )  # predict given dates prices with a Linear Regression model
     plt.plot(
         dates, dtr.predict(dates), c="teal", label="DTR"
-    )  # predict given dates prices with a poly SVR model
+    )  # predict given dates prices with a DecisionTreeRegressor model
     plt.plot(
         dates, en.predict(dates), c="red", label="EN"
-    )  # predict given dates prices with a poly SVR model
+    )  # predict given dates prices with a ElasticNet model
     plt.plot(
         dates, lasso.predict(dates), c="brown", label="Lasso"
-    )  # predict given dates prices with a poly SVR model
+    )  # predict given dates prices with a LASSO model
 
+    # predict and plot the next day stock price projection:
     plt.scatter(
         next_date, svr_rbf.predict(next_date)[0], c="y", label="RBF Next Day Prediction"
     )  # print the next day's prediction on the plot
@@ -145,6 +148,7 @@ def plot_predictions(dates, prices, svr_rbf, svr_lin, svr_poly, lr, dtr, en, las
         next_date, lasso.predict(next_date)[0], c="brown", label="Lasso Next Day Prediction"
     )  # print the next day's prediction on the plot
 
+    # plot extraneous graph details:
     plt.legend()  # define plot legend
     plt.show()  # display the plot
 

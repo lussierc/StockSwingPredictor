@@ -30,7 +30,7 @@ def run_predictor(scraped_data):
 
         next_date = len(dates) + 1
 
-        price_prediction, prev_close, model_scores = svr_predict(
+        price_prediction, prev_close, model_scores = ml_predictions(
             dates, prices, [next_date]
         )
 
@@ -45,7 +45,7 @@ def run_predictor(scraped_data):
     return finalized_data
 
 
-def svr_predict(dates, prices, next_date):
+def ml_predictions(dates, prices, next_date):
     """Performs SVR training and prediction of stock prices."""
 
     next_date = np.reshape(next_date, (len(next_date), 1))
@@ -59,12 +59,12 @@ def svr_predict(dates, prices, next_date):
         en,
         lasso,
         knr,
-    ) = create_svr_models()  # creates and sets up SVR models
-    svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr = train_svr_models(
+    ) = create_ml_models()  # creates and sets up SVR models
+    svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr = train_ml_models(
         svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr, dates, prices
     )  # trains SVR models with previous price/date data
 
-    model_scores = test_svr_models(
+    model_scores = test_ml_models(
         dates, prices, svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr
     )
 
@@ -75,7 +75,7 @@ def svr_predict(dates, prices, next_date):
     return svr_rbf.predict(next_date)[0], prices[-1], model_scores
 
 
-def create_svr_models():
+def create_ml_models():
     """Creates SVR models."""
 
     svr_lin = SVR(kernel="linear", C=1e3)
@@ -90,7 +90,7 @@ def create_svr_models():
     return svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr
 
 
-def train_svr_models(
+def train_ml_models(
     svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr, dates, prices
 ):
     """Trains/fits SVR models."""
@@ -107,7 +107,7 @@ def train_svr_models(
     return svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr
 
 
-def test_svr_models(dates, prices, svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr):
+def test_ml_models(dates, prices, svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr):
     """Test models and determine a confidence score rating of the predictions generated."""
 
     model_scores = {"svr_lin_score": 0.0, "svr_poly_score": 0.0, "svr_rbf_score": 0.0, "lr_score": 0.0, "dtr_score": 0.0, "en_score": 0.0, "lasso_score": 0.0, "knr_score": 0.0}
@@ -200,7 +200,7 @@ def predict_price_swing(prediction, prev_close):
 
 
 def store_prediction_results(
-    stock_data, price_prediction, prev_close, swing_prediction, svr_rbf_score
+    stock_data, price_prediction, prev_close, swing_prediction, model_scores
 ):
     """Store results from stock prediction."""
 
@@ -208,12 +208,12 @@ def store_prediction_results(
         "swing_prediction": "",
         "price_prediction": 0,
         "prev_close": 0,
-        "svr_rbf_score": 0,
+        "model_scores": 0,
     }
 
     prediction_results["swing_prediction"] = swing_prediction
     prediction_results["price_prediction"] = price_prediction
     prediction_results["prev_close"] = prev_close
-    prediction_results["svr_rbf_score"] = svr_rbf_score
+    prediction_results["model_scores"] = model_scores
 
     return prediction_results

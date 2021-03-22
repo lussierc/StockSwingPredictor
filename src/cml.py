@@ -121,7 +121,7 @@ def print_tables(finalized_data):
                 "swing_prediction",
                 "price_prediction",
                 "prev_close/current_price",
-                "svr_rbf_score",
+                "model_scores",
             ]  # define field names for table
 
             predictions = stock_data["prediction_results"]
@@ -130,7 +130,7 @@ def print_tables(finalized_data):
                     predictions["swing_prediction"],
                     predictions["price_prediction"],
                     predictions["prev_close"],
-                    predictions["svr_rbf_score"],
+                    predictions["model_scores"],
                 ]
             )  # add data to table
 

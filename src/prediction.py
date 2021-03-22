@@ -56,7 +56,7 @@ def svr_predict(dates, prices, next_date):
         svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr, dates, prices
     )  # trains SVR models with previous price/date data
 
-    svr_rbf_score = test_svr_models(dates, prices, svr_lin, svr_poly, svr_rbf)
+    svr_rbf_score = test_svr_models(dates, prices, svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr)
 
     plot_predictions(dates, prices, svr_rbf, svr_lin, svr_poly, lr, dtr, en, lasso, knr, next_date)
 
@@ -94,13 +94,18 @@ def train_svr_models(svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr, dates,
     return svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr
 
 
-def test_svr_models(dates, prices, svr_lin, svr_poly, svr_rbf):
+def test_svr_models(dates, prices, svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr):
     """Test models and determine a confidence score rating of the predictions generated."""
 
     # Create a testing model: (the score returns the coefficient of determination R^2 of the prediction (best score is 1.0)):
     svr_lin_score = svr_lin.score(dates, prices)
     svr_poly_score = svr_poly.score(dates, prices)
     svr_rbf_score = svr_rbf.score(dates, prices)
+    lr = lr.score(dates, prices)
+    dtr = dtr.score(dates, prices)
+    en = en.score(dates, prices)
+    lasso = lasso.score(dates, prices)
+    knr = knr.score(dates, prices)
 
     return svr_rbf_score
 

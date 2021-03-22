@@ -30,16 +30,16 @@ def run_predictor(scraped_data):
 
         next_date = len(dates) + 1
 
-        price_prediction, prev_close, model_scores = ml_predictions(
+        next_day_predictions, swing_predictions, model_scores, prev_close = ml_predictions(
             dates, prices, [next_date]
         )
 
-        swing_prediction = predict_price_swing(price_prediction, prev_close)
 
         stock_data["prediction_results"] = store_prediction_results(
-            stock_data, price_prediction, prev_close, swing_prediction, model_scores
+            stock_data, next_day_predictions, swing_predictions, model_scores, prev_close
         )
 
+        print("prediction_results", stock_data["prediction_results"])
         finalized_data.append(stock_data)  # store prediction results
 
     return finalized_data
@@ -60,6 +60,7 @@ def ml_predictions(dates, prices, next_date):
         lasso,
         knr,
     ) = create_ml_models()  # creates and sets up SVR models
+
     svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr = train_ml_models(
         svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr, dates, prices
     )  # trains SVR models with previous price/date data
@@ -72,7 +73,15 @@ def ml_predictions(dates, prices, next_date):
         dates, prices, svr_rbf, svr_lin, svr_poly, lr, dtr, en, lasso, knr, next_date
     )
 
-    return svr_rbf.predict(next_date)[0], prices[-1], model_scores
+    next_day_predictions = make_new_predictions(svr_rbf, svr_lin, svr_poly, lr, dtr, en, lasso, knr, next_date)
+
+    prev_close = prices[-1]
+    swing_predictions = {}
+    for price_prediction in next_day_predictions:
+        swing_prediction = predict_price_swing(next_day_predictions[price_prediction], prev_close)
+        swing_predictions[price_prediction] = swing_prediction
+
+    return next_day_predictions, swing_predictions, model_scores, prev_close
 
 
 def create_ml_models():
@@ -124,6 +133,21 @@ def test_ml_models(dates, prices, svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso
 
     return model_scores
 
+def make_new_predictions(svr_rbf, svr_lin, svr_poly, lr, dtr, en, lasso, knr, next_date):
+    """Makes predictions for the next day's stock price."""
+
+    price_predictions = {"svr_lin_price": 0.0, "svr_poly_price": 0.0, "svr_rbf_price": 0.0, "lr_price": 0.0, "dtr_price": 0.0, "en_price": 0.0, "lasso_price": 0.0, "knr_price": 0.0}
+
+    price_predictions["svr_lin_price"] = svr_lin.predict(next_date)[0]
+    price_predictions["svr_poly_price"] = svr_poly.predict(next_date)[0]
+    price_predictions["svr_rbf_price"] = svr_rbf.predict(next_date)[0]
+    price_predictions["lr_price"] = lr.predict(next_date)[0]
+    price_predictions["dtr_price"] = dtr.predict(next_date)[0]
+    price_predictions["en_price"] = en.predict(next_date)[0]
+    price_predictions["lasso_price"] = lasso.predict(next_date)[0]
+    price_predictions["knr_price"] = knr.predict(next_date)[0]
+
+    return price_predictions
 
 def plot_predictions(
     dates, prices, svr_rbf, svr_lin, svr_poly, lr, dtr, en, lasso, knr, next_date
@@ -200,19 +224,19 @@ def predict_price_swing(prediction, prev_close):
 
 
 def store_prediction_results(
-    stock_data, price_prediction, prev_close, swing_prediction, model_scores
+    stock_data, next_day_predictions, swing_predictions, model_scores, prev_close
 ):
     """Store results from stock prediction."""
 
     prediction_results = {
-        "swing_prediction": "",
-        "price_prediction": 0,
+        "swing_predictions": {},
+        "next_day_predictions": {},
         "prev_close": 0,
         "model_scores": 0,
     }
 
-    prediction_results["swing_prediction"] = swing_prediction
-    prediction_results["price_prediction"] = price_prediction
+    prediction_results["swing_predictions"] = swing_predictions
+    prediction_results["next_day_predictions"] = next_day_predictions
     prediction_results["prev_close"] = prev_close
     prediction_results["model_scores"] = model_scores
 

@@ -127,8 +127,8 @@ def print_tables(finalized_data):
             predictions = stock_data["prediction_results"]
             table.add_row(
                 [
-                    predictions["swing_prediction"],
-                    predictions["price_prediction"],
+                    predictions["swing_predictions"],
+                    predictions["next_day_predictions"],
                     predictions["prev_close"],
                     predictions["model_scores"],
                 ]

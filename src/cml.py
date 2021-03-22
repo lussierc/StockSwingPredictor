@@ -104,10 +104,15 @@ def print_tables(finalized_data):
     """Given scraped and predicted stock data, print a table of major attributes."""
 
     for stock_data in finalized_data:
-        print("\n\n\n" + color.BOLD + color.UNDERLINE +
-            "Would you like to print out the prediction results for: " +
-            stock_data["stock"] +
-            " ?" + color.END + color.END
+        print(
+            "\n\n\n"
+            + color.BOLD
+            + color.UNDERLINE
+            + "Would you like to print out the prediction results for: "
+            + stock_data["stock"]
+            + " ?"
+            + color.END
+            + color.END
         )
         print_res = input(color.GREEN + "   * Y or N?: " + color.END).upper()
         if print_res == "Y":
@@ -133,10 +138,15 @@ def print_tables(finalized_data):
         else:
             pass
 
-        print("\n\n\n" + color.BOLD + color.UNDERLINE +
-            "Would you like to print out the stock information for: " +
-            stock_data["stock"] +
-            " ?" + color.END + color.END
+        print(
+            "\n\n\n"
+            + color.BOLD
+            + color.UNDERLINE
+            + "Would you like to print out the stock information for: "
+            + stock_data["stock"]
+            + " ?"
+            + color.END
+            + color.END
         )
         print_res = input(color.GREEN + "   * Y or N?: " + color.END).upper()
 
@@ -186,10 +196,10 @@ def run_cml():
 
     stocks = get_user_stocks()  # get the user's input of stock ticker symbols
 
-    print() # spacing purposes
+    print()  # spacing purposes
 
     scraped_data = scraper.perform_scraping(stocks)  # scrape data for given stocks
 
     finalized_data = prediction.run_predictor(scraped_data)
 
-    print_tables(finalized_data) # prints out tables of finalized data & predictions
+    print_tables(finalized_data)  # prints out tables of finalized data & predictions

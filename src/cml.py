@@ -188,6 +188,7 @@ def print_tables(finalized_data):
         else:
             pass
 
+
 def get_scraping_time_period():
     """Gets the user's decision for how many months worth of historical price data to scrape."""
 
@@ -204,10 +205,29 @@ def get_scraping_time_period():
 
     if custom_range_choice == "Y":
         custom_range_choice = 11
-        while(custom_range_choice >= 10):
-            print("\t\t" + color.BOLD + color.UNDERLINE + "Choose a date range of the past:" + color.END + color.END)
-            print("\t\t\t1) 5 days\n\t\t\t2) 1 month\n\t\t\t3) 6 months\n\t\t\t4) 1 year\n\t\t\t5) 2 years\n\t\t\t6) 5 years\n\t\t\t7) 10 years\n\t\t\t8) Max\n\t\t\t9) YTD") # should use a slider for this in the Streamlit UI
-            custom_range_choice = int(input(color.GREEN + color.BOLD + color.UNDERLINE + "Enter the corresponding number for your chosen range:" + color.END + color.END + color.END))
+        while custom_range_choice >= 10:
+            print(
+                "\t\t"
+                + color.BOLD
+                + color.UNDERLINE
+                + "Choose a date range of the past:"
+                + color.END
+                + color.END
+            )
+            print(
+                "\t\t\t1) 5 days\n\t\t\t2) 1 month\n\t\t\t3) 6 months\n\t\t\t4) 1 year\n\t\t\t5) 2 years\n\t\t\t6) 5 years\n\t\t\t7) 10 years\n\t\t\t8) Max\n\t\t\t9) YTD"
+            )  # should use a slider for this in the Streamlit UI
+            custom_range_choice = int(
+                input(
+                    color.GREEN
+                    + color.BOLD
+                    + color.UNDERLINE
+                    + "Enter the corresponding number for your chosen range:"
+                    + color.END
+                    + color.END
+                    + color.END
+                )
+            )
         if custom_range_choice == 1:
             return "5d"
         elif custom_range_choice == 2:
@@ -229,7 +249,7 @@ def get_scraping_time_period():
         else:
             return "3mo"
     else:
-        return "3mo" # recommended time period
+        return "3mo"  # recommended time period
 
 
 def run_cml():
@@ -243,7 +263,9 @@ def run_cml():
 
     period = get_scraping_time_period()
 
-    scraped_data = scraper.perform_scraping(stocks, period)  # scrape data for given stocks
+    scraped_data = scraper.perform_scraping(
+        stocks, period
+    )  # scrape data for given stocks with the given historical time period
 
     finalized_data = prediction.run_predictor(scraped_data)
 

@@ -19,7 +19,9 @@ def perform_scraping(stocks, period):
         stock_data["stock"] = stock
         stock_data["stock_info"] = scrape_stock_info(stock)
         stock_data["stock_current_data"] = scrape_stock_current_data(stock)
-        stock_data["stock_historical_data"] = scrape_stock_historical_data(stock, period)
+        stock_data["stock_historical_data"] = scrape_stock_historical_data(
+            stock, period
+        )
 
         scraped_data.append(stock_data)
 

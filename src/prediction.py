@@ -35,7 +35,7 @@ def run_predictor(scraped_data):
         )
 
 
-        stock_data["prediction_results"] = store_prediction_results(
+        stock_data["prediction_results"] = data_cleaner.organize_prediction_results(
             stock_data, next_day_predictions, swing_predictions, model_scores, prev_close
         )
 
@@ -221,23 +221,3 @@ def predict_price_swing(prediction, prev_close):
         price_swing = "Error"
 
     return price_swing
-
-
-def store_prediction_results(
-    stock_data, next_day_predictions, swing_predictions, model_scores, prev_close
-):
-    """Store results from stock prediction."""
-
-    prediction_results = {
-        "swing_predictions": {},
-        "next_day_predictions": {},
-        "prev_close": 0,
-        "model_scores": 0,
-    }
-
-    prediction_results["swing_predictions"] = swing_predictions
-    prediction_results["next_day_predictions"] = next_day_predictions
-    prediction_results["prev_close"] = prev_close
-    prediction_results["model_scores"] = model_scores
-
-    return prediction_results

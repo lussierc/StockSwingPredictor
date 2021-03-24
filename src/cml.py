@@ -188,6 +188,49 @@ def print_tables(finalized_data):
         else:
             pass
 
+def get_scraping_time_period():
+    """Gets the user's decision for how many months worth of historical price data to scrape."""
+
+    print(
+        "\n\n\n"
+        + color.BOLD
+        + color.UNDERLINE
+        + "Enter Y to scrape custom date ranges of data or enter N to use the recommend value:"
+        + color.END
+        + color.END
+    )
+
+    custom_range_choice = input(color.GREEN + "   * Y or N?: " + color.END).upper()
+
+    if custom_range_choice == "Y":
+        custom_range_choice = 11
+        while(custom_range_choice >= 10):
+            print("\t\t" + color.BOLD + color.UNDERLINE + "Choose a date range of the past:" + color.END + color.END)
+            print("\t\t\t1) 5 days\n\t\t\t2) 1 month\n\t\t\t3) 6 months\n\t\t\t4) 1 year\n\t\t\t5) 2 years\n\t\t\t6) 5 years\n\t\t\t7) 10 years\n\t\t\t8) Max\n\t\t\t9) YTD") # should use a slider for this in the Streamlit UI
+            custom_range_choice = int(input(color.GREEN + color.BOLD + color.UNDERLINE + "Enter the corresponding number for your chosen range:" + color.END + color.END + color.END))
+        if custom_range_choice == 1:
+            return "5d"
+        elif custom_range_choice == 2:
+            return "1mo"
+        elif custom_range_choice == 3:
+            return "3mo"
+        elif custom_range_choice == 4:
+            return "6mo"
+        elif custom_range_choice == 5:
+            return "1y"
+        elif custom_range_choice == 6:
+            return "2y"
+        elif custom_range_choice == 7:
+            return "5y"
+        elif custom_range_choice == 8:
+            return "10y"
+        elif custom_range_choice == 9:
+            return "max"
+        else:
+            return "3mo"
+    else:
+        return "3mo" # recommended time period
+
 
 def run_cml():
     """Runs the CML UI."""
@@ -198,7 +241,9 @@ def run_cml():
 
     print()  # spacing purposes
 
-    scraped_data = scraper.perform_scraping(stocks)  # scrape data for given stocks
+    period = get_scraping_time_period()
+
+    scraped_data = scraper.perform_scraping(stocks, period)  # scrape data for given stocks
 
     finalized_data = prediction.run_predictor(scraped_data)
 

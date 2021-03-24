@@ -3,7 +3,7 @@
 import yfinance as yf  # import scraping library
 
 
-def perform_scraping(stocks):
+def perform_scraping(stocks, period):
     """Runs the scraper and stores the scraped data."""
 
     scraped_data = []  # this list will hold the dictionaries of scraped stock data
@@ -19,7 +19,7 @@ def perform_scraping(stocks):
         stock_data["stock"] = stock
         stock_data["stock_info"] = scrape_stock_info(stock)
         stock_data["stock_current_data"] = scrape_stock_current_data(stock)
-        stock_data["stock_historical_data"] = scrape_stock_historical_data(stock)
+        stock_data["stock_historical_data"] = scrape_stock_historical_data(stock, period)
 
         scraped_data.append(stock_data)
 
@@ -44,11 +44,11 @@ def scrape_stock_current_data(stock):
     return current
 
 
-def scrape_stock_historical_data(stock):
+def scrape_stock_historical_data(stock, period):
     """Scrape historical stock price data from Yahoo! Finance."""
 
     ticker = yf.Ticker(stock)
 
-    hist = ticker.history(period="3mo")  # get historical market data
+    hist = ticker.history(period=period)  # get historical market data
 
     return hist

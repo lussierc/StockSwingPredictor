@@ -304,6 +304,6 @@ def run_cml():
         stocks, period
     )  # scrape data for given stocks with the given historical time period
 
-    finalized_data = prediction.run_predictor(scraped_data)
+    finalized_data = prediction.run_predictor(scraped_data, period)
 
     print_tables(finalized_data)  # prints out tables of finalized data & predictions

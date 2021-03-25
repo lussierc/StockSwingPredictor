@@ -125,10 +125,10 @@ def print_tables(finalized_data):
         if print_res == "Y":
             table = PrettyTable()
             table.field_names = [
-                "swing_prediction",
-                "price_prediction",
-                "prev_close/current_price",
-                "price_swing_prediction",
+                "Swing Prediction",
+                "Price Prediction",
+                "Current Price (or Closing if AH)",
+                "Price Swing Prediction",
             ]  # define field names for table
 
             table.add_row(
@@ -156,10 +156,10 @@ def print_tables(finalized_data):
         if print_res == "Y":
             table2 = PrettyTable()
             table2.field_names = [
-                "model_name",
-                "swing_prediction",
-                "price_prediction",
-                "model_scores",
+                "ML Model",
+                "Swing Prediction",
+                "Price Prediction",
+                "Model Score",
             ]  # define field names for table
 
             for model in models:

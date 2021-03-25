@@ -133,8 +133,8 @@ def print_tables(finalized_data):
 
             table.add_row(
                 [
-                    swing_predictions["svr_rbf"],
-                    next_day_predictions["svr_rbf"],
+                    swing_predictions["knr"],
+                    next_day_predictions["knr"],
                     predictions["prev_close"],
                     predictions["price_swing_prediction"],
                 ]

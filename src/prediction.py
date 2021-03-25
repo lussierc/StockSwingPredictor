@@ -47,7 +47,6 @@ def run_predictor(scraped_data):
             price_swing_prediction,
         )
 
-        print("prediction_results", stock_data["prediction_results"])
         finalized_data.append(stock_data)  # store prediction results
 
     return finalized_data
@@ -241,6 +240,9 @@ def plot_predictions(
         next_date, knr.predict(next_date)[0], c="teal", label="KNR Next Day Prediction"
     )  # print the next day's prediction on the plot
     plt.scatter(
+        next_date, lr.predict(next_date)[0], c="orange", label="LR Next Day Prediction"
+    )  # print the next day's prediction on the plot
+    plt.scatter(
         next_date,
         lasso.predict(next_date)[0],
         c="brown",
@@ -268,7 +270,6 @@ def predict_indiv_model_swing(prediction, prev_close):
 
 def predict_price_swing(next_day_predictions):
     """Performs the final price swing prediction for a stock."""
-    print("HERE",next_day_predictions)
 
     #   Weights:
     #svr_rbf_price 35%
@@ -300,13 +301,10 @@ def predict_price_swing(next_day_predictions):
         down_score += 1
 
     if up_score >= down_score:
-        print("GOES UP")
         return "Up"
         if up_score == 6:
             "PERFECT 6"
     elif down_score >= up_score:
-        print("GOES Down")
         return "Down"
     else:
-        print("ERROR")
         return "None"

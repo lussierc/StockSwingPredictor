@@ -49,7 +49,7 @@ def user_UI_choice():
                 + color.UNDERLINE
                 + "Would you like to run the program using the Command Line UI or the Web UI?"
                 + color.END
-                + "\n   - Enter 1 to use the CML. \n   - Enter 2 to use the Web App UI."
+                + "\n\t- Enter 1 to use the CML.\n\t- Enter 2 to use the Web App UI."
                 + color.GREEN
                 + "\n* Enter your choice: "
                 + color.END
@@ -89,8 +89,8 @@ def get_user_stocks():
         stock = input("* Enter your Stock Ticker Symbol: ")
         stocks.append(stock)
 
-        print("     * Would you like to add more stocks?")
-        continue_dec = input(color.GREEN + "       * Y or N?: " + color.END).upper()
+        print("\t* Would you like to add more stocks?")
+        continue_dec = input(color.GREEN + "\t\t* Y or N?: " + color.END).upper()
 
         if continue_dec == "Y":
             pass
@@ -121,7 +121,7 @@ def print_tables(finalized_data):
             + " ?"
             + color.END
         )
-        print_res = input(color.GREEN + "   * Y or N?: " + color.END).upper()
+        print_res = input(color.GREEN + "\t* Y or N?: " + color.END).upper()
         if print_res == "Y":
             table = PrettyTable()
             table.field_names = [
@@ -152,7 +152,7 @@ def print_tables(finalized_data):
             + " ?"
             + color.END
         )
-        print_res = input(color.GREEN + "   * Y or N?: " + color.END).upper()
+        print_res = input(color.GREEN + "\t* Y or N?: " + color.END).upper()
         if print_res == "Y":
             table2 = PrettyTable()
             table2.field_names = [
@@ -185,7 +185,7 @@ def print_tables(finalized_data):
             + " ?"
             + color.END
         )
-        print_res = input(color.GREEN + "   * Y or N?: " + color.END).upper()
+        print_res = input(color.GREEN + "\t* Y or N?: " + color.END).upper()
 
         if print_res == "Y":
             table3 = PrettyTable()
@@ -238,7 +238,7 @@ def get_scraping_time_period():
         + color.END
     )
 
-    custom_range_choice = input(color.GREEN + "   * Y or N?: " + color.END).upper()
+    custom_range_choice = input(color.GREEN + "\t* Y or N?: " + color.END).upper()
 
     if custom_range_choice == "Y":
         custom_range_choice = 11

@@ -35,6 +35,7 @@ def run_predictor(scraped_data):
             swing_predictions,
             model_scores,
             prev_close,
+            price_swing_prediction,
         ) = ml_predictions(dates, prices, [next_date], stock_data["stock"])
 
         stock_data["prediction_results"] = data_cleaner.organize_prediction_results(
@@ -43,6 +44,7 @@ def run_predictor(scraped_data):
             swing_predictions,
             model_scores,
             prev_close,
+            price_swing_prediction,
         )
 
         print("prediction_results", stock_data["prediction_results"])
@@ -102,7 +104,7 @@ def ml_predictions(dates, prices, next_date, stock_name):
 
     price_swing_prediction = predict_price_swing(model_swing_predictions)
 
-    return next_day_predictions, model_swing_predictions, model_scores, prev_close
+    return next_day_predictions, model_swing_predictions, model_scores, prev_close, price_swing_prediction
 
 
 def create_ml_models():
@@ -299,9 +301,12 @@ def predict_price_swing(next_day_predictions):
 
     if up_score >= down_score:
         print("GOES UP")
+        return "Up"
         if up_score == 6:
             "PERFECT 6"
     elif down_score >= up_score:
         print("GOES Down")
+        return "Down"
     else:
         print("ERROR")
+        return "None"

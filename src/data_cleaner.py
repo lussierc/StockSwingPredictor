@@ -52,7 +52,7 @@ def clean_scraped_prediction_data(df):
 
 
 def organize_prediction_results(
-    stock_data, next_day_predictions, swing_predictions, model_scores, prev_close
+    stock_data, next_day_predictions, swing_predictions, model_scores, prev_close, price_swing_prediction
 ):
     """Store results from stock prediction."""
 
@@ -61,11 +61,13 @@ def organize_prediction_results(
         "next_day_predictions": {},
         "prev_close": 0,
         "model_scores": 0,
+        "price_swing_prediction": "",
     }
 
     prediction_results["swing_predictions"] = swing_predictions
     prediction_results["next_day_predictions"] = next_day_predictions
     prediction_results["prev_close"] = prev_close
     prediction_results["model_scores"] = model_scores
+    prediction_results["price_swing_prediction"] = price_swing_prediction
 
     return prediction_results

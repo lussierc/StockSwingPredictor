@@ -108,7 +108,7 @@ def print_tables(finalized_data):
             "\n\n\n"
             + color.BOLD
             + color.UNDERLINE
-            + "Would you like to print out the prediction results for: "
+            + "Would you like to print out the overall results for: "
             + stock_data["stock"]
             + " ?"
             + color.END
@@ -139,7 +139,45 @@ def print_tables(finalized_data):
             print(table)  # print prettytable of scored stock info
         else:
             pass
+        ################################
+        print(
+            "\n\n\n"
+            + color.BOLD
+            + color.UNDERLINE
+            + "Would you like to print out the model prediction results for: "
+            + stock_data["stock"]
+            + " ?"
+            + color.END
+            + color.END
+        )
+        print_res = input(color.GREEN + "   * Y or N?: " + color.END).upper()
+        if print_res == "Y":
+            table = PrettyTable()
+            table.field_names = [
+                "swing_prediction",
+                "price_prediction",
+                "model_scores",
+            ]  # define field names for table
 
+            swing_predictions = predictions["swing_predictions"]
+            next_day_predictions = predictions["next_day_predictions"]
+            model_scores = predictions["model_scores"]
+
+            models = ["svr_lin", "svr_poly", "svr_rbf", "lr", "en", "lasso", "knr"]
+            for model in models:
+                predictions = stock_data["prediction_results"]
+                table.add_row(
+                    [
+                        swing_predictions[model],
+                        next_day_predictions[model],
+                        model_scores[model],
+                    ]
+                )  # add data to table
+
+            print(table)  # print prettytable of scored stock info
+        else:
+            pass
+        ################################
         print(
             "\n\n\n"
             + color.BOLD

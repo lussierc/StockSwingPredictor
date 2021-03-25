@@ -139,23 +139,23 @@ def test_ml_models(dates, prices, svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr
     """Test models and determine a confidence score rating of the predictions generated."""
 
     model_scores = {
-        "svr_lin_score": 0.0,
-        "svr_poly_score": 0.0,
-        "svr_rbf_score": 0.0,
-        "lr_score": 0.0,
-        "en_score": 0.0,
-        "lasso_score": 0.0,
-        "knr_score": 0.0,
+        "svr_lin": 0.0,
+        "svr_poly": 0.0,
+        "svr_rbf": 0.0,
+        "lr": 0.0,
+        "en": 0.0,
+        "lasso": 0.0,
+        "knr": 0.0,
     }
 
     # Create a testing model: (the score returns the coefficient of determination R^2 of the prediction (best score is 1.0)):
-    model_scores["svr_lin_score"] = svr_lin.score(dates, prices)
-    model_scores["svr_poly_score"] = svr_poly.score(dates, prices)
-    model_scores["svr_rbf_score"] = svr_rbf.score(dates, prices)
-    model_scores["lr_score"] = lr.score(dates, prices)
-    model_scores["en_score"] = en.score(dates, prices)
-    model_scores["lasso_score"] = lasso.score(dates, prices)
-    model_scores["knr_score"] = knr.score(dates, prices)
+    model_scores["svr_lin"] = svr_lin.score(dates, prices)
+    model_scores["svr_poly"] = svr_poly.score(dates, prices)
+    model_scores["svr_rbf"] = svr_rbf.score(dates, prices)
+    model_scores["lr"] = lr.score(dates, prices)
+    model_scores["en"] = en.score(dates, prices)
+    model_scores["lasso"] = lasso.score(dates, prices)
+    model_scores["knr"] = knr.score(dates, prices)
 
     return model_scores
 
@@ -166,22 +166,22 @@ def make_new_predictions(
     """Makes predictions for the next day's stock price."""
 
     price_predictions = {
-        "svr_lin_price": 0.0,
-        "svr_poly_price": 0.0,
-        "svr_rbf_price": 0.0,
-        "lr_price": 0.0,
-        "en_price": 0.0,
-        "lasso_price": 0.0,
-        "knr_price": 0.0,
+        "svr_lin": 0.0,
+        "svr_poly": 0.0,
+        "svr_rbf": 0.0,
+        "lr": 0.0,
+        "en": 0.0,
+        "lasso": 0.0,
+        "knr": 0.0,
     }
 
-    price_predictions["svr_lin_price"] = svr_lin.predict(next_date)[0]
-    price_predictions["svr_poly_price"] = svr_poly.predict(next_date)[0]
-    price_predictions["svr_rbf_price"] = svr_rbf.predict(next_date)[0]
-    price_predictions["lr_price"] = lr.predict(next_date)[0]
-    price_predictions["en_price"] = en.predict(next_date)[0]
-    price_predictions["lasso_price"] = lasso.predict(next_date)[0]
-    price_predictions["knr_price"] = knr.predict(next_date)[0]
+    price_predictions["svr_lin"] = svr_lin.predict(next_date)[0]
+    price_predictions["svr_poly"] = svr_poly.predict(next_date)[0]
+    price_predictions["svr_rbf"] = svr_rbf.predict(next_date)[0]
+    price_predictions["lr"] = lr.predict(next_date)[0]
+    price_predictions["en"] = en.predict(next_date)[0]
+    price_predictions["lasso"] = lasso.predict(next_date)[0]
+    price_predictions["knr"] = knr.predict(next_date)[0]
 
     return price_predictions
 
@@ -279,22 +279,22 @@ def predict_price_swing(next_day_predictions):
     up_score = 0
     down_score = 0
 
-    if next_day_predictions["svr_rbf_price"] == "Up":
+    if next_day_predictions["svr_rbf"] == "Up":
         up_score += 2
     else:
         down_score += 2
 
-    if next_day_predictions["knr_price"] == "Up":
+    if next_day_predictions["knr"] == "Up":
         up_score += 2
     else:
         down_score += 2
 
-    if next_day_predictions["en_price"] == "Up":
+    if next_day_predictions["en"] == "Up":
         up_score += 1
     else:
         down_score += 1
 
-    if next_day_predictions["lr_price"] == "Up":
+    if next_day_predictions["lr"] == "Up":
         up_score += 1
     else:
         down_score += 1

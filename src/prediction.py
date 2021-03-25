@@ -61,18 +61,17 @@ def ml_predictions(dates, prices, next_date, stock_name):
         svr_poly,
         svr_rbf,
         lr,
-        dtr,
         en,
         lasso,
         knr,
     ) = create_ml_models()  # creates and sets up SVR models
 
-    svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr = train_ml_models(
-        svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr, dates, prices
+    svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr = train_ml_models(
+        svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr, dates, prices
     )  # trains SVR models with previous price/date data
 
     model_scores = test_ml_models(
-        dates, prices, svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr
+        dates, prices, svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr
     )
 
     plot_predictions(
@@ -82,7 +81,6 @@ def ml_predictions(dates, prices, next_date, stock_name):
         svr_lin,
         svr_poly,
         lr,
-        dtr,
         en,
         lasso,
         knr,
@@ -91,18 +89,20 @@ def ml_predictions(dates, prices, next_date, stock_name):
     )
 
     next_day_predictions = make_new_predictions(
-        svr_rbf, svr_lin, svr_poly, lr, dtr, en, lasso, knr, next_date
+        svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr, next_date
     )
 
     prev_close = prices[-1]
-    swing_predictions = {}
+    model_swing_predictions = {}
     for price_prediction in next_day_predictions:
-        swing_prediction = predict_price_swing(
+        swing_prediction = predict_indiv_model_swing(
             next_day_predictions[price_prediction], prev_close
         )
-        swing_predictions[price_prediction] = swing_prediction
+        model_swing_predictions[price_prediction] = swing_prediction
 
-    return next_day_predictions, swing_predictions, model_scores, prev_close
+    price_swing_prediction = predict_price_swing(model_swing_predictions)
+
+    return next_day_predictions, model_swing_predictions, model_scores, prev_close
 
 
 def create_ml_models():
@@ -112,30 +112,28 @@ def create_ml_models():
     svr_poly = SVR(kernel="poly", C=1e3, degree=2)
     svr_rbf = SVR(kernel="rbf", C=1e3, gamma=0.05)
     lr = LinearRegression()
-    dtr = DecisionTreeRegressor()
     en = ElasticNet()
     lasso = Lasso()
     knr = KNeighborsRegressor()
 
-    return svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr
+    return svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr
 
 
-def train_ml_models(svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr, dates, prices):
+def train_ml_models(svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr, dates, prices):
     """Trains/fits SVR models."""
 
     svr_lin.fit(dates, prices)  # Fit regression model
     svr_poly.fit(dates, prices)
     svr_rbf.fit(dates, prices)
     lr.fit(dates, prices)
-    dtr.fit(dates, prices)
     en.fit(dates, prices)
     lasso.fit(dates, prices)
     knr.fit(dates, prices)
 
-    return svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr
+    return svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr
 
 
-def test_ml_models(dates, prices, svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso, knr):
+def test_ml_models(dates, prices, svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr):
     """Test models and determine a confidence score rating of the predictions generated."""
 
     model_scores = {
@@ -143,7 +141,6 @@ def test_ml_models(dates, prices, svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso
         "svr_poly_score": 0.0,
         "svr_rbf_score": 0.0,
         "lr_score": 0.0,
-        "dtr_score": 0.0,
         "en_score": 0.0,
         "lasso_score": 0.0,
         "knr_score": 0.0,
@@ -154,7 +151,6 @@ def test_ml_models(dates, prices, svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso
     model_scores["svr_poly_score"] = svr_poly.score(dates, prices)
     model_scores["svr_rbf_score"] = svr_rbf.score(dates, prices)
     model_scores["lr_score"] = lr.score(dates, prices)
-    model_scores["dtr_score"] = dtr.score(dates, prices)
     model_scores["en_score"] = en.score(dates, prices)
     model_scores["lasso_score"] = lasso.score(dates, prices)
     model_scores["knr_score"] = knr.score(dates, prices)
@@ -163,7 +159,7 @@ def test_ml_models(dates, prices, svr_lin, svr_poly, svr_rbf, lr, dtr, en, lasso
 
 
 def make_new_predictions(
-    svr_rbf, svr_lin, svr_poly, lr, dtr, en, lasso, knr, next_date
+    svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr, next_date
 ):
     """Makes predictions for the next day's stock price."""
 
@@ -172,7 +168,6 @@ def make_new_predictions(
         "svr_poly_price": 0.0,
         "svr_rbf_price": 0.0,
         "lr_price": 0.0,
-        "dtr_price": 0.0,
         "en_price": 0.0,
         "lasso_price": 0.0,
         "knr_price": 0.0,
@@ -182,7 +177,6 @@ def make_new_predictions(
     price_predictions["svr_poly_price"] = svr_poly.predict(next_date)[0]
     price_predictions["svr_rbf_price"] = svr_rbf.predict(next_date)[0]
     price_predictions["lr_price"] = lr.predict(next_date)[0]
-    price_predictions["dtr_price"] = dtr.predict(next_date)[0]
     price_predictions["en_price"] = en.predict(next_date)[0]
     price_predictions["lasso_price"] = lasso.predict(next_date)[0]
     price_predictions["knr_price"] = knr.predict(next_date)[0]
@@ -197,7 +191,6 @@ def plot_predictions(
     svr_lin,
     svr_poly,
     lr,
-    dtr,
     en,
     lasso,
     knr,
@@ -229,9 +222,6 @@ def plot_predictions(
         dates, lr.predict(dates), c="orange", label="LR"
     )  # predict given dates prices with a Linear Regression model
     plt.plot(
-        dates, dtr.predict(dates), c="teal", label="DTR"
-    )  # predict given dates prices with a DecisionTreeRegressor model
-    plt.plot(
         dates, en.predict(dates), c="red", label="EN"
     )  # predict given dates prices with a ElasticNet model
     plt.plot(
@@ -246,7 +236,7 @@ def plot_predictions(
         next_date, svr_rbf.predict(next_date)[0], c="y", label="RBF Next Day Prediction"
     )  # print the next day's prediction on the plot
     plt.scatter(
-        next_date, dtr.predict(next_date)[0], c="teal", label="DTR Next Day Prediction"
+        next_date, knr.predict(next_date)[0], c="teal", label="KNR Next Day Prediction"
     )  # print the next day's prediction on the plot
     plt.scatter(
         next_date,
@@ -260,8 +250,8 @@ def plot_predictions(
     plt.show()  # display the plot
 
 
-def predict_price_swing(prediction, prev_close):
-    """Performs the program's price swing prediction."""
+def predict_indiv_model_swing(prediction, prev_close):
+    """Performs a price swing prediction for an indvidual model."""
 
     if prediction > prev_close:
         price_swing = "Up"
@@ -273,3 +263,45 @@ def predict_price_swing(prediction, prev_close):
         price_swing = "Error"
 
     return price_swing
+
+def predict_price_swing(next_day_predictions):
+    """Performs the final price swing prediction for a stock."""
+    print("HERE",next_day_predictions)
+
+    #   Weights:
+    #svr_rbf_price 35%
+    #knr_price 35%
+    #en_price 15%
+    #lr_price 15%
+
+    up_score = 0
+    down_score = 0
+
+    if next_day_predictions["svr_rbf_price"] == "Up":
+        up_score += 2
+    else:
+        down_score += 2
+
+    if next_day_predictions["knr_price"] == "Up":
+        up_score += 2
+    else:
+        down_score += 2
+
+    if next_day_predictions["en_price"] == "Up":
+        up_score += 1
+    else:
+        down_score += 1
+
+    if next_day_predictions["lr_price"] == "Up":
+        up_score += 1
+    else:
+        down_score += 1
+
+    if up_score >= down_score:
+        print("GOES UP")
+        if up_score == 6:
+            "PERFECT 6"
+    elif down_score >= up_score:
+        print("GOES Down")
+    else:
+        print("ERROR")

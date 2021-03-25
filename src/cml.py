@@ -106,7 +106,7 @@ def print_tables(finalized_data):
 
 
     for stock_data in finalized_data:
-        print("\n\n\n" + color.BOLD + color.UNDERLINE + color.YELLOW + "The Results of ", stock_data["stock"], ":" + color.END + color.END + color.END)
+        print("\n\n\n" + color.BOLD + color.UNDERLINE + color.YELLOW + "The Results of Scraping & Predicting for: ", stock_data["stock"], ":" + color.END + color.END + color.END)
 
         predictions = stock_data["prediction_results"]
         swing_predictions = predictions["swing_predictions"]

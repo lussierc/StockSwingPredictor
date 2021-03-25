@@ -103,15 +103,22 @@ def get_user_stocks():
 def print_tables(finalized_data):
     """Given scraped and predicted stock data, print a table of major attributes."""
 
+
+
     for stock_data in finalized_data:
+        print("\n\n\n" + color.BOLD + color.UNDERLINE + color.YELLOW + "The Results of ", stock_data["stock"], ":" + color.END + color.END + color.END)
+
+        predictions = stock_data["prediction_results"]
+        swing_predictions = predictions["swing_predictions"]
+        next_day_predictions = predictions["next_day_predictions"]
+        model_scores = predictions["model_scores"]
+        models = ["svr_lin", "svr_poly", "svr_rbf", "lr", "en", "lasso", "knr"]
+
         print(
-            "\n\n\n"
-            + color.BOLD
-            + color.UNDERLINE
-            + "Would you like to print out the overall results for: "
+            color.UNDERLINE
+            + " - Would you like to print out the overall results for: "
             + stock_data["stock"]
             + " ?"
-            + color.END
             + color.END
         )
         print_res = input(color.GREEN + "   * Y or N?: " + color.END).upper()
@@ -121,17 +128,14 @@ def print_tables(finalized_data):
                 "swing_prediction",
                 "price_prediction",
                 "prev_close/current_price",
-                "model_scores",
                 "price_swing_prediction",
             ]  # define field names for table
 
-            predictions = stock_data["prediction_results"]
             table.add_row(
                 [
-                    predictions["swing_predictions"],
-                    predictions["next_day_predictions"],
+                    swing_predictions["svr_rbf"],
+                    next_day_predictions["svr_rbf"],
                     predictions["prev_close"],
-                    predictions["model_scores"],
                     predictions["price_swing_prediction"],
                 ]
             )  # add data to table
@@ -141,57 +145,50 @@ def print_tables(finalized_data):
             pass
         ################################
         print(
-            "\n\n\n"
-            + color.BOLD
+            "\n"
             + color.UNDERLINE
-            + "Would you like to print out the model prediction results for: "
+            + " - Would you like to print out the model prediction results for: "
             + stock_data["stock"]
             + " ?"
-            + color.END
             + color.END
         )
         print_res = input(color.GREEN + "   * Y or N?: " + color.END).upper()
         if print_res == "Y":
-            table = PrettyTable()
-            table.field_names = [
+            table2 = PrettyTable()
+            table2.field_names = [
+                "model_name",
                 "swing_prediction",
                 "price_prediction",
                 "model_scores",
             ]  # define field names for table
 
-            swing_predictions = predictions["swing_predictions"]
-            next_day_predictions = predictions["next_day_predictions"]
-            model_scores = predictions["model_scores"]
-
-            models = ["svr_lin", "svr_poly", "svr_rbf", "lr", "en", "lasso", "knr"]
             for model in models:
                 predictions = stock_data["prediction_results"]
-                table.add_row(
+                table2.add_row(
                     [
+                        model,
                         swing_predictions[model],
                         next_day_predictions[model],
                         model_scores[model],
                     ]
                 )  # add data to table
 
-            print(table)  # print prettytable of scored stock info
+            print(table2)  # print prettytable of scored stock info
         else:
             pass
         ################################
         print(
-            "\n\n\n"
-            + color.BOLD
+            "\n"
             + color.UNDERLINE
-            + "Would you like to print out the stock information for: "
+            + " - Would you like to print out the stock information for: "
             + stock_data["stock"]
             + " ?"
-            + color.END
             + color.END
         )
         print_res = input(color.GREEN + "   * Y or N?: " + color.END).upper()
 
         if print_res == "Y":
-            table2 = PrettyTable()
+            table3 = PrettyTable()
             stock_info = stock_data["stock_info"]
             variables = [
                 "longName",
@@ -212,12 +209,12 @@ def print_tables(finalized_data):
                 "averageVolume10days",
             ]  # define field names for table
 
-            table2.field_names = ["Variable", "Information"]
+            table3.field_names = ["Variable", "Information"]
 
             for variable in variables:
-                table2.add_row([variable, stock_info[variable]])
+                table3.add_row([variable, stock_info[variable]])
 
-            print(table2)
+            print(table3)
             print(
                 color.BOLD
                 + "\nBusiness Summary:   "

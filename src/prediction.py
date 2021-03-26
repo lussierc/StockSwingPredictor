@@ -244,7 +244,7 @@ def plot_predictions(
         dates, lasso.predict(dates), c="brown", label="Lasso"
     )  # predict given dates prices with a LASSO model
     plt.plot(
-        dates, knr.predict(dates), c="blue", label="KNR"
+        dates, knr.predict(dates), c="teal", label="KNR"
     )  # predict given dates prices with a KNR model
 
     # predict and plot the next day stock price projection:

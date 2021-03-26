@@ -125,15 +125,16 @@ def print_tables(finalized_data):
             table.field_names = [
                 "Price Swing Prediction",
                 "KNR & SVR Avg Price Prediction",
+                "Multi-Fold Avg Price Prediction",
                 "Current Price (or Closing if AH)",
             ]  # define field names for table
 
-            price_avg = (next_day_predictions["knr"] + next_day_predictions["svr_rbf"])/2
 
             table.add_row(
                 [
                     predictions["price_swing_prediction"],
-                    price_avg,
+                    predictions["svr_knr_price_avg"],
+                    predictions["multi_fold_price_avg"],
                     predictions["prev_close"],
                 ]
             )  # add data to table

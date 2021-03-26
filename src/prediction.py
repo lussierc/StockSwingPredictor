@@ -275,10 +275,10 @@ def predict_price_swing(next_day_predictions):
     """Performs the final price swing prediction for a stock."""
 
     #   Weights:
-    #svr_rbf_price
-    #knr_price 35%
-    #en_price 15%
-    #lr_price 15%
+    #svr_rbf 30%
+    #knr 30%
+    #en 20%
+    #lr 20%
 
     up_score = 0
     down_score = 0

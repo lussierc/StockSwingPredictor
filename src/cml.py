@@ -103,8 +103,6 @@ def get_user_stocks():
 def print_tables(finalized_data):
     """Given scraped and predicted stock data, print a table of major attributes."""
 
-
-
     for stock_data in finalized_data:
         print("\n\n\n" + color.BOLD + color.UNDERLINE + color.YELLOW + "The Results of Scraping & Predicting for: ", stock_data["stock"], ":" + color.END + color.END + color.END)
 
@@ -125,18 +123,18 @@ def print_tables(finalized_data):
         if print_res == "Y":
             table = PrettyTable()
             table.field_names = [
-                "Swing Prediction",
-                "Price Prediction",
-                "Current Price (or Closing if AH)",
                 "Price Swing Prediction",
+                "KNR & SVR Avg Price Prediction",
+                "Current Price (or Closing if AH)",
             ]  # define field names for table
+
+            price_avg = (next_day_predictions["knr"] + next_day_predictions["svr_rbf"])/2
 
             table.add_row(
                 [
-                    swing_predictions["knr"],
-                    next_day_predictions["knr"],
-                    predictions["prev_close"],
                     predictions["price_swing_prediction"],
+                    price_avg,
+                    predictions["prev_close"],
                 ]
             )  # add data to table
 

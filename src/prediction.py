@@ -113,7 +113,7 @@ def create_ml_models():
 
     svr_lin = SVR(kernel="linear", C=1e3)
     svr_poly = SVR(kernel="poly", C=1e3, degree=2)
-    svr_rbf = SVR(kernel="rbf", C=1e3, gamma=0.05)
+    svr_rbf = SVR(kernel="rbf", C=1e3, degree = 3, gamma='scale')
     lr = LinearRegression()
     en = ElasticNet()
     lasso = Lasso()

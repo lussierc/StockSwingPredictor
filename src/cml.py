@@ -104,7 +104,15 @@ def print_tables(finalized_data):
     """Given scraped and predicted stock data, print a table of major attributes."""
 
     for stock_data in finalized_data:
-        print("\n\n\n" + color.BOLD + color.UNDERLINE + color.YELLOW + "The Results of Scraping & Predicting for: ", stock_data["stock"], ":" + color.END + color.END + color.END)
+        print(
+            "\n\n\n"
+            + color.BOLD
+            + color.UNDERLINE
+            + color.YELLOW
+            + "The Results of Scraping & Predicting for: ",
+            stock_data["stock"],
+            ":" + color.END + color.END + color.END,
+        )
 
         predictions = stock_data["prediction_results"]
         swing_predictions = predictions["swing_predictions"]
@@ -128,7 +136,6 @@ def print_tables(finalized_data):
                 "Multi-Fold Avg Price Prediction",
                 "Current Price (or Closing if AH)",
             ]  # define field names for table
-
 
             table.add_row(
                 [

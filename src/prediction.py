@@ -265,7 +265,7 @@ def predict_indiv_model_swing(prediction, prev_close):
     elif prediction < prev_close:
         price_swing = "Down"
     elif prediction == prev_close:
-        price_swing = "None"
+        price_swing = "No Movement"
     else:
         price_swing = "Error"
 
@@ -275,7 +275,7 @@ def predict_price_swing(next_day_predictions):
     """Performs the final price swing prediction for a stock."""
 
     #   Weights:
-    #svr_rbf_price 35%
+    #svr_rbf_price
     #knr_price 35%
     #en_price 15%
     #lr_price 15%
@@ -284,30 +284,39 @@ def predict_price_swing(next_day_predictions):
     down_score = 0
 
     if next_day_predictions["svr_rbf"] == "Up":
-        up_score += 2
+        up_score += 3
     else:
-        down_score += 2
+        down_score += 3
 
     if next_day_predictions["knr"] == "Up":
+        up_score += 3
+    else:
+        down_score += 3
+
+    if next_day_predictions["en"] == "Up":
         up_score += 2
     else:
         down_score += 2
 
-    if next_day_predictions["en"] == "Up":
-        up_score += 1
-    else:
-        down_score += 1
-
     if next_day_predictions["lr"] == "Up":
-        up_score += 1
+        up_score += 2
     else:
-        down_score += 1
+        down_score += 2
 
+    # make final stock price swing prediction:
     if up_score >= down_score:
-        return "Up"
-        if up_score == 6:
-            "PERFECT 6"
+        if up_score == 10:
+            return "Up (3)" # up with a confidence of 3, out of 1-3, the highest confidence given for a perfect score
+        elif up_score >= 8:
+            return "Up (2)" # up with a confidence of 2
+        elif up_score >= 5:
+            return "Up (1)" # up with a confidence of 2
     elif down_score >= up_score:
-        return "Down"
+        if up_score == 10:
+            return "Down (3)"
+        elif up_score >= 8:
+            return "Down (2)"
+        elif up_score >= 5:
+            return "Down (1)"
     else:
         return "None"

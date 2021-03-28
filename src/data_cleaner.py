@@ -29,19 +29,9 @@ def clean_scraped_prediction_data(df):
     data = df.copy()
     data = reset_df_index(data)
 
-    ### TODO: FIX WAY DATES ARE CLEANED
-    #
-    # for date in data['Date']:
-    #     date = str(date.date())
-    #     date = date.split('-')[2]
-    #
-    # data['Date'] = pd.to_numeric(data['Date'])
-    # i = 0
-    # for date in data:
-    #     #date['num_date'] += i
-    #     i += 1
+    ### POTENTIAL TODO: FIX WAY DATES ARE CLEANED SO ACTUAL DATE INSTEAD OF INTEGER REP OF DATE IS USED
 
-    dates_to_list = data.index.tolist()
+    dates_to_list = data.index.tolist() # gets the number of dates, not actual date (0, 1, 2, etc.)
     dates = np.reshape(
         dates_to_list, (len(dates_to_list), 1)
     )  # convert to 1d dimension

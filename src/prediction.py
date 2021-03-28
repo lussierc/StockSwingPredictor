@@ -28,7 +28,7 @@ def run_predictor(scraped_data, period):
 
         dates, prices = data_cleaner.clean_scraped_prediction_data(df)
 
-        next_date = len(dates) + 1  # the next day that will be used in the prediction
+        next_date = len(dates)  # the next day that will be used in the prediction
 
         (
             next_day_predictions,

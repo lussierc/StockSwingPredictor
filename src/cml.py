@@ -1,6 +1,6 @@
 """Will house the Command Line Interface (CML) for the tool."""
 
-import prediction, scraper, data_cleaner
+import prediction, scraper, data_cleaner, json_handler
 from prettytable import PrettyTable
 
 
@@ -245,6 +245,7 @@ def print_tables(finalized_data):
 
         else:
             pass
+        json_handler.export_json(predictions)
 
 
 def get_scraping_time_period():

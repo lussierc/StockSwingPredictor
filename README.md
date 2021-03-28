@@ -28,7 +28,7 @@ TOTAL               77     48    38%
 ============================================================================================ 4 passed in 13.57s ============================================================================================
 ```
 
-### Preliminary Prediction Results
+## Preliminary Prediction Results
 *The results of running different ML models on sample data of the DKNG (DraftKings) stock:*
 ![ML DKNG Results](resources/ml_results_dkng.png)
 

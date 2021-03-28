@@ -213,23 +213,22 @@ def plot_predictions(
     plot_dates = []
     for today in dates:
         plot_dates.append(today[0])
-    print("DATES", plot_dates)
-    print("PRICES", prices)
 
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=plot_dates, y=prices))
-    fig.add_trace(go.Scatter(x=plot_dates, y=svr_rbf.predict(dates)))
-    fig.add_trace(go.Scatter(x=plot_dates, y=svr_lin.predict(dates)))
-    fig.add_trace(go.Scatter(x=plot_dates, y=svr_poly.predict(dates)))
 
-    fig.add_trace(go.Scatter(x=plot_dates, y=lr.predict(dates)))
-    fig.add_trace(go.Scatter(x=plot_dates, y=en.predict(dates)))
-    fig.add_trace(go.Scatter(x=plot_dates, y=lasso.predict(dates)))
-    fig.add_trace(go.Scatter(x=plot_dates, y=knr.predict(dates)))
+    fig.add_trace(go.Scatter(x=plot_dates, y=prices, name = "Original Data"))  # display original data
+    
+    fig.add_trace(go.Scatter(x=plot_dates, y=svr_rbf.predict(dates), name = "SVR RBF")) # display SVR RBF historical prediction
+    fig.add_trace(go.Scatter(x=plot_dates, y=svr_lin.predict(dates), name = "SVR LIN"))
+    fig.add_trace(go.Scatter(x=plot_dates, y=svr_poly.predict(dates), name = "SVR POLY"))
+
+    fig.add_trace(go.Scatter(x=plot_dates, y=lr.predict(dates), name = "LR"))
+    fig.add_trace(go.Scatter(x=plot_dates, y=en.predict(dates), name = "EN"))
+    fig.add_trace(go.Scatter(x=plot_dates, y=lasso.predict(dates), name = "LASSO"))
+    fig.add_trace(go.Scatter(x=plot_dates, y=knr.predict(dates), name = "KNR"))
 
     make_title = "ML Predictions " + stock_name + " for " + str(date.today()) + " (Data Period: " + period + ")"
-    fig.update_layout(title=make_title, xaxis_title="Price",
-    yaxis_title="Days")
+    fig.update_layout(title=make_title, xaxis_title="Price", yaxis_title="Days", legend_title="Model Legend")
 
     fig.show()
 

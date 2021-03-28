@@ -29,7 +29,11 @@ TOTAL               77     48    38%
 ```
 
 ### Preliminary Prediction Results
-*The results of running different SVR models on sample data of the DKNG stock:*
+*The results of running different ML models on sample data of the DKNG stock:*
 ![SVR Results](resources/svr_results.png)
 
-After running these models with different stock data sets, the RBF SVR model seems to be by far the most accurate.
+
+*The results of running different ML models on sample data of the DKNG stock:*
+![SVR Results](resources/svr_results.png)
+
+After running these models with different stock data sets, the SVR (RBF kernel) and KNR models seems to be by far the most accurate. The predictions made by the LR, EN, and LASSO models seem to be the same. With this, predictions from the SVR-RBF, KNR, LR, and SVR-POLY will be used to generate the program's final price swing prediction.

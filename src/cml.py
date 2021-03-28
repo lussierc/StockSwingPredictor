@@ -59,6 +59,26 @@ def user_UI_choice():
     return user_choice
 
 
+def run_cml():
+    """Runs the CML UI."""
+
+    cml_startup_message()  # print the start-up message for the CML
+
+    stocks = get_user_stocks()  # get the user's input of stock ticker symbols
+
+    print()  # spacing purposes
+
+    period = get_scraping_time_period()
+
+    scraped_data = scraper.perform_scraping(
+        stocks, period
+    )  # scrape data for given stocks with the given historical time period
+
+    finalized_data = prediction.run_predictor(scraped_data, period)
+
+    display_results(finalized_data)  # allows users to interact with generated results
+
+
 def cml_startup_message():
     """CML Interface startup message."""
 
@@ -100,31 +120,36 @@ def get_user_stocks():
     return stocks
 
 
-def print_tables(finalized_data):
-    """Given scraped and predicted stock data, print a table of major attributes."""
+def display_results(finalized_data):
+    """Allow the user to interact with the scraped & predicted stock data."""
 
     for stock_data in finalized_data:
-        print(
-            "\n\n\n"
-            + color.BOLD
-            + color.UNDERLINE
-            + color.YELLOW
-            + "The Results of Scraping & Predicting for: ",
-            stock_data["stock"],
-            ":" + color.END + color.END + color.END,
-        )
-
+        stock_name = stock_data["stock"]
         predictions = stock_data["prediction_results"]
         swing_predictions = predictions["swing_predictions"]
         next_day_predictions = predictions["next_day_predictions"]
         figure = predictions["figure"]
         model_scores = predictions["model_scores"]
         models = ["svr_lin", "svr_poly", "svr_rbf", "lr", "en", "lasso", "knr"]
+        stock_info = stock_data["stock_info"]
+
+        print(
+            "\n\n\n"
+            + color.BOLD
+            + color.UNDERLINE
+            + color.YELLOW
+            + "The Results of Scraping & Predicting for: "
+            + stock_name
+            + ":"
+            + color.END
+            + color.END
+            + color.END,
+        )
 
         print(
             color.UNDERLINE
             + " - Would you like to view the Plotly figure of model predictions for: "
-            + stock_data["stock"]
+            + stock_name
             + " ?"
             + color.END
         )
@@ -134,123 +159,21 @@ def print_tables(finalized_data):
         else:
             pass
 
-        print(
-            "\n"
-            + color.UNDERLINE
-            + " - Would you like to print out the overall results for: "
-            + stock_data["stock"]
-            + " ?"
-            + color.END
+        print_tables(
+            predictions,
+            swing_predictions,
+            next_day_predictions,
+            model_scores,
+            models,
+            stock_info,
+            stock_name,
         )
-        print_res = input(color.GREEN + "\t* Y or N?: " + color.END).upper()
-        if print_res == "Y":
-            table = PrettyTable()
-            table.field_names = [
-                "Price Swing Prediction",
-                "KNR & SVR Avg Price Prediction",
-                "Multi-Fold Avg Price Prediction",
-                "Current Price (or Closing if AH)",
-            ]  # define field names for table
-
-            table.add_row(
-                [
-                    predictions["price_swing_prediction"],
-                    predictions["svr_knr_price_avg"],
-                    predictions["multi_fold_price_avg"],
-                    predictions["prev_close"],
-                ]
-            )  # add data to table
-
-            print(table)  # print prettytable of scored stock info
-        else:
-            pass
-        ################################
-        print(
-            "\n"
-            + color.UNDERLINE
-            + " - Would you like to print out the model prediction results for: "
-            + stock_data["stock"]
-            + " ?"
-            + color.END
-        )
-        print_res = input(color.GREEN + "\t* Y or N?: " + color.END).upper()
-        if print_res == "Y":
-            table2 = PrettyTable()
-            table2.field_names = [
-                "ML Model",
-                "Swing Prediction",
-                "Price Prediction",
-                "Model Score",
-            ]  # define field names for table
-
-            for model in models:
-                predictions = stock_data["prediction_results"]
-                table2.add_row(
-                    [
-                        model,
-                        swing_predictions[model],
-                        next_day_predictions[model],
-                        model_scores[model],
-                    ]
-                )  # add data to table
-
-            print(table2)  # print prettytable of scored stock info
-        else:
-            pass
-        ################################
-        print(
-            "\n"
-            + color.UNDERLINE
-            + " - Would you like to print out the stock information for: "
-            + stock_data["stock"]
-            + " ?"
-            + color.END
-        )
-        print_res = input(color.GREEN + "\t* Y or N?: " + color.END).upper()
-
-        if print_res == "Y":
-            table3 = PrettyTable()
-            stock_info = stock_data["stock_info"]
-            variables = [
-                "longName",
-                "symbol",
-                "sector",
-                "industry",
-                "fullTimeEmployees",
-                "open",
-                "regularMarketPreviousClose",
-                "fiftyDayAverage",
-                "twoHundredDayAverage",
-                "dayLow",
-                "dayHigh",
-                "fiftyTwoWeekLow",
-                "fiftyTwoWeekHigh",
-                "volume",
-                "averageVolume",
-                "averageVolume10days",
-            ]  # define field names for table
-
-            table3.field_names = ["Variable", "Information"]
-
-            for variable in variables:
-                table3.add_row([variable, stock_info[variable]])
-
-            print(table3)
-            print(
-                color.BOLD
-                + "\nBusiness Summary:   "
-                + color.END
-                + stock_info["longBusinessSummary"]
-            )
-
-        else:
-            pass
 
         print(
             "\n"
             + color.UNDERLINE
             + " - Would you like to export the generated results for: "
-            + stock_data["stock"]
+            + stock_name
             + " ?"
             + color.END
         )
@@ -268,7 +191,7 @@ def print_tables(finalized_data):
             if imp_dec == "Y":
                 import_file = input(
                     color.GREEN
-                    + "\t\t\t* What is your export file name (ex: 'myfile.json')?: "
+                    + "\t\t\t* What is your import file name (ex: 'myoldfile.json')?: "
                     + color.END
                 )
                 json_handler.append_json(predictions, import_file)
@@ -282,6 +205,128 @@ def print_tables(finalized_data):
                 json_handler.export_json(predictions, export_file)
         else:
             pass
+
+
+def print_tables(
+    predictions,
+    swing_predictions,
+    next_day_predictions,
+    model_scores,
+    models,
+    stock_info,
+    stock_name,
+):
+    """Prints out tables of generated results."""
+
+    print(
+        "\n"
+        + color.UNDERLINE
+        + " - Would you like to print out the overall results for: "
+        + stock_name
+        + " ?"
+        + color.END
+    )
+    print_res = input(color.GREEN + "\t* Y or N?: " + color.END).upper()
+    if print_res == "Y":
+        table = PrettyTable()
+        table.field_names = [
+            "Price Swing Prediction",
+            "KNR & SVR Avg Price Prediction",
+            "Multi-Fold Avg Price Prediction",
+            "Current Price (or Closing if AH)",
+        ]  # define field names for table
+
+        table.add_row(
+            [
+                predictions["price_swing_prediction"],
+                predictions["svr_knr_price_avg"],
+                predictions["multi_fold_price_avg"],
+                predictions["prev_close"],
+            ]
+        )  # add data to table
+
+        print(table)  # print prettytable of scored stock info
+    else:
+        pass
+    ################################
+    print(
+        "\n"
+        + color.UNDERLINE
+        + " - Would you like to print out the model prediction results for: "
+        + stock_name
+        + " ?"
+        + color.END
+    )
+    print_res = input(color.GREEN + "\t* Y or N?: " + color.END).upper()
+    if print_res == "Y":
+        table2 = PrettyTable()
+        table2.field_names = [
+            "ML Model",
+            "Swing Prediction",
+            "Price Prediction",
+            "Model Score",
+        ]  # define field names for table
+
+        for model in models:
+            table2.add_row(
+                [
+                    model,
+                    swing_predictions[model],
+                    next_day_predictions[model],
+                    model_scores[model],
+                ]
+            )  # add data to table
+
+        print(table2)  # print prettytable of scored stock info
+    else:
+        pass
+    ################################
+    print(
+        "\n"
+        + color.UNDERLINE
+        + " - Would you like to print out the stock information for: "
+        + stock_name
+        + " ?"
+        + color.END
+    )
+    print_res = input(color.GREEN + "\t* Y or N?: " + color.END).upper()
+
+    if print_res == "Y":
+        table3 = PrettyTable()
+        variables = [
+            "longName",
+            "symbol",
+            "sector",
+            "industry",
+            "fullTimeEmployees",
+            "open",
+            "regularMarketPreviousClose",
+            "fiftyDayAverage",
+            "twoHundredDayAverage",
+            "dayLow",
+            "dayHigh",
+            "fiftyTwoWeekLow",
+            "fiftyTwoWeekHigh",
+            "volume",
+            "averageVolume",
+            "averageVolume10days",
+        ]  # define field names for table
+
+        table3.field_names = ["Variable", "Information"]
+
+        for variable in variables:
+            table3.add_row([variable, stock_info[variable]])
+
+        print(table3)
+        print(
+            color.BOLD
+            + "\nBusiness Summary:   "
+            + color.END
+            + stock_info["longBusinessSummary"]
+        )
+
+    else:
+        pass
 
 
 def get_scraping_time_period():
@@ -345,23 +390,3 @@ def get_scraping_time_period():
             return "3mo"
     else:
         return "3mo"  # recommended time period
-
-
-def run_cml():
-    """Runs the CML UI."""
-
-    cml_startup_message()  # print the start-up message for the CML
-
-    stocks = get_user_stocks()  # get the user's input of stock ticker symbols
-
-    print()  # spacing purposes
-
-    period = get_scraping_time_period()
-
-    scraped_data = scraper.perform_scraping(
-        stocks, period
-    )  # scrape data for given stocks with the given historical time period
-
-    finalized_data = prediction.run_predictor(scraped_data, period)
-
-    print_tables(finalized_data)  # prints out tables of finalized data & predictions

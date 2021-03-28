@@ -288,7 +288,7 @@ def get_scraping_time_period():
     """Gets the user's decision for how many months worth of historical price data to scrape."""
 
     print(
-        "\n\n\n"
+        "\n"
         + color.BOLD
         + color.UNDERLINE
         + "Enter Y to scrape custom date ranges of data or enter N to use the recommend value:"

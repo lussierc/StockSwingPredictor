@@ -11,18 +11,6 @@ def reset_df_index(df):
     return df
 
 
-def clean_historical_data(historical_data):
-    """Prepares dates and prices for stock price prediction."""
-
-    dates = historical_data["Date"].to_numpy()
-    prices = historical_data["Close"].to_numpy()
-
-    dates = np.reshape(dates, (len(dates), 1))  # convert dates to a 1-d vector
-    prices = np.reshape(prices, (len(prices), 1))  # convert dates to a 1-d vector
-
-    return dates, prices
-
-
 def clean_scraped_prediction_data(df):
     """Cleans a historical or current stock price df."""
 

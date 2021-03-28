@@ -228,7 +228,8 @@ def plot_predictions(
     fig.add_trace(go.Scatter(x=plot_dates, y=knr.predict(dates)))
 
     make_title = "ML Predictions " + stock_name + " for " + str(date.today()) + " (Data Period: " + period + ")"
-    fig.update_layout(title=make_title)
+    fig.update_layout(title=make_title, xaxis_title="Price",
+    yaxis_title="Days")
 
     fig.show()
 

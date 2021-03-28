@@ -1,19 +1,15 @@
 """Creates a model and performs a stock price swing prediction using ML methods."""
 
-import matplotlib.dates as mdates
 import data_cleaner
+from datetime import date
 import numpy as np
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
 from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeRegressor
 from sklearn.linear_model import ElasticNet
 from sklearn.linear_model import Lasso
 from sklearn.neighbors import KNeighborsRegressor
-from datetime import date
-import plotly.express as px
-import plotly.graph_objects as go
 
 
 def run_predictor(scraped_data, period):
@@ -22,7 +18,8 @@ def run_predictor(scraped_data, period):
     finalized_data = []
 
     for stock_data in scraped_data:
-        print("* Making predictions for ", stock_data["stock"], " ....")
+        print("\n* Making predictions for", stock_data["stock"], "....")
+
         historical_data = stock_data["stock_historical_data"]
 
         df = historical_data[

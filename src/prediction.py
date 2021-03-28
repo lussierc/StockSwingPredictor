@@ -216,8 +216,9 @@ def plot_predictions(
 
     fig = go.Figure()
 
-    fig.add_trace(go.Scatter(x=plot_dates, y=prices, name = "Original Data"))  # display original data
-    
+    fig.add_trace(go.Scatter(x=plot_dates, y=prices, mode='lines+markers', name = "Original Data"))  # display original data
+    # types of traces: markers, lines+markers, lines
+
     fig.add_trace(go.Scatter(x=plot_dates, y=svr_rbf.predict(dates), name = "SVR RBF")) # display SVR RBF historical prediction
     fig.add_trace(go.Scatter(x=plot_dates, y=svr_lin.predict(dates), name = "SVR LIN"))
     fig.add_trace(go.Scatter(x=plot_dates, y=svr_poly.predict(dates), name = "SVR POLY"))
@@ -228,7 +229,7 @@ def plot_predictions(
     fig.add_trace(go.Scatter(x=plot_dates, y=knr.predict(dates), name = "KNR"))
 
     make_title = "ML Predictions " + stock_name + " for " + str(date.today()) + " (Data Period: " + period + ")"
-    fig.update_layout(title=make_title, xaxis_title="Price", yaxis_title="Days", legend_title="Model Legend")
+    fig.update_layout(title=make_title, xaxis_title="Days", yaxis_title="Price ($)", legend_title="Model Legend")
 
     fig.show()
 

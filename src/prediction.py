@@ -13,6 +13,7 @@ from sklearn.linear_model import Lasso
 from sklearn.neighbors import KNeighborsRegressor
 from datetime import date
 import plotly.express as px
+import plotly.graph_objects as go
 
 
 
@@ -215,7 +216,17 @@ def plot_predictions(
     print("DATES", plot_dates)
     print("PRICES", prices)
 
-    fig = px.scatter(x=plot_dates, y=prices)
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=plot_dates, y=prices))
+    fig.add_trace(go.Scatter(x=plot_dates, y=svr_rbf.predict(dates)))
+    fig.add_trace(go.Scatter(x=plot_dates, y=svr_lin.predict(dates)))
+    fig.add_trace(go.Scatter(x=plot_dates, y=svr_poly.predict(dates)))
+
+    fig.add_trace(go.Scatter(x=plot_dates, y=lr.predict(dates)))
+    fig.add_trace(go.Scatter(x=plot_dates, y=en.predict(dates)))
+    fig.add_trace(go.Scatter(x=plot_dates, y=lasso.predict(dates)))
+    fig.add_trace(go.Scatter(x=plot_dates, y=knr.predict(dates)))
+
     fig.show()
 
 

@@ -29,11 +29,25 @@ TOTAL               77     48    38%
 ```
 
 ### Preliminary Prediction Results
-*The results of running different ML models on sample data of the DKNG stock:*
-![SVR Results](resources/ml_results_dkng.png)
+*The results of running different ML models on sample data of the DKNG (DraftKings) stock:*
+![ML DKNG Results](resources/ml_results_dkng.png)
 
+Here were the individual model scores/information for DKNG:
+```
++----------+------------------+-------------------+--------------------+
+| ML Model | Swing Prediction |  Price Prediction |    Model Score     |
++----------+------------------+-------------------+--------------------+
+| svr_lin  |        Up        | 70.91026912266484 | 0.8282189934570493 |
+| svr_poly |        Up        | 74.99255257213815 | 0.737186187229838  |
+| svr_rbf  |       Down       |  59.5363099682784 | 0.8877032988822504 |
+|    lr    |        Up        | 71.14903948633707 | 0.8300943500743356 |
+|    en    |        Up        | 71.07989042948356 | 0.8300661276020815 |
+|  lasso   |        Up        | 71.04755627009975 | 0.8300335630368881 |
+|   knr    |        Up        | 67.51199951171876 | 0.9432651590004487 |
++----------+------------------+-------------------+--------------------+
+```
 
-*The results of running different ML models on sample data of the DKNG stock:*
-![SVR Results](resources/ml_results_msft.png)
+*The results of running different ML models on sample data of the MSFT (Microsoft) stock:*
+![ML MSFT Results](resources/ml_results_msft.png)
 
 After running these models with different stock data sets, the SVR (RBF kernel) and KNR models seems to be by far the most accurate. The predictions made by the LR, EN, and LASSO models seem to be the same. With this, predictions from the SVR-RBF, KNR, LR, and SVR-POLY will be used to generate the program's final price swing prediction.

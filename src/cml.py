@@ -355,14 +355,14 @@ def get_scraping_time_period():
                 + color.END
             )
             print(
-                "\t\t\t1) 5 days\n\t\t\t2) 1 month\n\t\t\t3) 6 months\n\t\t\t4) 1 year\n\t\t\t5) 2 years\n\t\t\t6) 5 years\n\t\t\t7) 10 years\n\t\t\t8) Max\n\t\t\t9) YTD"
+                "\t\t\t1) 5 days\n\t\t\t2) 1 month\n\t\t\t3) 3 months\n\t\t\t4) 6 months\n\t\t\t5) 1 year\n\t\t\t6) 2 years\n\t\t\t7) 5 years\n\t\t\t8) 10 Years\n\t\t\t9) Max\n\t\t\t10) YTD"
             )  # should use a slider for this in the Streamlit UI
             custom_range_choice = int(
                 input(
                     color.GREEN
                     + color.BOLD
                     + color.UNDERLINE
-                    + "Enter the corresponding number for your chosen range:"
+                    + "Enter the corresponding number for your chosen range: "
                     + color.END
                     + color.END
                     + color.END
@@ -386,6 +386,8 @@ def get_scraping_time_period():
             return "10y"
         elif custom_range_choice == 9:
             return "max"
+        elif custom_range_choice == 10:
+            return "ytd"
         else:
             return "3mo"
     else:

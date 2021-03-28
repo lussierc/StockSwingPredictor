@@ -46,6 +46,7 @@ def run_predictor(scraped_data, period):
             model_scores,
             prev_close,
             price_swing_prediction,
+            period,
             date.today(),
             figure,
         )

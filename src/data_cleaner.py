@@ -38,6 +38,8 @@ def organize_prediction_results(
     model_scores,
     prev_close,
     price_swing_prediction,
+    period,
+    date,
     figure,
 ):
     """Store results from stock prediction."""
@@ -50,6 +52,8 @@ def organize_prediction_results(
         "price_swing_prediction": "",
         "svr_knr_price_avg": 0,
         "multi_fold_price_avg": 0,
+        "data_time_period": period,
+        "date": str(date),
         "figure": "",
     }
 

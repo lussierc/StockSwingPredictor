@@ -19,7 +19,9 @@ def clean_scraped_prediction_data(df):
 
     ### POTENTIAL TODO: FIX WAY DATES ARE CLEANED SO ACTUAL DATE INSTEAD OF INTEGER REP OF DATE IS USED
 
-    dates_to_list = data.index.tolist() # gets the number of dates, not actual date (0, 1, 2, etc.)
+    dates_to_list = (
+        data.index.tolist()
+    )  # gets the number of dates, not actual date (0, 1, 2, etc.)
     dates = np.reshape(
         dates_to_list, (len(dates_to_list), 1)
     )  # convert to 1d dimension

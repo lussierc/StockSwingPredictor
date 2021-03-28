@@ -4,11 +4,12 @@ import json
 
 
 def append_json(prediction_results, import_file):
-    """Imports a previously exported JSON file."""
+    """Imports and appends new results to a previously exported JSON file."""
+
     try:
         file_data = json.load(open(import_file))
-        # convert data to list if not
-        if type(file_data) is dict:
+
+        if type(file_data) is dict:  # convert imported data to list if not
             file_data = [file_data]
 
         prediction_results.pop(
@@ -20,12 +21,12 @@ def append_json(prediction_results, import_file):
         with open(import_file, "w") as outfile:
             json.dump(file_data, outfile)
     except:
-        # if no file is found, create and export a new one
+        # if no file is found, create and export a new one:
         export_json(prediction_results, import_file)
 
 
 def export_json(prediction_results, export_file):
-    """Exports a JSON file of tool prediction results."""
+    """Exports to a new JSON file of generated tool prediction results."""
 
     prediction_results.pop(
         "figure", None

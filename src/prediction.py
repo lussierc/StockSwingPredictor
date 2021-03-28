@@ -229,9 +229,11 @@ def plot_predictions(
     fig.add_trace(go.Scatter(x=plot_dates, y=knr.predict(dates), name = "KNR"))
 
     # plot new predictions:
-    test = []
-    test.append(svr_rbf.predict(next_date)[0])
-    fig.add_trace(go.Scatter(x=next_date[0], y=test, mode='markers', name = "SVR-RBF Prediction"))  # display original data
+    fig.add_trace(go.Scatter(x=next_date[0], y=svr_rbf.predict(next_date), mode='markers', name = "SVR-RBF Prediction"))
+    fig.add_trace(go.Scatter(x=next_date[0], y=knr.predict(next_date), mode='markers', name = "KNR Prediction"))
+    fig.add_trace(go.Scatter(x=next_date[0], y=en.predict(next_date), mode='markers', name = "EN Prediction"))
+    fig.add_trace(go.Scatter(x=next_date[0], y=lr.predict(next_date), mode='markers', name = "LR Prediction"))
+
 
     make_title = "ML Predictions " + stock_name + " for " + str(date.today()) + " (Data Period: " + period + ")"
     fig.update_layout(title=make_title, xaxis_title="Days", yaxis_title="Price ($)", legend_title="Model Legend")

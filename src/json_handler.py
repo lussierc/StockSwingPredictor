@@ -7,12 +7,10 @@ def import_json():
     # TODO
 
 
-def export_json(prediction_results):
+def export_json(prediction_results, export_file):
     """Exports a JSON file of tool prediction results."""
-    
-    export_file = input("What file name do you want to export to?")
 
-    prediction_results.pop('figure', None)
+    prediction_results.pop('figure', None) # remove the figure from the results to be exported
 
     with open(export_file, "w") as outfile:
         json.dump(prediction_results, outfile)

@@ -245,7 +245,22 @@ def print_tables(finalized_data):
 
         else:
             pass
-        json_handler.export_json(predictions)
+
+        print(
+            "\n"
+            + color.UNDERLINE
+            + " - Would you like to export the generated results for: "
+            + stock_data["stock"]
+            + " ?"
+            + color.END
+        )
+        exp_dec = input(color.GREEN + "\t* Y or N?: " + color.END).upper()
+
+        if exp_dec == "Y":
+            export_file = input(color.GREEN + "\t\t* What is your export file name (ex: 'myfile.json')?: " + color.END)
+            json_handler.export_json(predictions, export_file)
+        else:
+            pass
 
 
 def get_scraping_time_period():

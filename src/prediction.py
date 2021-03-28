@@ -343,8 +343,6 @@ def plot_predictions(
         legend_title="Model Legend",
     )
 
-    fig.show()
-
     return fig
 
 

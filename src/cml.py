@@ -117,11 +117,26 @@ def print_tables(finalized_data):
         predictions = stock_data["prediction_results"]
         swing_predictions = predictions["swing_predictions"]
         next_day_predictions = predictions["next_day_predictions"]
+        figure = predictions["figure"]
         model_scores = predictions["model_scores"]
         models = ["svr_lin", "svr_poly", "svr_rbf", "lr", "en", "lasso", "knr"]
 
         print(
             color.UNDERLINE
+            + " - Would you like to view the Plotly figure of model predictions for: "
+            + stock_data["stock"]
+            + " ?"
+            + color.END
+        )
+        print_res = input(color.GREEN + "\t* Y or N?: " + color.END).upper()
+        if print_res == "Y":
+            figure.show()
+        else:
+            pass
+
+        print(
+            "\n"
+            + color.UNDERLINE
             + " - Would you like to print out the overall results for: "
             + stock_data["stock"]
             + " ?"

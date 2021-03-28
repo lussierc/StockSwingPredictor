@@ -216,23 +216,23 @@ def plot_predictions(
 
     fig = go.Figure()
 
-    fig.add_trace(go.Scatter(x=plot_dates, y=prices, mode='lines+markers', name = "Original Data"))  # display original data
+    fig.add_trace(go.Scatter(x=plot_dates, y=prices, mode='lines+markers', name = "Original Data", marker_color='rgba(0, 0, 0, 1)'))  # display original data
     # types of traces: markers, lines+markers, lines
 
     # plot historical predictions:
-    fig.add_trace(go.Scatter(x=plot_dates, y=svr_rbf.predict(dates), name = "SVR-RBF")) # display SVR RBF historical prediction
-    fig.add_trace(go.Scatter(x=plot_dates, y=svr_lin.predict(dates), name = "SVR-LIN"))
-    fig.add_trace(go.Scatter(x=plot_dates, y=svr_poly.predict(dates), name = "SVR-POLY"))
-    fig.add_trace(go.Scatter(x=plot_dates, y=lr.predict(dates), name = "LR"))
-    fig.add_trace(go.Scatter(x=plot_dates, y=en.predict(dates), name = "EN"))
-    fig.add_trace(go.Scatter(x=plot_dates, y=lasso.predict(dates), name = "LASSO"))
-    fig.add_trace(go.Scatter(x=plot_dates, y=knr.predict(dates), name = "KNR"))
+    fig.add_trace(go.Scatter(x=plot_dates, y=svr_rbf.predict(dates), name = "SVR-RBF", marker_color='rgba(248, 42, 42, 1)')) # display SVR RBF historical prediction
+    fig.add_trace(go.Scatter(x=plot_dates, y=svr_lin.predict(dates), name = "SVR-LIN", marker_color='rgba(42, 248, 248, 1)'))
+    fig.add_trace(go.Scatter(x=plot_dates, y=svr_poly.predict(dates), name = "SVR-POLY", marker_color='rgba(42, 248, 145, 1)'))
+    fig.add_trace(go.Scatter(x=plot_dates, y=lr.predict(dates), name = "LR", marker_color='rgba(230, 145, 59, 1)'))
+    fig.add_trace(go.Scatter(x=plot_dates, y=en.predict(dates), name = "EN", marker_color='rgba(145, 59, 230, 1)'))
+    fig.add_trace(go.Scatter(x=plot_dates, y=lasso.predict(dates), name = "LASSO", marker_color='rgba(230, 59, 230, 1)'))
+    fig.add_trace(go.Scatter(x=plot_dates, y=knr.predict(dates), name = "KNR", marker_color='rgba(244, 212, 0, 1)'))
 
     # plot new predictions:
-    fig.add_trace(go.Scatter(x=next_date[0], y=svr_rbf.predict(next_date), mode='markers', name = "SVR-RBF Prediction"))
-    fig.add_trace(go.Scatter(x=next_date[0], y=knr.predict(next_date), mode='markers', name = "KNR Prediction"))
-    fig.add_trace(go.Scatter(x=next_date[0], y=en.predict(next_date), mode='markers', name = "EN Prediction"))
-    fig.add_trace(go.Scatter(x=next_date[0], y=lr.predict(next_date), mode='markers', name = "LR Prediction"))
+    fig.add_trace(go.Scatter(x=next_date[0], y=svr_rbf.predict(next_date), mode='markers', name = "SVR-RBF Prediction", marker_color='rgba(248, 42, 42, 1)'))
+    fig.add_trace(go.Scatter(x=next_date[0], y=knr.predict(next_date), mode='markers', name = "KNR Prediction", marker_color='rgba(244, 212, 0, 1)'))
+    fig.add_trace(go.Scatter(x=next_date[0], y=en.predict(next_date), mode='markers', name = "EN Prediction", marker_color='rgba(145, 59, 230, 1)'))
+    fig.add_trace(go.Scatter(x=next_date[0], y=lr.predict(next_date), mode='markers', name = "LR Prediction", marker_color='rgba(230, 145, 59, 1)'))
 
 
     make_title = "ML Predictions " + stock_name + " for " + str(date.today()) + " (Data Period: " + period + ")"

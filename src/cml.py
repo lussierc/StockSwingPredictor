@@ -266,11 +266,19 @@ def print_tables(finalized_data):
             imp_dec = input(color.GREEN + "\t\t* Y or N?: " + color.END).upper()
 
             if imp_dec == "Y":
-                import_file = input(color.GREEN + "\t\t\t* What is your export file name (ex: 'myfile.json')?: " + color.END)
+                import_file = input(
+                    color.GREEN
+                    + "\t\t\t* What is your export file name (ex: 'myfile.json')?: "
+                    + color.END
+                )
                 json_handler.append_json(predictions, import_file)
 
             else:
-                export_file = input(color.GREEN + "\t\t\t* What is your export file name (ex: 'myfile.json')?: " + color.END)
+                export_file = input(
+                    color.GREEN
+                    + "\t\t\t* What is your export file name (ex: 'myfile.json')?: "
+                    + color.END
+                )
                 json_handler.export_json(predictions, export_file)
         else:
             pass

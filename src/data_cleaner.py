@@ -38,6 +38,7 @@ def organize_prediction_results(
     model_scores,
     prev_close,
     price_swing_prediction,
+    figure,
 ):
     """Store results from stock prediction."""
 
@@ -49,6 +50,7 @@ def organize_prediction_results(
         "price_swing_prediction": "",
         "svr_knr_price_avg": 0,
         "multi_fold_price_avg": 0,
+        "figure": "",
     }
 
     prediction_results["swing_predictions"] = swing_predictions
@@ -67,5 +69,7 @@ def organize_prediction_results(
         + next_day_predictions["en"]
         + next_day_predictions["lr"]
     ) / 4  # calc & save avg price prediction for 4 main prediction models
+
+    prediction_results["figure"] = figure
 
     return prediction_results

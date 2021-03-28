@@ -39,6 +39,7 @@ def run_predictor(scraped_data, period):
             model_scores,
             prev_close,
             price_swing_prediction,
+            figure,
         ) = ml_predictions(dates, prices, [next_date], stock_data["stock"], period)
 
         stock_data["prediction_results"] = data_cleaner.organize_prediction_results(
@@ -48,6 +49,7 @@ def run_predictor(scraped_data, period):
             model_scores,
             prev_close,
             price_swing_prediction,
+            figure,
         )
 
         finalized_data.append(stock_data)  # store prediction results
@@ -78,7 +80,7 @@ def ml_predictions(dates, prices, next_date, stock_name, period):
         dates, prices, svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr
     )
 
-    plot_predictions(
+    figure = plot_predictions(
         dates,
         prices,
         svr_rbf,
@@ -113,6 +115,7 @@ def ml_predictions(dates, prices, next_date, stock_name, period):
         model_scores,
         prev_close,
         price_swing_prediction,
+        figure,
     )
 
 
@@ -341,6 +344,8 @@ def plot_predictions(
     )
 
     fig.show()
+
+    return fig
 
 
 def predict_indiv_model_swing(prediction, prev_close):

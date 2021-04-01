@@ -401,11 +401,11 @@ def predict_price_swing(next_day_predictions):
         elif up_score >= 5:
             return "Up (1)"  # up with a confidence of 2
     elif down_score >= up_score:
-        if up_score == 10:
+        if down_score == 10:
             return "Down (3)"
-        elif up_score >= 8:
+        elif down_score >= 8:
             return "Down (2)"
-        elif up_score >= 5:
+        elif down_score >= 5:
             return "Down (1)"
     else:
         return "None"

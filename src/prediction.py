@@ -1,6 +1,7 @@
 """Creates a model and performs a stock price swing prediction using ML methods."""
 
-import data_cleaner
+from src import data_cleaner
+
 from datetime import date
 import numpy as np
 import plotly.graph_objects as go

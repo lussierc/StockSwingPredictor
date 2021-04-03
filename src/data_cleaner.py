@@ -24,7 +24,6 @@ def clean_scraped_prediction_data(df):
 
 
 def organize_prediction_results(
-    stock_data,
     next_day_predictions,
     swing_predictions,
     model_scores,

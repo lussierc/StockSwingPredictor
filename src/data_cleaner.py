@@ -3,19 +3,11 @@
 import numpy as np
 import pandas as pd
 
-
-def reset_df_index(df):
-    """Cleans data by fixing date column of scraped data."""
-
-    df = df.reset_index()  # resets the df index so dates are a column
-    return df
-
-
 def clean_scraped_prediction_data(df):
     """Cleans a historical or current stock price df."""
 
     data = df.copy()
-    data = reset_df_index(data)
+    data = df.reset_index()
 
     ### POTENTIAL TODO: FIX WAY DATES ARE CLEANED SO ACTUAL DATE INSTEAD OF INTEGER REP OF DATE IS USED
 

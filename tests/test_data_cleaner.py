@@ -82,3 +82,6 @@ def test_organize_prediction_results(
     )
 
     assert prediction_results is not None
+    assert prediction_results["next_day_predictions"] == next_day_predictions
+    assert prediction_results["swing_predictions"] == swing_predictions
+    assert prediction_results["date"] == "2021-04-03"

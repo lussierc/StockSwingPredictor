@@ -1,6 +1,6 @@
 """Will house the Command Line Interface (CML) for the tool."""
 
-from src import prediction, scraper, data_cleaner, json_handler
+import prediction, scraper, data_cleaner, json_handler
 from prettytable import PrettyTable
 
 

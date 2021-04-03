@@ -1,6 +1,6 @@
 """The StockSwingPredictor (SSP) tool."""
 
-from src import cml
+import cml
 
 
 def main():

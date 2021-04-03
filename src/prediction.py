@@ -1,6 +1,6 @@
 """Creates a model and performs a stock price swing prediction using ML methods."""
 
-from src import data_cleaner
+import data_cleaner
 
 from datetime import date
 import numpy as np

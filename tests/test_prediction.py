@@ -10,17 +10,22 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import ElasticNet
 from sklearn.linear_model import Lasso
 from sklearn.neighbors import KNeighborsRegressor
+from datetime import date
+import pandas as pd
 
-# @pytest.mark.parametrize(
-#     "example_letters, expected_asciis",
-#     [(["a", "A", "C", "z"], [65, 65, 67, 90])],
-# )
+@pytest.mark.parametrize(
+    "scraped_data, period",
+    [([{'stock': 'AAPL', 'stock_info': {'zip': '95014', 'sector': 'Technology', 'fullTimeEmployees': 147000, 'longBusinessSummary': 'Apple Inc. designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories worldwide. It also sells various related services. The company offers iPhone, a line of smartphones; Mac, a line of personal computers; iPad, a line of multi-purpose tablets; and wearables, home, and accessories comprising AirPods, Apple TV, Apple Watch, Beats products, HomePod, iPod touch, and other Apple-branded and third-party accessories. It also provides AppleCare support services; cloud services store services; and operates various platforms, including the App Store, that allow customers to discover and download applications and digital content, such as books, music, video, games, and podcasts. In addition, the company offers various services, such as Apple Arcade, a game subscription service; Apple Music, which offers users a curated listening experience with on-demand radio stations; Apple News+, a subscription news and magazine service; Apple TV+, which offers exclusive original content; Apple Card, a co-branded credit card; and Apple Pay, a cashless payment service, as well as licenses its intellectual property. The company serves consumers, and small and mid-sized businesses; and the education, enterprise, and government markets. It sells and delivers third-party applications for its products through the App Store. The company also sells its products through its retail and online stores, and direct sales force; and third-party cellular network carriers, wholesalers, retailers, and resellers. Apple Inc. was founded in 1977 and is headquartered in Cupertino, California.', 'city': 'Cupertino', 'phone': '408-996-1010', 'state': 'CA', 'country': 'United States', 'companyOfficers': [], 'website': 'http://www.apple.com', 'maxAge': 1, 'address1': 'One Apple Park Way', 'industry': 'Consumer Electronics', 'previousClose': 122.15, 'regularMarketOpen': 123.66, 'twoHundredDayAverage': 123.17168, 'trailingAnnualDividendYield': 0.006606631, 'payoutRatio': 0.2177, 'volume24Hr': None, 'regularMarketDayHigh': 124.18, 'navPrice': None, 'averageDailyVolume10Day': 92095983, 'totalAssets': None, 'regularMarketPreviousClose': 122.15, 'fiftyDayAverage': 123.306366, 'trailingAnnualDividendRate': 0.807, 'open': 123.66, 'toCurrency': None, 'averageVolume10days': 92095983, 'expireDate': None, 'yield': None, 'algorithm': None, 'dividendRate': 0.82, 'exDividendDate': 1612483200, 'beta': 1.251354, 'circulatingSupply': None, 'startDate': None, 'regularMarketDayLow': 122.49, 'priceHint': 2, 'currency': 'USD', 'trailingPE': 33.360455, 'regularMarketVolume': 75089134, 'lastMarket': None, 'maxSupply': None, 'openInterest': None, 'marketCap': 2064936337408, 'volumeAllCurrencies': None, 'strikePrice': None, 'averageVolume': 109579404, 'priceToSalesTrailing12Months': 7.020369, 'dayLow': 122.49, 'ask': 123.05, 'ytdReturn': None, 'askSize': 1400, 'volume': 75089134, 'fiftyTwoWeekHigh': 145.09, 'forwardPE': 26.170214, 'fromCurrency': None, 'fiveYearAvgDividendYield': 1.39, 'fiftyTwoWeekLow': 62.345, 'bid': 123, 'tradeable': False, 'dividendYield': 0.0067000003, 'bidSize': 2900, 'dayHigh': 124.18, 'exchange': 'NMS', 'shortName': 'Apple Inc.', 'longName': 'Apple Inc.', 'exchangeTimezoneName': 'America/New_York', 'exchangeTimezoneShortName': 'EDT', 'isEsgPopulated': False, 'gmtOffSetMilliseconds': '-14400000', 'quoteType': 'EQUITY', 'symbol': 'AAPL', 'messageBoardId': 'finmb_24937', 'market': 'us_market', 'annualHoldingsTurnover': None, 'enterpriseToRevenue': 7.14, 'beta3Year': None, 'profitMargins': 0.21735, 'enterpriseToEbitda': 24.662, '52WeekChange': 0.8744999, 'morningStarRiskRating': None, 'forwardEps': 4.7, 'revenueQuarterlyGrowth': None, 'sharesOutstanding': 16788100096, 'fundInceptionDate': None, 'annualReportExpenseRatio': None, 'bookValue': 3.936, 'sharesShort': 107011007, 'sharesPercentSharesOut': 0.0064, 'fundFamily': None, 'lastFiscalYearEnd': 1601078400, 'heldPercentInstitutions': 0.59769, 'netIncomeToCommon': 63929999360, 'trailingEps': 3.687, 'lastDividendValue': 0.205, 'SandP52WeekChange': 0.50914145, 'priceToBook': 31.25, 'heldPercentInsiders': 0.00075999997, 'nextFiscalYearEnd': 1664150400, 'mostRecentQuarter': 1608940800, 'shortRatio': 0.89, 'sharesShortPreviousMonthDate': 1613088000, 'floatShares': 16770804261, 'enterpriseValue': 2100152762368, 'threeYearAverageReturn': None, 'lastSplitDate': 1598832000, 'lastSplitFactor': '4:1', 'legalType': None, 'lastDividendDate': 1612483200, 'morningStarOverallRating': None, 'earningsQuarterlyGrowth': 0.293, 'dateShortInterest': 1615766400, 'pegRatio': 1.84, 'lastCapGain': None, 'shortPercentOfFloat': 0.0064, 'sharesShortPriorMonth': 88329668, 'impliedSharesOutstanding': None, 'category': None, 'fiveYearAverageReturn': None, 'regularMarketPrice': 123.66, 'logo_url': 'https://logo.clearbit.com/apple.com'}, 'stock_current_data': '', 'stock_historical_data': ''}], '3mo')],
+)
+def test_run_predictor(scraped_data, period):
+    """Tests to see if all predictions are properly completed."""
 
+    scraped_data[0]['stock_current_data'] = pd.read_csv("tests/testing_input_files/current_data.csv")
+    scraped_data[0]['stock_historical_data'] = pd.read_csv("tests/testing_input_files/hist_data.csv")
 
-# def test_run_predictor():
-#     """Tests to see if all predictions are properly completed."""
-#
-#     stock_data =
+    finalized_data = prediction.run_predictor(scraped_data, period)
+
+    assert finalized_data is not None
 
 @pytest.mark.parametrize(
     "dates, prices, next_date, stock_name, period",
@@ -86,7 +91,12 @@ def test_testscore_ml_models(dates, prices, svr_lin, svr_poly, svr_rbf, lr, en, 
     for key in model_scores.keys():
         assert model_scores[key] is not 0.0 # ensure dictionary keys are still not set at the defailt value
 
+# @pytest.mark.parametrize(
+#     "svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr",
+#     [(SVR(kernel="linear", C=1e3), SVR(kernel="poly", C=1e3, degree=2), SVR(kernel="rbf", C=1e3, degree=3, gamma="scale"), LinearRegression(), ElasticNet(), Lasso(), KNeighborsRegressor(), [23])],
+# )
 # def test_make_new_predictions():
+
 # def test_plot_predictions():
 # def test_predict_indiv_model_swing():
 # def test_predict_price_swing():

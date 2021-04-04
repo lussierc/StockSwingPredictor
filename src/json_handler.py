@@ -20,6 +20,8 @@ def append_json(prediction_results, import_file):
 
         with open(import_file, "w") as outfile:
             json.dump(file_data, outfile)
+
+        return file_data
     except:
         # if no file is found, create and export a new one:
         export_json(prediction_results, import_file)

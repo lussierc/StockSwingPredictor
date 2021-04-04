@@ -128,3 +128,24 @@ def test_append_to_json():
 
     os.remove(import_file)  # remove the testing file
     assert path.exists(import_file) == False  # ensure the testing file was deleted
+
+def test_invalid_append_to_json():
+    """Tests to ensure the JSON handler properly exports data when given an invalid file to append to."""
+
+    new_data = {"swing_predictions": {"svr_lin": "Down", "svr_poly": "Down", "svr_rbf": "Down", "lr": "Down", "en": "Down", "lasso": "Down", "knr": "Down"}, "next_day_predictions": {"svr_lin": 81.29365971339124, "svr_poly": 75.1724407353818, "svr_rbf": 84.98463697179643, "lr": 82.79975139067199, "en": 82.86984606287685, "lasso": 82.8981120464097, "knr": 81.04799957275391}, "prev_close": 87.19999694824219, "model_scores": {"svr_lin": 0.4346009021756988, "svr_poly": 0.5815362662392083, "svr_rbf": 0.9193377500395015, "lr": 0.44304977628209663, "en": 0.4430377712702701, "lasso": 0.44302613693895787, "knr": 0.9631225023294964}, "price_swing_prediction": "Down (3)", "svr_knr_price_avg": 83.01631827227517, "multi_fold_price_avg": 82.9255584995248, "data_time_period": "3mo", "date": "2021-04-03"}
+
+    append_file = 'tests/testing_input_files/test_false_append.json'
+    assert (
+        path.exists("tests/testing_input_files/test_false_append.json") == False
+    )  # ensure the file exists
+
+    json_handler.append_json(
+        new_data, append_file
+    )  # run append_json() function to append new data to test file
+
+    assert (
+        path.exists("tests/testing_input_files/test_false_append.json") == True
+    )  # ensure the file exists
+
+    # os.remove(append_file)  # remove the testing file
+    # assert path.exists(append_file) == False  # ensure the testing file was deleted

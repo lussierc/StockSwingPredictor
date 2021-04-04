@@ -352,10 +352,8 @@ def predict_indiv_model_swing(prediction, prev_close):
         price_swing = "Up"
     elif prediction < prev_close:
         price_swing = "Down"
-    elif prediction == prev_close:
-        price_swing = "No Movement"
     else:
-        price_swing = "Error"
+        price_swing = "No Movement"
 
     return price_swing
 
@@ -393,14 +391,14 @@ def predict_price_swing(next_day_predictions):
         down_score += 2
 
     # make final stock price swing prediction:
-    if up_score >= down_score:
+    if up_score > down_score:
         if up_score == 10:
             return "Up (3)"  # up with a confidence of 3, out of 1-3, the highest confidence given for a perfect score
         elif up_score >= 8:
             return "Up (2)"  # up with a confidence of 2
         elif up_score >= 5:
             return "Up (1)"  # up with a confidence of 2
-    elif down_score >= up_score:
+    elif down_score > up_score:
         if down_score == 10:
             return "Down (3)"
         elif down_score >= 8:

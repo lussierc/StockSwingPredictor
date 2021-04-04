@@ -3,7 +3,7 @@
 import pytest
 import pandas as pd
 
-from src import data_cleaner, scraper
+import data_cleaner, scraper
 
 
 def test_clean_scraped_prediction_data():

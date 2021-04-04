@@ -5,7 +5,7 @@ import os.path
 from os import path
 from shutil import copyfile
 
-from src import json_handler
+import json_handler
 
 
 def test_import_json():

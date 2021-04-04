@@ -1,7 +1,7 @@
 """Tests the functions of the scraper that gathers price data from Yahoo! Finance."""
 
 import pytest
-from src import scraper
+import scraper
 
 
 def test_basic_scrape_stock_info():

@@ -20,6 +20,13 @@ def clean_scraped_prediction_data(df):
 
     prices = data["Close"].tolist()
 
+    print("-------------------")
+    for date in dates:
+        print(date)
+    print("-------------------")
+    print(prices)
+    print("-------------------")
+
     return dates, prices
 
 

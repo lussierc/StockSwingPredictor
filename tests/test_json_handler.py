@@ -1,4 +1,4 @@
-"""Will test the functions of the JSON file handler."""
+"""Tests the functions of the JSON file handler."""
 
 import pytest
 import os.path

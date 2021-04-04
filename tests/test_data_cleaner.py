@@ -1,4 +1,4 @@
-"""Will test the functions of the data cleaner."""
+"""Tests the functions of the data cleaner."""
 
 import pytest
 import pandas as pd

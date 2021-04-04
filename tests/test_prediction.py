@@ -99,8 +99,19 @@ def test_testscore_ml_models(dates, prices, svr_lin, svr_poly, svr_rbf, lr, en, 
 
 # def test_plot_predictions(): NOPE
 
-# def test_predict_indiv_model_swing():
+@pytest.mark.parametrize(
+    "pred1, prev_close1, pred2, prev_close2, pred3, prev_close3",
+    [(11, 10, 9, 10, 10, 10)],
+)
+def test_predict_indiv_model_swing(pred1, prev_close1, pred2, prev_close2, pred3, prev_close3):
+    """Ensures that model price swing predictions are made correctly."""
+    price_swing1 = prediction.predict_indiv_model_swing(pred1, prev_close1)
+    price_swing2 = prediction.predict_indiv_model_swing(pred2, prev_close2)
+    price_swing3 = prediction.predict_indiv_model_swing(pred3, prev_close3)
 
+    assert price_swing1 == "Up"
+    assert price_swing2 == "Down"
+    assert price_swing3 == "No Movement"
 
 @pytest.mark.parametrize(
     "test1, test2, test3, test4, test5, test6, test7",

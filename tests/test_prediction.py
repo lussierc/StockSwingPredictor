@@ -97,6 +97,30 @@ def test_testscore_ml_models(dates, prices, svr_lin, svr_poly, svr_rbf, lr, en, 
 # )
 # def test_make_new_predictions():
 
-# def test_plot_predictions():
+# def test_plot_predictions(): NOPE
+
 # def test_predict_indiv_model_swing():
-# def test_predict_price_swing():
+
+
+@pytest.mark.parametrize(
+    "test1, test2, test3, test4, test5, test6, test7",
+    [({'svr_lin': 'Up', 'svr_poly': 'Up', 'svr_rbf': 'Down', 'lr': 'Up', 'en': 'Up', 'lasso': 'Up', 'knr': 'Down'}, {'svr_lin': 'Up', 'svr_poly': 'Up', 'svr_rbf': 'Down', 'lr': 'Down', 'en': 'Up', 'lasso': 'Up', 'knr': 'Down'}, {'svr_lin': 'Up', 'svr_poly': 'Up', 'svr_rbf': 'Down', 'lr': 'Down', 'en': 'Down', 'lasso': 'Up', 'knr': 'Down'}, {'svr_lin': 'Up', 'svr_poly': 'Up', 'svr_rbf': 'Down', 'lr': 'Up', 'en': 'Up', 'lasso': 'Up', 'knr': 'Up'}, {'svr_lin': 'Up', 'svr_poly': 'Up', 'svr_rbf': 'Up', 'lr': 'Down', 'en': 'Up', 'lasso': 'Up', 'knr': 'Up'}, {'svr_lin': 'Up', 'svr_poly': 'Up', 'svr_rbf': 'Up', 'lr': 'Up', 'en': 'Up', 'lasso': 'Up', 'knr': 'Up'}, {'svr_lin': 'Up', 'svr_poly': 'Up', 'svr_rbf': 'Down', 'lr': 'Down', 'en': 'Up', 'lasso': 'Up', 'knr': 'Up'})],
+)
+def test_predict_price_swing(test1, test2, test3, test4, test5, test6, test7):
+
+    swing = prediction.predict_price_swing(test1)
+    swing2 = prediction.predict_price_swing(test2)
+    swing3 = prediction.predict_price_swing(test3)
+    swing4 = prediction.predict_price_swing(test4)
+    swing5 = prediction.predict_price_swing(test5)
+    swing6 = prediction.predict_price_swing(test6)
+    swing7 = prediction.predict_price_swing(test7)
+
+
+    assert swing == 'Down (1)'
+    assert swing2 == 'Down (2)'
+    assert swing3 == 'Down (3)'
+    assert swing4 == 'Up (1)'
+    assert swing5 == 'Up (2)'
+    assert swing6 == 'Up (3)'
+    assert swing7 == 'None'

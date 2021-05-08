@@ -19,6 +19,7 @@ except ModuleNotFoundError:
 def main():
     state = _get_state()
     pages = {
+        "Home": page_home,
         "Dashboard": page_dashboard,
         "Settings": page_settings,
     }
@@ -32,6 +33,29 @@ def main():
     # Mandatory to avoid rollbacks with widgets, must be called at the end of your app
     state.sync()
 
+def page_home(state):
+    """Sets up the home page of the web app."""
+
+    st.title(":house: Welcome to Stock Swing Predictor (SSP)")
+
+    image = Image.open("ssp.png")  # load logo
+    st.image(image, use_column_width=True)
+
+    st.markdown("## Tool Overview:")
+    st.markdown(
+        "The Stock Swing Predictor makes future stock price swing predictions for any stock for the next day. Price swings are simply whether or not a price goes up or down, so with this the tool predicts which way a stocks price will move or swing for the upcoming day.\nPredictions are made using seven different models and with the user's choice of dataset size. The models are trained using the stock price data of previous days."
+    )
+
+    st.markdown("## Using the Tool:")
+    st.markdown(
+        "Using the tool is simple once you are in the Web Interface! To run the tool, go to the `Run Settings` page."
+    )
+    st.markdown(
+        "After filling out the data fields for your chosen option, you can than click the button below to run the tool. After this, wait until the tool prompts you to `Go to the Prediction Dashboard to view your data`. Once prompted, you can then go to the Prediction Dashboard page and view your data."
+    )
+    st.markdown(
+        "Within the Dashboard, you can then view information for all the stocks at once, or look at individual stocks and more specific information (pertaining to individual articles)."
+    )
 
 def page_dashboard(state):
     st.title(":chart_with_upwards_trend: Dashboard page")

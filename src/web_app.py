@@ -67,30 +67,32 @@ def page_settings(state):
     display_state_values(state)
 
     st.write("---")
-    options = ["Hello", "World", "Goodbye"]
-    state.input = st.text_input("Set input value.", state.input or "")
-    state.slider = st.slider("Set slider value.", 1, 10, state.slider)
-    state.radio = st.radio("Set radio value.", options, options.index(state.radio) if state.radio else 0)
-    state.checkbox = st.checkbox("Set checkbox value.", state.checkbox)
-    state.selectbox = st.selectbox("Select value.", options, options.index(state.selectbox) if state.selectbox else 0)
-    state.multiselect = st.multiselect("Select value(s).", options, state.multiselect)
+    st.markdown("#### Enter Stock Ticker Symbols:")
+    state.stocks = st.text_input(
+        "Enter Stock Symbols Separated by Commas (EX: AAPL, MSFT):",
+        state.stocks or "",
+    )
 
-    # Dynamic state assignments
-    for i in range(3):
-        key = f"State value {i}"
-        state[key] = st.slider(f"Set value {i}", 1, 10, state[key])
+    state.stocks = state.stocks
+
+
+    st.markdown("#### Choose dataset size to train models with:")
+    options = ["5d", "1mo", "3mo", "6mo", "1y", "5y", "10y", "max"]
+    state.period = st.radio("Choose data length.", options, options.index(state.radio) if state.radio else 0)
+
+    st.markdown("### Export Options")
+    if st.checkbox("Would you like to export results?", state.export_checkbox):
+        state.export_checkbox = True
+        st.markdown("#### Enter New or Existing Export File Name (filename.json):")
+        state.file_name = st.text_input("Enter the export filename.", state.input or "")
+
 
 
 def display_state_values(state):
-    st.write("Input state:", state.input)
-    st.write("Slider state:", state.slider)
-    st.write("Radio state:", state.radio)
-    st.write("Checkbox state:", state.checkbox)
-    st.write("Selectbox state:", state.selectbox)
-    st.write("Multiselect state:", state.multiselect)
-
-    for i in range(3):
-        st.write(f"Value {i}:", state[f"State value {i}"])
+    st.write("Ticker Symbols:", state.stocks)
+    st.write("Time Period:", state.period)
+    st.write("Export Checkbox state:", state.export_checkbox)
+    st.write("Export/Append file name:", state.file_name)
 
     if st.button("Clear state"):
         state.clear()

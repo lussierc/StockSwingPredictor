@@ -6,6 +6,8 @@ import pandas as pd
 from PIL import Image
 from streamlit.hashing import _CodeHasher
 
+import prediction, scraper, data_cleaner, json_handler
+
 try:
     # Before Streamlit 0.65
     from streamlit.ReportThread import get_report_ctx
@@ -74,7 +76,7 @@ def page_settings(state):
     )
 
     state.stocks = state.stocks
-
+    state.stocks_list = state.stocks.split(", ")
 
     st.markdown("#### Choose dataset size to train models with:")
     options = ["5d", "1mo", "3mo", "6mo", "1y", "5y", "10y", "max"]
@@ -86,10 +88,23 @@ def page_settings(state):
         st.markdown("#### Enter New or Existing Export File Name (filename.json):")
         state.file_name = st.text_input("Enter the export filename.", state.input or "")
 
+    if st.button("Run the Tool", state.run):
+        state.run = True
+        st.markdown("### *PLEASE WAIT! Scraping data, training models, and generating prediction results NOW!*")
+        state.scraped_data = scraper.perform_scraping(state.stocks_list, state.period)
+        state.finalized_data = prediction.run_predictor(state.scraped_data, state.period)
+        for data in state.finalized_data:
+            json_handler.append_json(data['prediction_results'], state.file_name)
+    st.write(state.finalized_data)
+    if state.run == True:
+        st.markdown(
+            "## *Go to the dashboard to view your newly scraped data data.*"
+        )
 
 
 def display_state_values(state):
     st.write("Ticker Symbols:", state.stocks)
+    st.write("Tickers List:", state.stocks_list)
     st.write("Time Period:", state.period)
     st.write("Export Checkbox state:", state.export_checkbox)
     st.write("Export/Append file name:", state.file_name)

@@ -38,6 +38,7 @@ def run_predictor(scraped_data, period):
             model_scores,
             prev_close,
             figure,
+            plot_dates,
         ) = ml_predictions(dates, prices, [next_date], stock_data["stock"], period)
 
         stock_data["prediction_results"] = data_cleaner.organize_prediction_results(
@@ -51,6 +52,7 @@ def run_predictor(scraped_data, period):
             figure,
         )
 
+        stock_data["plot_dates"] = plot_dates
         stock_data["prev_predictions"] = prev_predictions
 
         finalized_data.append(stock_data)  # store prediction results
@@ -86,10 +88,10 @@ def ml_predictions(dates, prices, next_date, stock_name, period):
     )
 
     prev_predictions = make_prev_predictions(
-        dates, svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr
+        dates, prices, svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr
     )
 
-    figure = plot_predictions(
+    figure, plot_dates = plot_predictions(
         dates,
         prices,
         next_day_predictions,
@@ -114,6 +116,7 @@ def ml_predictions(dates, prices, next_date, stock_name, period):
         model_scores,
         prev_close,
         figure,
+        plot_dates,
     )
 
 
@@ -193,7 +196,7 @@ def make_new_predictions(svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr, next_da
 
     return price_predictions
 
-def make_prev_predictions(dates, svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr):
+def make_prev_predictions(dates, prices, svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr):
     """Makes predictions on previous days of data, which the models were trained on."""
 
     prev_price_predictions = {
@@ -204,6 +207,7 @@ def make_prev_predictions(dates, svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr)
         "en": list(en.predict(dates)),
         "lasso": list(lasso.predict(dates)),
         "knr": list(knr.predict(dates)),
+        "prices": prices,
     }
 
     return prev_price_predictions
@@ -371,7 +375,7 @@ def plot_predictions(
         legend_title="Model Legend",
     )
 
-    return fig
+    return fig, plot_dates
 
 
 def predict_indiv_model_swing(prediction, prev_close):

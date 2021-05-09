@@ -78,6 +78,12 @@ def page_dashboard(state):
             st.write(df)
             ############################################
 
+            st.write(stock_data['prev_predictions'])
+
+            df2 = pd.DataFrame.from_dict(stock_data['prev_predictions'])
+            my_chart = st.line_chart(df2)
+            st.write(my_chart)
+
 def page_settings(state):
     st.title(":wrench: Settings")
     display_state_values(state)

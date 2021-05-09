@@ -63,6 +63,20 @@ def page_dashboard(state):
     st.title(":chart_with_upwards_trend: Dashboard page")
     display_state_values(state)
 
+    for stock_data in state.finalized_data:
+        st.markdown("## Select Stocks to View Results:")
+        if st.checkbox(stock_data["stock"]):
+            st.write(stock_data)
+
+            ############################################
+            df = pd.DataFrame()
+            df = df.append(pd.DataFrame([stock_data["prediction_results"]["swing_predictions"]]))
+            df = df.append(pd.DataFrame([stock_data["prediction_results"]["model_scores"]]))
+            df = df.append(pd.DataFrame([stock_data["prediction_results"]["next_day_predictions"]]))
+            df.index = ['Swing Predicton', 'Model Score', 'Price Prediction']
+            df = df.transpose()
+            st.write(df)
+            ############################################
 
 def page_settings(state):
     st.title(":wrench: Settings")
@@ -82,25 +96,27 @@ def page_settings(state):
     options = ["5d", "1mo", "3mo", "6mo", "1y", "5y", "10y", "max"]
     state.period = st.radio("Choose data length.", options, options.index(state.radio) if state.radio else 0)
 
-    st.markdown("### Export Options")
-    if st.checkbox("Would you like to export results?", state.export_checkbox):
-        state.export_checkbox = True
-        st.markdown("#### Enter New or Existing Export File Name (filename.json):")
-        state.file_name = st.text_input("Enter the export filename.", state.input or "")
+
 
     if st.button("Run the Tool", state.run):
         state.run = True
         st.markdown("### *PLEASE WAIT! Scraping data, training models, and generating prediction results NOW!*")
         state.scraped_data = scraper.perform_scraping(state.stocks_list, state.period)
         state.finalized_data = prediction.run_predictor(state.scraped_data, state.period)
-        for data in state.finalized_data:
-            json_handler.append_json(data['prediction_results'], state.file_name)
+
     st.write(state.finalized_data)
+
     if state.run == True:
         st.markdown(
             "## *Go to the dashboard to view your newly scraped data data.*"
         )
-
+        st.markdown("### Export Options")
+        if st.checkbox("Would you like to export results?", state.export_checkbox):
+            state.export_checkbox = True
+            st.markdown("#### Enter New or Existing Export File Name (filename.json):")
+            state.file_name = st.text_input("Enter the export filename.", state.input or "")
+            for data in state.finalized_data:
+                json_handler.append_json(data['prediction_results'], state.file_name)
 
 def display_state_values(state):
     st.write("Ticker Symbols:", state.stocks)

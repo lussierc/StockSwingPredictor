@@ -36,7 +36,6 @@ def run_predictor(scraped_data, period):
             swing_predictions,
             model_scores,
             prev_close,
-            price_swing_prediction,
             figure,
         ) = ml_predictions(dates, prices, [next_date], stock_data["stock"], period)
 
@@ -45,7 +44,6 @@ def run_predictor(scraped_data, period):
             swing_predictions,
             model_scores,
             prev_close,
-            price_swing_prediction,
             period,
             date.today(),
             figure,
@@ -106,14 +104,11 @@ def ml_predictions(dates, prices, next_date, stock_name, period):
         )
         model_swing_predictions[price_prediction] = swing_prediction
 
-    price_swing_prediction = predict_price_swing(model_swing_predictions)
-
     return (
         next_day_predictions,
         model_swing_predictions,
         model_scores,
         prev_close,
-        price_swing_prediction,
         figure,
     )
 
@@ -239,6 +234,8 @@ def plot_predictions(
             marker_color="rgba(248, 42, 42, 1)",
         )
     )  # display SVR RBF historical prediction
+
+    print("TEST", svr_rbf.predict(dates))
     fig.add_trace(
         go.Scatter(
             x=plot_dates,
@@ -356,54 +353,3 @@ def predict_indiv_model_swing(prediction, prev_close):
         price_swing = "No Movement"
 
     return price_swing
-
-
-def predict_price_swing(next_day_predictions):
-    """Performs the final price swing prediction for a stock."""
-
-    #   Weights:
-    # svr_rbf 30%
-    # knr 30%
-    # en 20%
-    # lr 20%
-
-    up_score = 0
-    down_score = 0
-
-    if next_day_predictions["svr_rbf"] == "Up":
-        up_score += 3
-    else:
-        down_score += 3
-
-    if next_day_predictions["knr"] == "Up":
-        up_score += 3
-    else:
-        down_score += 3
-
-    if next_day_predictions["en"] == "Up":
-        up_score += 2
-    else:
-        down_score += 2
-
-    if next_day_predictions["lr"] == "Up":
-        up_score += 2
-    else:
-        down_score += 2
-
-    # make final stock price swing prediction:
-    if up_score > down_score:
-        if up_score == 10:
-            return "Up (3)"  # up with a confidence of 3, out of 1-3, the highest confidence given for a perfect score
-        elif up_score >= 8:
-            return "Up (2)"  # up with a confidence of 2
-        elif up_score >= 5:
-            return "Up (1)"  # up with a confidence of 2
-    elif down_score > up_score:
-        if down_score == 10:
-            return "Down (3)"
-        elif down_score >= 8:
-            return "Down (2)"
-        elif down_score >= 5:
-            return "Down (1)"
-    else:
-        return "None"

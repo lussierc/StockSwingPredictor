@@ -33,6 +33,7 @@ def run_predictor(scraped_data, period):
 
         (
             next_day_predictions,
+            prev_predictions,
             swing_predictions,
             model_scores,
             prev_close,
@@ -49,6 +50,8 @@ def run_predictor(scraped_data, period):
             date.today(),
             figure,
         )
+
+        stock_data["prev_predictions"] = prev_predictions
 
         finalized_data.append(stock_data)  # store prediction results
 
@@ -78,23 +81,22 @@ def ml_predictions(dates, prices, next_date, stock_name, period):
         dates, prices, svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr
     )
 
+    next_day_predictions = make_new_predictions(
+        svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr, next_date
+    )
+
+    prev_predictions = make_prev_predictions(
+        dates, svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr
+    )
+
     figure = plot_predictions(
         dates,
         prices,
-        svr_rbf,
-        svr_lin,
-        svr_poly,
-        lr,
-        en,
-        lasso,
-        knr,
+        next_day_predictions,
+        prev_predictions,
         next_date,
         stock_name,
         period,
-    )
-
-    next_day_predictions = make_new_predictions(
-        svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr, next_date
     )
 
     prev_close = prices[-1]
@@ -107,6 +109,7 @@ def ml_predictions(dates, prices, next_date, stock_name, period):
 
     return (
         next_day_predictions,
+        prev_predictions,
         model_swing_predictions,
         model_scores,
         prev_close,
@@ -190,17 +193,26 @@ def make_new_predictions(svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr, next_da
 
     return price_predictions
 
+def make_prev_predictions(dates, svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr):
+    """Makes predictions on previous days of data, which the models were trained on."""
+
+    prev_price_predictions = {
+        "svr_lin": list(svr_lin.predict(dates)),
+        "svr_poly": list(svr_poly.predict(dates)),
+        "svr_rbf": list(svr_rbf.predict(dates)),
+        "lr": list(lr.predict(dates)),
+        "en": list(en.predict(dates)),
+        "lasso": list(lasso.predict(dates)),
+        "knr": list(knr.predict(dates)),
+    }
+
+    return prev_price_predictions
 
 def plot_predictions(
     dates,
     prices,
-    svr_rbf,
-    svr_lin,
-    svr_poly,
-    lr,
-    en,
-    lasso,
-    knr,
+    next_day_predictions,
+    prev_predictions,
     next_date,
     stock_name,
     period,
@@ -230,17 +242,16 @@ def plot_predictions(
     fig.add_trace(
         go.Scatter(
             x=plot_dates,
-            y=svr_rbf.predict(dates),
+            y=prev_predictions["svr_rbf"],
             name="SVR-RBF",
             marker_color="rgba(248, 42, 42, 1)",
         )
     )  # display SVR RBF historical prediction
 
-    print("TEST", svr_rbf.predict(dates))
     fig.add_trace(
         go.Scatter(
             x=plot_dates,
-            y=svr_lin.predict(dates),
+            y=prev_predictions["svr_lin"],
             name="SVR-LIN",
             marker_color="rgba(42, 248, 248, 1)",
         )
@@ -248,7 +259,7 @@ def plot_predictions(
     fig.add_trace(
         go.Scatter(
             x=plot_dates,
-            y=svr_poly.predict(dates),
+            y=prev_predictions["svr_poly"],
             name="SVR-POLY",
             marker_color="rgba(42, 248, 145, 1)",
         )
@@ -256,7 +267,7 @@ def plot_predictions(
     fig.add_trace(
         go.Scatter(
             x=plot_dates,
-            y=lr.predict(dates),
+            y=prev_predictions["lr"],
             name="LR",
             marker_color="rgba(230, 145, 59, 1)",
         )
@@ -264,7 +275,7 @@ def plot_predictions(
     fig.add_trace(
         go.Scatter(
             x=plot_dates,
-            y=en.predict(dates),
+            y=prev_predictions["en"],
             name="EN",
             marker_color="rgba(145, 59, 230, 1)",
         )
@@ -272,7 +283,7 @@ def plot_predictions(
     fig.add_trace(
         go.Scatter(
             x=plot_dates,
-            y=lasso.predict(dates),
+            y=prev_predictions["lasso"],
             name="LASSO",
             marker_color="rgba(230, 59, 230, 1)",
         )
@@ -280,44 +291,64 @@ def plot_predictions(
     fig.add_trace(
         go.Scatter(
             x=plot_dates,
-            y=knr.predict(dates),
+            y=prev_predictions["knr"],
             name="KNR",
             marker_color="rgba(244, 212, 0, 1)",
         )
     )  # display KNR historical prediction
 
+    print("TYPETYPETYPE:", type(next_day_predictions["svr_rbf"]), next_day_predictions["svr_rbf"])
+
     # plot new predictions:
+    temp_plotter_list = []
+    temp_plotter_list.append(next_day_predictions["svr_rbf"])
     fig.add_trace(
         go.Scatter(
             x=next_date[0],
-            y=svr_rbf.predict(next_date),
+            y=temp_plotter_list,
             mode="markers",
             name="SVR-RBF Prediction",
             marker_color="rgba(248, 42, 42, 1)",
         )
     )  # display SVR RBF next day prediction
+    temp_plotter_list = []
+    temp_plotter_list.append(next_day_predictions["svr_poly"])
+    fig.add_trace(
+        go.Scatter(
+            x=plot_dates,
+            y=temp_plotter_list,
+            name="SVR-POLY",
+            marker_color="rgba(42, 248, 145, 1)",
+        )
+    )  # display SVR POLY next day prediction
+    temp_plotter_list = []
+    temp_plotter_list.append(next_day_predictions["knr"])
     fig.add_trace(
         go.Scatter(
             x=next_date[0],
-            y=knr.predict(next_date),
+            y=temp_plotter_list,
             mode="markers",
             name="KNR Prediction",
             marker_color="rgba(244, 212, 0, 1)",
         )
     )  # display KNR next day prediction
+    temp_plotter_list = []
+    temp_plotter_list.append(next_day_predictions["en"])
     fig.add_trace(
         go.Scatter(
             x=next_date[0],
-            y=en.predict(next_date),
+            y=temp_plotter_list,
             mode="markers",
             name="EN Prediction",
             marker_color="rgba(145, 59, 230, 1)",
         )
     )  # display EN next day prediction
+    temp_plotter_list = []
+    temp_plotter_list.append(next_day_predictions["lr"])
     fig.add_trace(
         go.Scatter(
             x=next_date[0],
-            y=lr.predict(next_date),
+            y=temp_plotter_list,
             mode="markers",
             name="LR Prediction",
             marker_color="rgba(230, 145, 59, 1)",

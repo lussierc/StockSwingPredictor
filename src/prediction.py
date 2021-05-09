@@ -40,6 +40,7 @@ def run_predictor(scraped_data, period):
         ) = ml_predictions(dates, prices, [next_date], stock_data["stock"], period)
 
         stock_data["prediction_results"] = data_cleaner.organize_prediction_results(
+            stock_data["stock"],
             next_day_predictions,
             swing_predictions,
             model_scores,

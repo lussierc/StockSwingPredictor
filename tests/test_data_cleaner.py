@@ -20,62 +20,62 @@ def test_clean_scraped_prediction_data():
 
 
 @pytest.mark.parametrize(
-    "next_day_predictions, swing_predictions, model_scores, prev_close, price_swing_prediction, period, date, figure",
+    "stock_name, prev_close, date, period, swing_predictions, next_day_predictions, model_scores, figure",
     [
         (
-            {
-                "svr_lin": 239.85058050250257,
-                "svr_poly": 237.41112033051695,
-                "svr_rbf": 237.81455809022657,
-                "lr": 240.68089689015713,
-                "en": 240.61815636002072,
-                "lasso": 240.58253623441942,
-                "knr": 236.33800354003907,
-            },
+            "DKNG",
+            48.41999816894531,
+            "2021-05-09",
+            "5d",
             {
                 "svr_lin": "Down",
                 "svr_poly": "Down",
-                "svr_rbf": "Down",
+                "svr_rbf": "Up",
                 "lr": "Down",
-                "en": "Down",
-                "lasso": "Down",
-                "knr": "Down",
+                "en": "Up",
+                "lasso": "Up",
+                "knr": "Up",
             },
             {
-                "svr_lin": 0.2689262776060758,
-                "svr_poly": 0.1076795952496774,
-                "svr_rbf": 0.9067067740227178,
-                "lr": 0.2941381697991622,
-                "en": 0.294123040276283,
-                "lasso": 0.29410098446443833,
-                "knr": 0.9294954784877686,
+                "svr_lin": 47.54999771118153,
+                "svr_poly": 43.448746109008795,
+                "svr_rbf": 50.59113328256789,
+                "lr": 47.47199745178223,
+                "en": 49.36559799194336,
+                "lasso": 48.97199745178223,
+                "knr": 53.94000015258789,
             },
-            242.35000610351562,
-            "Down (3)",
-            "3mo",
-            "2021-04-03",
-            "testing_figure",
+            {
+                "svr_lin": 0.8549982220416815,
+                "svr_poly": 0.9627131160195981,
+                "svr_rbf": 0.9990760565942345,
+                "lr": 0.8553194958036401,
+                "en": 0.7820092418872298,
+                "lasso": 0.8093181535221026,
+                "knr": 0.0,
+            },
+            None,
         )
     ],
 )
 def test_organize_prediction_results(
-    next_day_predictions,
-    swing_predictions,
-    model_scores,
+    stock_name,
     prev_close,
-    price_swing_prediction,
-    period,
     date,
+    period,
+    swing_predictions,
+    next_day_predictions,
+    model_scores,
     figure,
 ):
     """Tests to ensure the function can correctly store and format prediction results."""
 
     prediction_results = data_cleaner.organize_prediction_results(
+        stock_name,
         next_day_predictions,
         swing_predictions,
         model_scores,
         prev_close,
-        price_swing_prediction,
         period,
         date,
         figure,
@@ -84,4 +84,4 @@ def test_organize_prediction_results(
     assert prediction_results is not None
     assert prediction_results["next_day_predictions"] == next_day_predictions
     assert prediction_results["swing_predictions"] == swing_predictions
-    assert prediction_results["date"] == "2021-04-03"
+    assert prediction_results["date"] == "2021-05-09"

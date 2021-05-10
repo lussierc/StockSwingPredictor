@@ -15,96 +15,6 @@ import pandas as pd
 
 
 @pytest.mark.parametrize(
-    "test1, test2, test3, test4, test5, test6, test7",
-    [
-        (
-            {
-                "svr_lin": "Up",
-                "svr_poly": "Up",
-                "svr_rbf": "Down",
-                "lr": "Up",
-                "en": "Up",
-                "lasso": "Up",
-                "knr": "Down",
-            },
-            {
-                "svr_lin": "Up",
-                "svr_poly": "Up",
-                "svr_rbf": "Down",
-                "lr": "Down",
-                "en": "Up",
-                "lasso": "Up",
-                "knr": "Down",
-            },
-            {
-                "svr_lin": "Up",
-                "svr_poly": "Up",
-                "svr_rbf": "Down",
-                "lr": "Down",
-                "en": "Down",
-                "lasso": "Up",
-                "knr": "Down",
-            },
-            {
-                "svr_lin": "Up",
-                "svr_poly": "Up",
-                "svr_rbf": "Down",
-                "lr": "Up",
-                "en": "Up",
-                "lasso": "Up",
-                "knr": "Up",
-            },
-            {
-                "svr_lin": "Up",
-                "svr_poly": "Up",
-                "svr_rbf": "Up",
-                "lr": "Down",
-                "en": "Up",
-                "lasso": "Up",
-                "knr": "Up",
-            },
-            {
-                "svr_lin": "Up",
-                "svr_poly": "Up",
-                "svr_rbf": "Up",
-                "lr": "Up",
-                "en": "Up",
-                "lasso": "Up",
-                "knr": "Up",
-            },
-            {
-                "svr_lin": "Up",
-                "svr_poly": "Up",
-                "svr_rbf": "Down",
-                "lr": "Down",
-                "en": "Up",
-                "lasso": "Up",
-                "knr": "Up",
-            },
-        )
-    ],
-)
-def test_predict_price_swing(test1, test2, test3, test4, test5, test6, test7):
-    """Tests if the tool can predict the expected price swing given a number of examples."""
-
-    swing = prediction.predict_price_swing(test1)
-    swing2 = prediction.predict_price_swing(test2)
-    swing3 = prediction.predict_price_swing(test3)
-    swing4 = prediction.predict_price_swing(test4)
-    swing5 = prediction.predict_price_swing(test5)
-    swing6 = prediction.predict_price_swing(test6)
-    swing7 = prediction.predict_price_swing(test7)
-
-    assert swing == "Down (1)"
-    assert swing2 == "Down (2)"
-    assert swing3 == "Down (3)"
-    assert swing4 == "Up (1)"
-    assert swing5 == "Up (2)"
-    assert swing6 == "Up (3)"
-    assert swing7 == "None"
-
-
-@pytest.mark.parametrize(
     "scraped_data, period",
     [
         (
@@ -324,18 +234,19 @@ def test_ml_predictions(dates, prices, next_date, stock_name, period):
 
     (
         next_day_predictions,
-        model_swing_predictions,
+        prev_predictions,
+        swing_predictions,
         model_scores,
         prev_close,
-        price_swing_prediction,
         figure,
+        plot_dates,
     ) = prediction.ml_predictions(dates, prices, next_date, stock_name, period)
 
     assert next_day_predictions is not None
-    assert model_swing_predictions is not None
+    assert swing_predictions is not None
     assert model_scores is not None
     assert prev_close == prices[-1]
-    assert price_swing_prediction is not None
+    assert prev_predictions is not None
     assert figure is not None
 
 

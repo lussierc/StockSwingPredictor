@@ -26,7 +26,7 @@ def main():
         "Settings": page_settings,
     }
 
-    st.sidebar.title(":floppy_disk: Page states")
+    st.sidebar.title(":mag: Pages")
     page = st.sidebar.radio("Select your page", tuple(pages.keys()))
 
     # Display the selected page with the session state

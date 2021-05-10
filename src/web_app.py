@@ -87,7 +87,7 @@ def page_dashboard(state):
     st.markdown("# Select Stocks to View Results:")
     for stock_data in state.finalized_data:
         st.markdown("## " + stock_data["stock"])
-        if st.checkbox("View Results"):
+        if st.checkbox("View Results for " + stock_data["stock"]):
 
             ############################################
 

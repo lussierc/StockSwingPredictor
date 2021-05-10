@@ -219,35 +219,11 @@ def print_tables(
     """Prints out tables of generated results."""
 
     print(
-        "\n"
-        + color.UNDERLINE
-        + " - Would you like to print out the overall results for: "
-        + stock_name
-        + " ?"
-        + color.END
+        color.BOLD,
+        "\nThe current/previous closing price for the given stock is: $",
+        predictions["current_prev_close"],
+        color.END,
     )
-    print_res = input(color.GREEN + "\t* Y or N?: " + color.END).upper()
-    if print_res == "Y":
-        table = PrettyTable()
-        table.field_names = [
-            "Price Swing Prediction",
-            "KNR & SVR Avg Price Prediction",
-            "Multi-Fold Avg Price Prediction",
-            "Current Price (or Closing if AH)",
-        ]  # define field names for table
-
-        table.add_row(
-            [
-                predictions["price_swing_prediction"],
-                predictions["svr_knr_price_avg"],
-                predictions["multi_fold_price_avg"],
-                predictions["prev_close"],
-            ]
-        )  # add data to table
-
-        print(table)  # print prettytable of scored stock info
-    else:
-        pass
     ################################
     print(
         "\n"

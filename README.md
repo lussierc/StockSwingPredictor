@@ -1,6 +1,7 @@
 # StockSwingPredictor
 The StockSwingPredictor (SSP) is a WIP tool that will predict stock price swings. Implemented in Python as apart of my Allegheny College Senior Thesis.
 
+![SSP](ssp.png)
 ## Running the Project
 Currently you can only run the project locally. To do this ensure you have Python3 installed and then from the main directory of the project, run the command: `python3 src/ssp.py`.
 
@@ -29,6 +30,13 @@ TOTAL               77     48    38%
 ```
 
 ## Preliminary Prediction Results
+
+![Results](results.png)
+
+This table displays the results of an experiment in which predictions on 9 different stocks over 5 different days for each time period of data. This was done from 3/30/2021-4/6/2021. With this, the percentage represents the number of predictions that were correct, out of a total 45 predictions that were made for each time period of data.
+
+---
+
 *The results of running different ML models on sample data of the DKNG (DraftKings) stock:*
 ![ML DKNG Results](resources/ml_results_dkng.png)
 

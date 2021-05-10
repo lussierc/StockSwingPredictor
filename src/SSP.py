@@ -1,6 +1,7 @@
 """The StockSwingPredictor (SSP) tool."""
 
 import cml
+import os
 
 
 def main():
@@ -13,7 +14,11 @@ def main():
         cml.run_cml()  # run the CML
     elif choice == 2:
         # run the web UI to be implemented later
-        print("This feature is not currently active.")
+        os.system("streamlit run src/web_app.py")
+        print("\t*Link if using the tool in DOCKER: http://localhost:8501")
+    else:
+        print("Invalid option, running the CML...")
+        cml.run_cml()  # run the CML
 
 
 main()

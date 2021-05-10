@@ -85,63 +85,67 @@ def page_dashboard(state):
     st.title(":chart_with_upwards_trend: Prediction Results Dashboard")
 
     st.markdown("# Select Stocks to View Results:")
-    for stock_data in state.finalized_data:
-        st.markdown("## " + stock_data["stock"])
-        if st.checkbox("View Results for " + stock_data["stock"]):
+    if state.finalized_data:
+        for stock_data in state.finalized_data:
+            st.markdown("## " + stock_data["stock"])
+            if st.checkbox("View Results for " + stock_data["stock"]):
 
-            ############################################
+                ############################################
 
-            st.markdown("### Historical Predictions:")
+                st.markdown("### Historical Predictions:")
 
-            df2 = pd.DataFrame.from_dict(stock_data["prev_predictions"])
+                df2 = pd.DataFrame.from_dict(stock_data["prev_predictions"])
 
-            models_selections = st.multiselect(
-                label="Enter the names of stocks scraped below:",
-                options=df2.columns,
-            )  # allow users to display stock information on dataframe graph
 
-            if not models_selections:  # if nothing is selected show all media!
-                st.line_chart(df2)
-            else:
-                st.line_chart(df2[models_selections])
+                models_selections = st.multiselect(
+                    label="Enter the names of stocks scraped below:",
+                    options=df2.columns,
+                )  # allow users to display stock information on dataframe graph
 
-            st.markdown(
-                "*Note:* 'Prices' are the actual prices for those days. The rest are model predictions for those days.\nPrices (in USD) are on the y-axis, the day number in the data is on the x-axis."
-            )
+                if not models_selections:  # if nothing is selected show all media!
+                    st.line_chart(df2)
+                else:
+                    st.line_chart(df2[models_selections])
 
-            ############################################
+                st.markdown(
+                    "*Note:* 'Prices' are the actual prices for those days. The rest are model predictions for those days.\nPrices (in USD) are on the y-axis, the day number in the data is on the x-axis."
+                )
 
-            st.markdown("### Future (Next-Day) Predictions:")
+                ############################################
 
-            df = pd.DataFrame()
-            df = df.append(
-                pd.DataFrame([stock_data["prediction_results"]["swing_predictions"]])
-            )
-            df = df.append(
-                pd.DataFrame([stock_data["prediction_results"]["model_scores"]])
-            )
-            df = df.append(
-                pd.DataFrame([stock_data["prediction_results"]["next_day_predictions"]])
-            )
-            df.index = ["Swing Predicton", "Model Score", "Price Prediction"]
-            df = df.transpose()
-            df
-            st.markdown(
-                "**The current price of the stock is $"
-                + str(round(stock_data["prediction_results"]["current_prev_close"], 2))
-                + ".**"
-            )
-            st.markdown(
-                "*Note:* View the home screen for information about the best models and training data size combinations."
-            )
+                st.markdown("### Future (Next-Day) Predictions:")
 
-            ############################################
+                df = pd.DataFrame()
+                df = df.append(
+                    pd.DataFrame([stock_data["prediction_results"]["swing_predictions"]])
+                )
+                df = df.append(
+                    pd.DataFrame([stock_data["prediction_results"]["model_scores"]])
+                )
+                df = df.append(
+                    pd.DataFrame([stock_data["prediction_results"]["next_day_predictions"]])
+                )
+                df.index = ["Swing Predicton", "Model Score", "Price Prediction"]
+                df = df.transpose()
+                df
+                st.markdown(
+                    "**The current price of the stock is $"
+                    + str(round(stock_data["prediction_results"]["current_prev_close"], 2))
+                    + ".**"
+                )
+                st.markdown(
+                    "*Note:* View the home screen for information about the best models and training data size combinations."
+                )
 
-            st.markdown("### Stock Information:")
+                ############################################
 
-            if st.checkbox("View " + stock_data["stock"] + "'s Information"):
-                for key in stock_data["stock_info"].keys():
-                    st.write("*", key + ":", stock_data["stock_info"][key])
+                st.markdown("### Stock Information:")
+
+                if st.checkbox("View " + stock_data["stock"] + "'s Information"):
+                    for key in stock_data["stock_info"].keys():
+                        st.write("*", key + ":", stock_data["stock_info"][key])
+    else:
+        st.markdown("## Generate data to populate and initialize this page by going to the 'Settings' page and running the tool!")
 
 
 def page_settings(state):
@@ -162,9 +166,7 @@ def page_settings(state):
     st.markdown("#### Choose dataset size to train models with:")
     options = ["5d", "1mo", "3mo", "6mo", "1y", "5y", "10y", "max"]
     state.period = st.radio(
-        "Choose data length. Recommended data lengths/models for these data lengths can be found on the home screen. Overall, for most models 1-year of data seems to be most optimal.",
-        options,
-        options.index(state.radio) if state.radio else 0,
+        "Choose data length. Recommended data lengths/models for these data lengths can be found on the home screen. Overall, for most models 1-year of data seems to be most optimal.", options, options.index(state.radio) if state.radio else 0
     )
 
     if st.button("Run the Tool", state.run):

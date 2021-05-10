@@ -19,6 +19,8 @@ except ModuleNotFoundError:
 
 
 def main():
+    """Runs the web UI."""
+
     state = _get_state()
     pages = {
         "Home": page_home,
@@ -37,7 +39,7 @@ def main():
 
 
 def page_home(state):
-    """Sets up the home page of the web app."""
+    """The home page of the web app."""
 
     st.title(":house: Welcome to Stock Swing Predictor (SSP)")
 
@@ -82,6 +84,8 @@ def page_home(state):
 
 
 def page_dashboard(state):
+    """The prediction results dashboard page, where users can view generated results."""
+
     st.title(":chart_with_upwards_trend: Prediction Results Dashboard")
 
     st.markdown("# Select Stocks to View Results:")
@@ -95,7 +99,6 @@ def page_dashboard(state):
                 st.markdown("### Historical Predictions:")
 
                 df2 = pd.DataFrame.from_dict(stock_data["prev_predictions"])
-
 
                 models_selections = st.multiselect(
                     label="Enter the names of stocks scraped below:",
@@ -117,20 +120,26 @@ def page_dashboard(state):
 
                 df = pd.DataFrame()
                 df = df.append(
-                    pd.DataFrame([stock_data["prediction_results"]["swing_predictions"]])
+                    pd.DataFrame(
+                        [stock_data["prediction_results"]["swing_predictions"]]
+                    )
                 )
                 df = df.append(
                     pd.DataFrame([stock_data["prediction_results"]["model_scores"]])
                 )
                 df = df.append(
-                    pd.DataFrame([stock_data["prediction_results"]["next_day_predictions"]])
+                    pd.DataFrame(
+                        [stock_data["prediction_results"]["next_day_predictions"]]
+                    )
                 )
                 df.index = ["Swing Predicton", "Model Score", "Price Prediction"]
                 df = df.transpose()
                 df
                 st.markdown(
                     "**The current price of the stock is $"
-                    + str(round(stock_data["prediction_results"]["current_prev_close"], 2))
+                    + str(
+                        round(stock_data["prediction_results"]["current_prev_close"], 2)
+                    )
                     + ".**"
                 )
                 st.markdown(
@@ -145,10 +154,14 @@ def page_dashboard(state):
                     for key in stock_data["stock_info"].keys():
                         st.write("*", key + ":", stock_data["stock_info"][key])
     else:
-        st.markdown("## Generate data to populate and initialize this page by going to the 'Settings' page and running the tool!")
+        st.markdown(
+            "## Generate data to populate and initialize this page by going to the 'Settings' page and running the tool!"
+        )
 
 
 def page_settings(state):
+    """Settings page where user configures their options and runs the tool."""
+
     st.title(":wrench: Settings")
     st.markdown("## **Your chosen settings:**")
     display_state_values(state)
@@ -166,7 +179,9 @@ def page_settings(state):
     st.markdown("#### Choose dataset size to train models with:")
     options = ["5d", "1mo", "3mo", "6mo", "1y", "5y", "10y", "max"]
     state.period = st.radio(
-        "Choose data length. Recommended data lengths/models for these data lengths can be found on the home screen. Overall, for most models 1-year of data seems to be most optimal.", options, options.index(state.radio) if state.radio else 0
+        "Choose data length. Recommended data lengths/models for these data lengths can be found on the home screen. Overall, for most models 1-year of data seems to be most optimal.",
+        options,
+        options.index(state.radio) if state.radio else 0,
     )
 
     if st.button("Run the Tool", state.run):
@@ -190,23 +205,30 @@ def page_settings(state):
             )
             if state.file_name:
                 for data in state.finalized_data:
-                    json_handler.append_json(data["prediction_results"], state.file_name)
+                    json_handler.append_json(
+                        data["prediction_results"], state.file_name
+                    )
                 st.markdown("Your data has been exported!")
             else:
                 st.markdown("Enter a file name to export data!")
 
+
 def display_state_values(state):
+    """Displays setting state values."""
+
     st.write("Ticker Symbols:", state.stocks)
     st.write("Tickers List:", state.stocks_list)
     st.write("Time Period:", state.period)
     st.write("Export Checkbox state:", state.export_checkbox)
     st.write("Export/Append file name:", state.file_name)
 
-    if st.button("Clear state"):
+    if st.button("Clear state"):  # resets the state
         state.clear()
 
 
 class _SessionState:
+    """Adds session state capabilities to Streamlit."""
+
     def __init__(self, session, hash_funcs):
         """Initialize SessionState instance."""
         self.__dict__["_state"] = {
@@ -247,10 +269,9 @@ class _SessionState:
     def sync(self):
         """Rerun the app with all state values up to date from the beginning to fix rollbacks."""
 
-        # Ensure to rerun only once to avoid infinite loops
-        # caused by a constantly changing state value at each run.
-        #
+        # Ensure to rerun only once to avoid infinite loops caused by a constantly changing state value at each run.
         # Example: state.value += 1
+
         if self._state["is_rerun"]:
             self._state["is_rerun"] = False
 

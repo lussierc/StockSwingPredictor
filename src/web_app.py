@@ -94,9 +94,19 @@ def page_dashboard(state):
             st.markdown("### Historical Predictions:")
 
             df2 = pd.DataFrame.from_dict(stock_data["prev_predictions"])
-            st.line_chart(df2)
+
+            models_selections = st.multiselect(
+                label="Enter the names of stocks scraped below:",
+                options=df2.columns,
+            )  # allow users to display stock information on dataframe graph
+
+            if not models_selections:  # if nothing is selected show all media!
+                st.line_chart(df2)
+            else:
+                st.line_chart(df2[models_selections])
+
             st.markdown(
-                "*Note:* 'Prices' are the actual prices for those days. The rest are model predictions for those days."
+                "*Note:* 'Prices' are the actual prices for those days. The rest are model predictions for those days.\nPrices (in USD) are on the y-axis, the day number in the data is on the x-axis."
             )
 
             ############################################
@@ -152,7 +162,9 @@ def page_settings(state):
     st.markdown("#### Choose dataset size to train models with:")
     options = ["5d", "1mo", "3mo", "6mo", "1y", "5y", "10y", "max"]
     state.period = st.radio(
-        "Choose data length.", options, options.index(state.radio) if state.radio else 0
+        "Choose data length. Recommended data lengths/models for these data lengths can be found on the home screen. Overall, for most models 1-year of data seems to be most optimal.",
+        options,
+        options.index(state.radio) if state.radio else 0,
     )
 
     if st.button("Run the Tool", state.run):

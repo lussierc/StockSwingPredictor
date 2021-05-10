@@ -59,6 +59,19 @@ def page_home(state):
         "Within the Dashboard, you can then view information for all the stocks at once, or look at individual stocks and more specific information (pertaining to individual articles)."
     )
 
+    st.markdown("## Experimental Results and Optimal Settings:")
+    st.markdown("Extensive experimentation was completed on the tool, the results of which are detailed in the README.")
+    st.markdown("### Settings Recommendations:")
+    st.markdown("- It is recommended that one runs the tool with as much data as possible, as results are generally more accurate for all models. 1 or 2 years is the optimal amount of training data it seems, any more of that and you will be waiting for your results for a while.")
+    st.markdown("- With this, the most accurate model seems to be the SVR-POLY model (Support Vector Regression with a Polynomial kernel), especially when trained with 1 year of data. Experimental results show future prediction accuracy results of almost 80%. The SVR-RBF model is also quite accurate, when trained with one month of data.")
+
+    st.markdown("### Some Experimental Results:")
+    image2 = Image.open("results.png")  # load logo
+    st.image(image2, use_column_width=True)
+
+    st.markdown("This shows how accurate models are and which amount of training data they are most accuate with. \n This table displays the predictions on 9 different stocks over 5 different days for each time period of data. This was done from 3/30/2021-4/6/2021. With this, the percentage represents the number of predictions that were correct, out of a total 45 predictions that were made for each time period of data.")
+
+
 def page_dashboard(state):
     st.title(":chart_with_upwards_trend: Prediction Results Dashboard")
 

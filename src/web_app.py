@@ -60,32 +60,46 @@ def page_home(state):
     )
 
 def page_dashboard(state):
-    st.title(":chart_with_upwards_trend: Dashboard page")
-    display_state_values(state)
+    st.title(":chart_with_upwards_trend: Prediction Results Dashboard")
 
+    st.markdown("# Select Stocks to View Results:")
     for stock_data in state.finalized_data:
-        st.markdown("## Select Stocks to View Results:")
-        if st.checkbox(stock_data["stock"]):
-            st.write(stock_data)
+        st.markdown("## " + stock_data["stock"])
+        if st.checkbox("View Results"):
 
             ############################################
+
+            st.markdown("### Historical Predictions:")
+
+            df2 = pd.DataFrame.from_dict(stock_data['prev_predictions'])
+            st.line_chart(df2)
+            st.markdown("*Note:* 'Prices' are the actual prices for those days. The rest are model predictions for those days.")
+
+            ############################################
+
+            st.markdown("### Future (Next-Day) Predictions:")
+
             df = pd.DataFrame()
             df = df.append(pd.DataFrame([stock_data["prediction_results"]["swing_predictions"]]))
             df = df.append(pd.DataFrame([stock_data["prediction_results"]["model_scores"]]))
             df = df.append(pd.DataFrame([stock_data["prediction_results"]["next_day_predictions"]]))
             df.index = ['Swing Predicton', 'Model Score', 'Price Prediction']
             df = df.transpose()
-            st.write(df)
+            df
+            st.markdown("**The current price of the stock is $" + str(round(stock_data['prediction_results']['current_prev_close'], 2)) + ".**")
+            st.markdown("*Note:* View the home screen for information about the best models and training data size combinations.")
+
             ############################################
 
-            st.write(stock_data['prev_predictions'])
+            st.markdown("### Stock Information:")
 
-            df2 = pd.DataFrame.from_dict(stock_data['prev_predictions'])
-            my_chart = st.line_chart(df2)
-            st.write(my_chart)
+            if st.checkbox("View " + stock_data['stock'] + "'s Information"):
+                for key in stock_data['stock_info'].keys():
+                    st.write("*", key + ":", stock_data['stock_info'][key])
 
 def page_settings(state):
     st.title(":wrench: Settings")
+    st.markdown("## **Your chosen settings:**")
     display_state_values(state)
 
     st.write("---")
@@ -109,8 +123,6 @@ def page_settings(state):
         st.markdown("### *PLEASE WAIT! Scraping data, training models, and generating prediction results NOW!*")
         state.scraped_data = scraper.perform_scraping(state.stocks_list, state.period)
         state.finalized_data = prediction.run_predictor(state.scraped_data, state.period)
-
-    st.write(state.finalized_data)
 
     if state.run == True:
         st.markdown(

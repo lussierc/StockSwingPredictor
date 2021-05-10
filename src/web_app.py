@@ -188,9 +188,12 @@ def page_settings(state):
             state.file_name = st.text_input(
                 "Enter the export filename.", state.input or ""
             )
-            for data in state.finalized_data:
-                json_handler.append_json(data["prediction_results"], state.file_name)
-
+            if state.file_name:
+                for data in state.finalized_data:
+                    json_handler.append_json(data["prediction_results"], state.file_name)
+                st.markdown("Your data has been exported!")
+            else:
+                st.markdown("Enter a file name to export data!")
 
 def display_state_values(state):
     st.write("Ticker Symbols:", state.stocks)

@@ -3,6 +3,7 @@
 import numpy as np
 import pandas as pd
 
+
 def clean_scraped_prediction_data(df):
     """Cleans a historical or current stock price df."""
 

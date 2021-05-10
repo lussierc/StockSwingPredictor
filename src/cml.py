@@ -218,7 +218,12 @@ def print_tables(
 ):
     """Prints out tables of generated results."""
 
-    print(color.BOLD, "\nThe current/previous closing price for the given stock is: $",  predictions["current_prev_close"], color.END)
+    print(
+        color.BOLD,
+        "\nThe current/previous closing price for the given stock is: $",
+        predictions["current_prev_close"],
+        color.END,
+    )
     ################################
     print(
         "\n"

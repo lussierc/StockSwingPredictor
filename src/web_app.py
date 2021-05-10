@@ -35,6 +35,7 @@ def main():
     # Mandatory to avoid rollbacks with widgets, must be called at the end of your app
     state.sync()
 
+
 def page_home(state):
     """Sets up the home page of the web app."""
 
@@ -60,16 +61,24 @@ def page_home(state):
     )
 
     st.markdown("## Experimental Results and Optimal Settings:")
-    st.markdown("Extensive experimentation was completed on the tool, the results of which are detailed in the README.")
+    st.markdown(
+        "Extensive experimentation was completed on the tool, the results of which are detailed in the README."
+    )
     st.markdown("### Settings Recommendations:")
-    st.markdown("- It is recommended that one runs the tool with as much data as possible, as results are generally more accurate for all models. 1 or 2 years is the optimal amount of training data it seems, any more of that and you will be waiting for your results for a while.")
-    st.markdown("- With this, the most accurate model seems to be the SVR-POLY model (Support Vector Regression with a Polynomial kernel), especially when trained with 1 year of data. Experimental results show future prediction accuracy results of almost 80%. The SVR-RBF model is also quite accurate, when trained with one month of data.")
+    st.markdown(
+        "- It is recommended that one runs the tool with as much data as possible, as results are generally more accurate for all models. 1 or 2 years is the optimal amount of training data it seems, any more of that and you will be waiting for your results for a while."
+    )
+    st.markdown(
+        "- With this, the most accurate model seems to be the SVR-POLY model (Support Vector Regression with a Polynomial kernel), especially when trained with 1 year of data. Experimental results show future prediction accuracy results of almost 80%. The SVR-RBF model is also quite accurate, when trained with one month of data."
+    )
 
     st.markdown("### Some Experimental Results:")
     image2 = Image.open("results.png")  # load logo
     st.image(image2, use_column_width=True)
 
-    st.markdown("This shows how accurate models are and which amount of training data they are most accuate with. \n This table displays the predictions on 9 different stocks over 5 different days for each time period of data. This was done from 3/30/2021-4/6/2021. With this, the percentage represents the number of predictions that were correct, out of a total 45 predictions that were made for each time period of data.")
+    st.markdown(
+        "This shows how accurate models are and which amount of training data they are most accuate with. \n This table displays the predictions on 9 different stocks over 5 different days for each time period of data. This was done from 3/30/2021-4/6/2021. With this, the percentage represents the number of predictions that were correct, out of a total 45 predictions that were made for each time period of data."
+    )
 
 
 def page_dashboard(state):
@@ -84,31 +93,46 @@ def page_dashboard(state):
 
             st.markdown("### Historical Predictions:")
 
-            df2 = pd.DataFrame.from_dict(stock_data['prev_predictions'])
+            df2 = pd.DataFrame.from_dict(stock_data["prev_predictions"])
             st.line_chart(df2)
-            st.markdown("*Note:* 'Prices' are the actual prices for those days. The rest are model predictions for those days.")
+            st.markdown(
+                "*Note:* 'Prices' are the actual prices for those days. The rest are model predictions for those days."
+            )
 
             ############################################
 
             st.markdown("### Future (Next-Day) Predictions:")
 
             df = pd.DataFrame()
-            df = df.append(pd.DataFrame([stock_data["prediction_results"]["swing_predictions"]]))
-            df = df.append(pd.DataFrame([stock_data["prediction_results"]["model_scores"]]))
-            df = df.append(pd.DataFrame([stock_data["prediction_results"]["next_day_predictions"]]))
-            df.index = ['Swing Predicton', 'Model Score', 'Price Prediction']
+            df = df.append(
+                pd.DataFrame([stock_data["prediction_results"]["swing_predictions"]])
+            )
+            df = df.append(
+                pd.DataFrame([stock_data["prediction_results"]["model_scores"]])
+            )
+            df = df.append(
+                pd.DataFrame([stock_data["prediction_results"]["next_day_predictions"]])
+            )
+            df.index = ["Swing Predicton", "Model Score", "Price Prediction"]
             df = df.transpose()
             df
-            st.markdown("**The current price of the stock is $" + str(round(stock_data['prediction_results']['current_prev_close'], 2)) + ".**")
-            st.markdown("*Note:* View the home screen for information about the best models and training data size combinations.")
+            st.markdown(
+                "**The current price of the stock is $"
+                + str(round(stock_data["prediction_results"]["current_prev_close"], 2))
+                + ".**"
+            )
+            st.markdown(
+                "*Note:* View the home screen for information about the best models and training data size combinations."
+            )
 
             ############################################
 
             st.markdown("### Stock Information:")
 
-            if st.checkbox("View " + stock_data['stock'] + "'s Information"):
-                for key in stock_data['stock_info'].keys():
-                    st.write("*", key + ":", stock_data['stock_info'][key])
+            if st.checkbox("View " + stock_data["stock"] + "'s Information"):
+                for key in stock_data["stock_info"].keys():
+                    st.write("*", key + ":", stock_data["stock_info"][key])
+
 
 def page_settings(state):
     st.title(":wrench: Settings")
@@ -127,27 +151,32 @@ def page_settings(state):
 
     st.markdown("#### Choose dataset size to train models with:")
     options = ["5d", "1mo", "3mo", "6mo", "1y", "5y", "10y", "max"]
-    state.period = st.radio("Choose data length.", options, options.index(state.radio) if state.radio else 0)
-
-
+    state.period = st.radio(
+        "Choose data length.", options, options.index(state.radio) if state.radio else 0
+    )
 
     if st.button("Run the Tool", state.run):
         state.run = True
-        st.markdown("### *PLEASE WAIT! Scraping data, training models, and generating prediction results NOW!*")
+        st.markdown(
+            "### *PLEASE WAIT! Scraping data, training models, and generating prediction results NOW!*"
+        )
         state.scraped_data = scraper.perform_scraping(state.stocks_list, state.period)
-        state.finalized_data = prediction.run_predictor(state.scraped_data, state.period)
+        state.finalized_data = prediction.run_predictor(
+            state.scraped_data, state.period
+        )
 
     if state.run == True:
-        st.markdown(
-            "## *Go to the dashboard to view your newly scraped data data.*"
-        )
+        st.markdown("## *Go to the dashboard to view your newly scraped data data.*")
         st.markdown("### Export Options")
         if st.checkbox("Would you like to export results?", state.export_checkbox):
             state.export_checkbox = True
             st.markdown("#### Enter New or Existing Export File Name (filename.json):")
-            state.file_name = st.text_input("Enter the export filename.", state.input or "")
+            state.file_name = st.text_input(
+                "Enter the export filename.", state.input or ""
+            )
             for data in state.finalized_data:
-                json_handler.append_json(data['prediction_results'], state.file_name)
+                json_handler.append_json(data["prediction_results"], state.file_name)
+
 
 def display_state_values(state):
     st.write("Ticker Symbols:", state.stocks)
@@ -161,7 +190,6 @@ def display_state_values(state):
 
 
 class _SessionState:
-
     def __init__(self, session, hash_funcs):
         """Initialize SessionState instance."""
         self.__dict__["_state"] = {
@@ -210,7 +238,9 @@ class _SessionState:
             self._state["is_rerun"] = False
 
         elif self._state["hash"] is not None:
-            if self._state["hash"] != self._state["hasher"].to_bytes(self._state["data"], None):
+            if self._state["hash"] != self._state["hasher"].to_bytes(
+                self._state["data"], None
+            ):
                 self._state["is_rerun"] = True
                 self._state["session"].request_rerun()
 

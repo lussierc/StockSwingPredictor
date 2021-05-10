@@ -3,6 +3,7 @@
 import cml
 import os
 
+
 def main():
     """Runs the tool."""
 
@@ -18,5 +19,6 @@ def main():
     else:
         print("Invalid option, running the CML...")
         cml.run_cml()  # run the CML
+
 
 main()

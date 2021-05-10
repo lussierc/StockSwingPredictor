@@ -196,7 +196,10 @@ def make_new_predictions(svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr, next_da
 
     return price_predictions
 
-def make_prev_predictions(dates, prices, svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr):
+
+def make_prev_predictions(
+    dates, prices, svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr
+):
     """Makes predictions on previous days of data, which the models were trained on."""
 
     prev_price_predictions = {
@@ -211,6 +214,7 @@ def make_prev_predictions(dates, prices, svr_rbf, svr_lin, svr_poly, lr, en, las
     }
 
     return prev_price_predictions
+
 
 def plot_predictions(
     dates,
@@ -301,7 +305,11 @@ def plot_predictions(
         )
     )  # display KNR historical prediction
 
-    print("TYPETYPETYPE:", type(next_day_predictions["svr_rbf"]), next_day_predictions["svr_rbf"])
+    print(
+        "TYPETYPETYPE:",
+        type(next_day_predictions["svr_rbf"]),
+        next_day_predictions["svr_rbf"],
+    )
 
     # plot new predictions:
     temp_plotter_list = []

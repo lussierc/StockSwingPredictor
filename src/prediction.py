@@ -305,12 +305,6 @@ def plot_predictions(
         )
     )  # display KNR historical prediction
 
-    print(
-        "TYPETYPETYPE:",
-        type(next_day_predictions["svr_rbf"]),
-        next_day_predictions["svr_rbf"],
-    )
-
     # plot new predictions:
     temp_plotter_list = []
     temp_plotter_list.append(next_day_predictions["svr_rbf"])

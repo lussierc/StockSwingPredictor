@@ -47,5 +47,4 @@ def organize_prediction_results(
         "figure": figure,
     }
 
-    print(prediction_results)
     return prediction_results

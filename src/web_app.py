@@ -100,8 +100,9 @@ def page_dashboard(state):
 
                 df2 = pd.DataFrame.from_dict(stock_data["prev_predictions"])
 
+                select_lbl = "Enter the names of models for " + stock_data['stock'] + ":"
                 models_selections = st.multiselect(
-                    label="Enter the names of stocks scraped below:",
+                    label= select_lbl,
                     options=df2.columns,
                 )  # allow users to display stock information on dataframe graph
 

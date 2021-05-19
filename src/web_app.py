@@ -104,9 +104,9 @@ def page_dashboard(state):
                 models_selections = st.multiselect(
                     label= select_lbl,
                     options=df2.columns,
-                )  # allow users to display stock information on dataframe graph
+                )  # allow users to display specific model results on dataframe graph
 
-                if not models_selections:  # if nothing is selected show all media!
+                if not models_selections:  # if nothing is selected show all models!
                     st.line_chart(df2)
                 else:
                     st.line_chart(df2[models_selections])

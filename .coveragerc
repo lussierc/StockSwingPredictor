@@ -1,2 +1,2 @@
 [run]
-omit = src/cml.py, src/ssp.py
+omit = src/cml.py, src/ssp.py, src/web_app.py

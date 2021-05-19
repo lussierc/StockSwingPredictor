@@ -33,6 +33,10 @@ def organize_prediction_results(
     period,
     date,
     figure,
+    training_times,
+    testing_times,
+    new_predictions_times,
+    prev_predictions_times,
 ):
     """Store results from stock prediction."""
 
@@ -45,6 +49,10 @@ def organize_prediction_results(
         "next_day_predictions": next_day_predictions,
         "model_scores": model_scores,
         "figure": figure,
+        "training_times": training_times,
+        "testing_times": testing_times,
+        "new_predictions_times": new_predictions_times,
+        "prev_predictions_times": prev_predictions_times
     }
 
     return prediction_results

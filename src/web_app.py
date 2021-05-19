@@ -151,7 +151,7 @@ def page_dashboard(state):
                 st.markdown("### View Other Information:")
 
                 if st.checkbox("View " + stock_data["stock"] + "'s Model Efficiency Timings"):
-                    st.markdown("### Model Efficiencies:")
+                    st.markdown("#### Model Efficiencies:")
                     st.markdown("Shows the time in seconds it took models to complete specific tasks:")
                     df3 = pd.DataFrame()
                     df3 = df3.append(

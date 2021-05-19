@@ -20,7 +20,7 @@ The StockSwingPredictor (SSP) is a  tool that will predict stock price swings us
 
 ## About
 
-This project predicts stock price swings (whether a price will "swing" up or down tomorrow) was created by me, Christian Lussier, as apart of my undergraduate Senior Thesis at Allegheny College. After completing extensive research in the area of stock prediction, I implemented the Stock Swing Predictor Tool. Featuring a Streamlit web interface, users can have the tool make stock price swing predictions using seven different models. These include three different types of Support Vector Regression models, a K-Neighbors Regressor model, and a Linear regression model. Users can enter their stock ticker symbols and preferred amount of training data, then the tool will make price swing predictions using the aforementioned models. The models price predictions, price swing predictions, coefficient of determination scores, and efficiency times are outputted to the users.
+This project predicts stock price swings (whether a price will "swing" up or down tomorrow) and was created by me, Christian Lussier, as apart of my undergraduate Senior Thesis at Allegheny College. After completing extensive research in the area of stock prediction, I implemented the Stock Swing Predictor Tool. Featuring a Streamlit web interface, users can have the tool make stock price swing predictions using seven different models. These include three different types of Support Vector Regression models, a K-Neighbors Regressor model, and a Linear Regression model. Users can enter their stock ticker symbols and preferred amount of training data, then the tool will scrape the historical stock price data and make price swing predictions using the aforementioned models. The models price predictions, price swing predictions, coefficient of determination scores, and efficiency times are outputted to the users.
 
 View a video about the project and a general abstract [here](https://symposium.foragerone.com/richard-j-cook-teresa-m-lahti-scholars-symposium/presentations/28799).
 
@@ -42,7 +42,7 @@ For the most accurate swing predictions we recommend using one of the following:
 - `SVR-Polynomial` + 1 year of data
 - `SVR-RBF` + 1 month of data
 
-The first technique is more accurate, but takes more time to run. The second technique is still accurate, but runs much more efficiently.
+The first technique is more accurate, but takes more time to run. The second technique is still accurate, but runs much quicker.
 
 ## Running the Project
 To give users more accessibility options when running the tool, a Docker container was created. Users can chose to use either this Docker container or their own local Python installation to run the tool.
@@ -142,7 +142,7 @@ Here were the individual model scores/information for DKNG, including the future
 There are a number of different tasks that could be completed in the future to enhance the project. Some current ideas include:
 - Adding more models, to see how accurate they are.
 - Adding CI testing, using something like GitHub Actions.
-- Create a multi-model prediction method based on experimentation results.
+- Creating a multi-model prediction method of the most accurate model and data size combos based on experimentation results.
 
 
 ## Contributing

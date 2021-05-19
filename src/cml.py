@@ -128,6 +128,10 @@ def display_results(finalized_data):
         predictions = stock_data["prediction_results"]
         swing_predictions = predictions["swing_predictions"]
         next_day_predictions = predictions["next_day_predictions"]
+        training_times = predictions["training_times"]
+        testing_times = predictions["testing_times"]
+        new_predictions_times = predictions["new_predictions_times"]
+        prev_predictions_times = predictions["prev_predictions_times"]
         figure = predictions["figure"]
         model_scores = predictions["model_scores"]
         models = ["svr_lin", "svr_poly", "svr_rbf", "lr", "en", "lasso", "knr"]
@@ -167,6 +171,10 @@ def display_results(finalized_data):
             models,
             stock_info,
             stock_name,
+            training_times,
+            testing_times,
+            new_predictions_times,
+            prev_predictions_times,
         )
 
         print(
@@ -215,6 +223,10 @@ def print_tables(
     models,
     stock_info,
     stock_name,
+    training_times,
+    testing_times,
+    new_predictions_times,
+    prev_predictions_times,
 ):
     """Prints out tables of generated results."""
 
@@ -254,6 +266,43 @@ def print_tables(
             )  # add data to table
 
         print(table2)  # print prettytable of scored stock info
+    else:
+        pass
+    ################################
+    print(
+        "\n"
+        + color.UNDERLINE
+        + " - Would you like to print out the model efficiency timings for: "
+        + stock_name
+        + " ?"
+        + color.END
+    )
+    print_res = input(color.GREEN + "\t* Y or N?: " + color.END).upper()
+    if print_res == "Y":
+        print(
+            "Displaying the time in seconds it took models to complete certain tasks:"
+        )
+        table1 = PrettyTable()
+        table1.field_names = [
+            "Model",
+            "Training",
+            "Testing/Scoring",
+            "Future Predictions",
+            "Historical Prediction",
+        ]  # define field names for table
+
+        for model in models:
+            table1.add_row(
+                [
+                    model,
+                    training_times[model],
+                    testing_times[model],
+                    new_predictions_times[model],
+                    prev_predictions_times[model],
+                ]
+            )  # add data to table
+
+        print(table1)  # print prettytable of scored stock info
     else:
         pass
     ################################

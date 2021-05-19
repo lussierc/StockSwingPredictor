@@ -100,12 +100,15 @@ def page_dashboard(state):
 
                 df2 = pd.DataFrame.from_dict(stock_data["prev_predictions"])
 
+                select_lbl = (
+                    "Enter the names of models for " + stock_data["stock"] + ":"
+                )
                 models_selections = st.multiselect(
-                    label="Enter the names of stocks scraped below:",
+                    label=select_lbl,
                     options=df2.columns,
-                )  # allow users to display stock information on dataframe graph
+                )  # allow users to display specific model results on dataframe graph
 
-                if not models_selections:  # if nothing is selected show all media!
+                if not models_selections:  # if nothing is selected show all models!
                     st.line_chart(df2)
                 else:
                     st.line_chart(df2[models_selections])
@@ -147,10 +150,49 @@ def page_dashboard(state):
                 )
 
                 ############################################
+                st.markdown("### View Other Information:")
 
-                st.markdown("### Stock Information:")
+                if st.checkbox(
+                    "View " + stock_data["stock"] + "'s Model Efficiency Timings"
+                ):
+                    st.markdown("#### Model Efficiencies:")
+                    st.markdown(
+                        "Shows the time in seconds it took models to complete specific tasks:"
+                    )
+                    df3 = pd.DataFrame()
+                    df3 = df3.append(
+                        pd.DataFrame(
+                            [stock_data["prediction_results"]["training_times"]]
+                        )
+                    )
+                    df3 = df3.append(
+                        pd.DataFrame(
+                            [stock_data["prediction_results"]["testing_times"]]
+                        )
+                    )
+                    df3 = df3.append(
+                        pd.DataFrame(
+                            [stock_data["prediction_results"]["new_predictions_times"]]
+                        )
+                    )
+                    df3 = df3.append(
+                        pd.DataFrame(
+                            [stock_data["prediction_results"]["prev_predictions_times"]]
+                        )
+                    )
+                    df3.index = [
+                        "Training",
+                        "Testing/Scoring",
+                        "Future Predictions",
+                        "Historical Predictions",
+                    ]
+                    df3 = df3.transpose()
+                    df3
+
+                ############################################
 
                 if st.checkbox("View " + stock_data["stock"] + "'s Information"):
+                    st.markdown("#### Company Information:")
                     for key in stock_data["stock_info"].keys():
                         st.write("*", key + ":", stock_data["stock_info"][key])
     else:

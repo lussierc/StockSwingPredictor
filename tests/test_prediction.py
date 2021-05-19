@@ -240,6 +240,10 @@ def test_ml_predictions(dates, prices, next_date, stock_name, period):
         prev_close,
         figure,
         plot_dates,
+        training_times,
+        testing_times,
+        new_predictions_times,
+        prev_predictions_times,
     ) = prediction.ml_predictions(dates, prices, next_date, stock_name, period)
 
     assert next_day_predictions is not None
@@ -248,6 +252,10 @@ def test_ml_predictions(dates, prices, next_date, stock_name, period):
     assert prev_close == prices[-1]
     assert prev_predictions is not None
     assert figure is not None
+    assert training_times is not None
+    assert testing_times is not None
+    assert new_predictions_times is not None
+    assert prev_predictions_times is not None
 
 
 def test_create_ml_models():
@@ -331,17 +339,19 @@ def test_create_ml_models():
 def test_train_ml_models(dates, prices, svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr):
     """Tests to see if ML models are trained without issues."""
 
-    svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr = prediction.train_ml_models(
-        svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr, dates, prices
-    )
+    models = {
+        "svr_lin": svr_lin,
+        "svr_poly": svr_poly,
+        "svr_rbf": svr_rbf,
+        "lr": lr,
+        "en": en,
+        "lasso": lasso,
+        "knr": knr,
+    }
 
-    assert svr_lin is not None
-    assert svr_poly is not None
-    assert svr_rbf is not None
-    assert lr is not None
-    assert en is not None
-    assert lasso is not None
-    assert knr is not None
+    trained_models = prediction.train_ml_models(models, dates, prices)
+
+    assert trained_models is not None
 
 
 @pytest.mark.parametrize(
@@ -413,15 +423,27 @@ def test_testscore_ml_models(
 ):
     """Tests to ensure that models are properly scored."""
 
-    svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr = prediction.train_ml_models(
-        svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr, dates, prices
+    models = {
+        "svr_lin": svr_lin,
+        "svr_poly": svr_poly,
+        "svr_rbf": svr_rbf,
+        "lr": lr,
+        "en": en,
+        "lasso": lasso,
+        "knr": knr,
+    }
+
+    trained_models, training_times = prediction.train_ml_models(
+        models, dates, prices
     )  # train models for scoring
 
-    model_scores = prediction.test_ml_models(
-        dates, prices, svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr
+    model_scores, testing_times = prediction.test_ml_models(
+        dates, prices, trained_models
     )  # score models
 
     assert model_scores is not None
+    assert training_times is not None
+    assert testing_times is not None
 
     for key in model_scores.keys():
         assert (
@@ -499,19 +521,31 @@ def test_make_new_predictions(
 ):
     """Tests if new predictions can be properly made."""
 
-    svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr = prediction.train_ml_models(
-        svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr, dates, prices
+    models = {
+        "svr_lin": svr_lin,
+        "svr_poly": svr_poly,
+        "svr_rbf": svr_rbf,
+        "lr": lr,
+        "en": en,
+        "lasso": lasso,
+        "knr": knr,
+    }
+
+    trained_models, training_times = prediction.train_ml_models(
+        models, dates, prices
     )  # train models
 
     next_date = np.reshape(
         next_date, (len(next_date), 1)
     )  # format the next_data var for prediction purposes
 
-    next_day_predictions = prediction.make_new_predictions(
-        svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr, next_date
+    next_day_predictions, new_predictions_times = prediction.make_new_predictions(
+        trained_models, next_date
     )  # make new predictions
 
     assert next_day_predictions is not None
+    assert training_times is not None
+    assert new_predictions_times is not None
 
 
 @pytest.mark.parametrize(

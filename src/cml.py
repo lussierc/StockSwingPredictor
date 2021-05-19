@@ -279,7 +279,9 @@ def print_tables(
     )
     print_res = input(color.GREEN + "\t* Y or N?: " + color.END).upper()
     if print_res == "Y":
-        print("Displaying the time in seconds it took models to complete certain tasks:")
+        print(
+            "Displaying the time in seconds it took models to complete certain tasks:"
+        )
         table1 = PrettyTable()
         table1.field_names = [
             "Model",

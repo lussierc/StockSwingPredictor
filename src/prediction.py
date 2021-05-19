@@ -80,9 +80,7 @@ def ml_predictions(dates, prices, next_date, stock_name, period):
         models, dates, prices
     )  # trains SVR models with previous price/date data
 
-    model_scores, testing_times = test_ml_models(
-        dates, prices, trained_models
-    )
+    model_scores, testing_times = test_ml_models(dates, prices, trained_models)
 
     next_day_predictions, new_predictions_times = make_new_predictions(
         trained_models, next_date
@@ -136,9 +134,18 @@ def create_ml_models():
     lasso = Lasso()
     knr = KNeighborsRegressor()
 
-    models = {'svr_lin': svr_lin, 'svr_poly': svr_poly, 'svr_rbf': svr_rbf, 'lr': lr, 'en': en, 'lasso': lasso, 'knr': knr}
+    models = {
+        "svr_lin": svr_lin,
+        "svr_poly": svr_poly,
+        "svr_rbf": svr_rbf,
+        "lr": lr,
+        "en": en,
+        "lasso": lasso,
+        "knr": knr,
+    }
 
     return models
+
 
 def train_ml_models(models, dates, prices):
     """Trains/fits SVR models."""
@@ -196,7 +203,6 @@ def make_new_predictions(trained_models, next_date):
     }
     new_predictions_times = {}
 
-
     for key in trained_models.keys():
         start = timer()
         price_predictions[key] = trained_models[key].predict(next_date)[0]
@@ -205,13 +211,10 @@ def make_new_predictions(trained_models, next_date):
         time_elapsed = end - start
         new_predictions_times[key] = time_elapsed
 
-
     return price_predictions, new_predictions_times
 
 
-def make_prev_predictions(
-    dates, prices, trained_models
-):
+def make_prev_predictions(dates, prices, trained_models):
     """Makes predictions on previous days of data, which the models were trained on."""
 
     prev_price_predictions = {

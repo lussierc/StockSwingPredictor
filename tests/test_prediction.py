@@ -339,11 +339,17 @@ def test_create_ml_models():
 def test_train_ml_models(dates, prices, svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr):
     """Tests to see if ML models are trained without issues."""
 
-    models = {'svr_lin': svr_lin, 'svr_poly': svr_poly, 'svr_rbf': svr_rbf, 'lr': lr, 'en': en, 'lasso': lasso, 'knr': knr}
+    models = {
+        "svr_lin": svr_lin,
+        "svr_poly": svr_poly,
+        "svr_rbf": svr_rbf,
+        "lr": lr,
+        "en": en,
+        "lasso": lasso,
+        "knr": knr,
+    }
 
-    trained_models = prediction.train_ml_models(
-        models, dates, prices
-    )
+    trained_models = prediction.train_ml_models(models, dates, prices)
 
     assert trained_models is not None
 
@@ -417,7 +423,15 @@ def test_testscore_ml_models(
 ):
     """Tests to ensure that models are properly scored."""
 
-    models = {'svr_lin': svr_lin, 'svr_poly': svr_poly, 'svr_rbf': svr_rbf, 'lr': lr, 'en': en, 'lasso': lasso, 'knr': knr}
+    models = {
+        "svr_lin": svr_lin,
+        "svr_poly": svr_poly,
+        "svr_rbf": svr_rbf,
+        "lr": lr,
+        "en": en,
+        "lasso": lasso,
+        "knr": knr,
+    }
 
     trained_models, training_times = prediction.train_ml_models(
         models, dates, prices
@@ -507,7 +521,15 @@ def test_make_new_predictions(
 ):
     """Tests if new predictions can be properly made."""
 
-    models = {'svr_lin': svr_lin, 'svr_poly': svr_poly, 'svr_rbf': svr_rbf, 'lr': lr, 'en': en, 'lasso': lasso, 'knr': knr}
+    models = {
+        "svr_lin": svr_lin,
+        "svr_poly": svr_poly,
+        "svr_rbf": svr_rbf,
+        "lr": lr,
+        "en": en,
+        "lasso": lasso,
+        "knr": knr,
+    }
 
     trained_models, training_times = prediction.train_ml_models(
         models, dates, prices
@@ -524,6 +546,7 @@ def test_make_new_predictions(
     assert next_day_predictions is not None
     assert training_times is not None
     assert new_predictions_times is not None
+
 
 @pytest.mark.parametrize(
     "pred1, prev_close1, pred2, prev_close2, pred3, prev_close3",

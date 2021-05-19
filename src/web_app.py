@@ -100,9 +100,11 @@ def page_dashboard(state):
 
                 df2 = pd.DataFrame.from_dict(stock_data["prev_predictions"])
 
-                select_lbl = "Enter the names of models for " + stock_data['stock'] + ":"
+                select_lbl = (
+                    "Enter the names of models for " + stock_data["stock"] + ":"
+                )
                 models_selections = st.multiselect(
-                    label= select_lbl,
+                    label=select_lbl,
                     options=df2.columns,
                 )  # allow users to display specific model results on dataframe graph
 
@@ -150,9 +152,13 @@ def page_dashboard(state):
                 ############################################
                 st.markdown("### View Other Information:")
 
-                if st.checkbox("View " + stock_data["stock"] + "'s Model Efficiency Timings"):
+                if st.checkbox(
+                    "View " + stock_data["stock"] + "'s Model Efficiency Timings"
+                ):
                     st.markdown("#### Model Efficiencies:")
-                    st.markdown("Shows the time in seconds it took models to complete specific tasks:")
+                    st.markdown(
+                        "Shows the time in seconds it took models to complete specific tasks:"
+                    )
                     df3 = pd.DataFrame()
                     df3 = df3.append(
                         pd.DataFrame(
@@ -174,7 +180,12 @@ def page_dashboard(state):
                             [stock_data["prediction_results"]["prev_predictions_times"]]
                         )
                     )
-                    df3.index = ["Training", "Testing/Scoring", "Future Predictions", "Historical Predictions"]
+                    df3.index = [
+                        "Training",
+                        "Testing/Scoring",
+                        "Future Predictions",
+                        "Historical Predictions",
+                    ]
                     df3 = df3.transpose()
                     df3
 

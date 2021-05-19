@@ -52,7 +52,7 @@ def organize_prediction_results(
         "training_times": training_times,
         "testing_times": testing_times,
         "new_predictions_times": new_predictions_times,
-        "prev_predictions_times": prev_predictions_times
+        "prev_predictions_times": prev_predictions_times,
     }
 
     return prediction_results

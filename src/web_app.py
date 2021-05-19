@@ -148,10 +148,40 @@ def page_dashboard(state):
                 )
 
                 ############################################
+                st.markdown("### View Other Information:")
 
-                st.markdown("### Stock Information:")
+                if st.checkbox("View " + stock_data["stock"] + "'s Model Efficiency Timings"):
+                    st.markdown("### Model Efficiencies:")
+                    st.markdown("Shows the time in seconds it took models to complete specific tasks:")
+                    df3 = pd.DataFrame()
+                    df3 = df3.append(
+                        pd.DataFrame(
+                            [stock_data["prediction_results"]["training_times"]]
+                        )
+                    )
+                    df3 = df3.append(
+                        pd.DataFrame(
+                            [stock_data["prediction_results"]["testing_times"]]
+                        )
+                    )
+                    df3 = df3.append(
+                        pd.DataFrame(
+                            [stock_data["prediction_results"]["new_predictions_times"]]
+                        )
+                    )
+                    df3 = df3.append(
+                        pd.DataFrame(
+                            [stock_data["prediction_results"]["prev_predictions_times"]]
+                        )
+                    )
+                    df3.index = ["Training", "Testing/Scoring", "Future Predictions", "Historical Predictions"]
+                    df3 = df3.transpose()
+                    df3
+
+                ############################################
 
                 if st.checkbox("View " + stock_data["stock"] + "'s Information"):
+                    st.markdown("#### Company Information:")
                     for key in stock_data["stock_info"].keys():
                         st.write("*", key + ":", stock_data["stock_info"][key])
     else:

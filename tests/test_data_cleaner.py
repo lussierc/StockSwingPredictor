@@ -20,7 +20,7 @@ def test_clean_scraped_prediction_data():
 
 
 @pytest.mark.parametrize(
-    "stock_name, prev_close, date, period, swing_predictions, next_day_predictions, model_scores, figure",
+    "stock_name, prev_close, date, period, swing_predictions, next_day_predictions, model_scores, figure, training_times, testing_times, new_predictions_times, prev_predictions_times",
     [
         (
             "DKNG",
@@ -55,6 +55,10 @@ def test_clean_scraped_prediction_data():
                 "knr": 0.0,
             },
             None,
+            {'svr_lin': 1.419194729, 'svr_poly': 0.017398838000000083, 'svr_rbf': 0.0009485979999999117, 'lr': 0.00044727600000005197, 'en': 0.00033938900000052286, 'lasso': 0.0002532669999997239, 'knr': 0.0002626839999999575},
+            {'svr_lin': 0.00027037399999940703, 'svr_poly': 0.00022543800000018877, 'svr_rbf': 0.00023781600000027936, 'lr': 0.00019492599999981763, 'en': 0.00018125999999973885, 'lasso': 0.00017680000000019902, 'knr': 0.0006323699999999377},
+            {'svr_lin': 0.00011343500000027262, 'svr_poly': 7.181300000080881e-05, 'svr_rbf': 5.0917000000261226e-05, 'lr': 3.609200000020962e-05, 'en': 3.762399999995836e-05, 'lasso': 3.350099999988032e-05, 'knr': 0.00029530299999969145},
+            {'svr_lin': 9.268200000001059e-05, 'svr_poly': 8.40960000001445e-05, 'svr_rbf': 9.508499999988373e-05, 'lr': 4.266499999960871e-05, 'en': 4.0494999999474146e-05, 'lasso': 3.730499999932135e-05, 'knr': 0.0003003990000003398},
         )
     ],
 )
@@ -67,6 +71,10 @@ def test_organize_prediction_results(
     next_day_predictions,
     model_scores,
     figure,
+    training_times,
+    testing_times,
+    new_predictions_times,
+    prev_predictions_times,
 ):
     """Tests to ensure the function can correctly store and format prediction results."""
 
@@ -79,6 +87,10 @@ def test_organize_prediction_results(
         period,
         date,
         figure,
+        training_times,
+        testing_times,
+        new_predictions_times,
+        prev_predictions_times,
     )
 
     assert prediction_results is not None

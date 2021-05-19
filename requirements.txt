@@ -1,0 +1,9 @@
+pytest
+numpy
+pandas
+sklearn
+datetime
+yfinance
+streamlit
+plotly
+prettytable

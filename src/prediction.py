@@ -65,30 +65,22 @@ def ml_predictions(dates, prices, next_date, stock_name, period):
 
     next_date = np.reshape(next_date, (len(next_date), 1))
 
-    (
-        svr_lin,
-        svr_poly,
-        svr_rbf,
-        lr,
-        en,
-        lasso,
-        knr,
-    ) = create_ml_models()  # creates and sets up SVR models
+    models = create_ml_models()  # creates and sets up SVR models
 
-    svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr = train_ml_models(
-        svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr, dates, prices
+    trained_models = train_ml_models(
+        models, dates, prices
     )  # trains SVR models with previous price/date data
 
     model_scores = test_ml_models(
-        dates, prices, svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr
+        dates, prices, trained_models
     )
 
     next_day_predictions = make_new_predictions(
-        svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr, next_date
+        trained_models, next_date
     )
 
     prev_predictions = make_prev_predictions(
-        dates, prices, svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr
+        dates, prices, trained_models
     )
 
     figure, plot_dates = plot_predictions(
@@ -123,6 +115,7 @@ def ml_predictions(dates, prices, next_date, stock_name, period):
 def create_ml_models():
     """Creates SVR models."""
 
+
     svr_lin = SVR(kernel="linear", C=1e3)
     svr_poly = SVR(kernel="poly", C=1e3, degree=2)
     svr_rbf = SVR(kernel="rbf", C=1e3, degree=3, gamma="scale")
@@ -131,24 +124,22 @@ def create_ml_models():
     lasso = Lasso()
     knr = KNeighborsRegressor()
 
-    return svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr
+    models = {'svr_lin': svr_lin, 'svr_poly': svr_poly, 'svr_rbf': svr_rbf, 'lr': lr, 'en': en, 'lasso': lasso, 'knr': knr}
 
+    return models
 
-def train_ml_models(svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr, dates, prices):
+def train_ml_models(models, dates, prices):
     """Trains/fits SVR models."""
 
-    svr_lin.fit(dates, prices)  # Fit regression model
-    svr_poly.fit(dates, prices)
-    svr_rbf.fit(dates, prices)
-    lr.fit(dates, prices)
-    en.fit(dates, prices)
-    lasso.fit(dates, prices)
-    knr.fit(dates, prices)
+    trained_models = {}
 
-    return svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr
+    for key in models.keys():
+        trained_models[key] = models[key].fit(dates, prices)
+
+    return trained_models
 
 
-def test_ml_models(dates, prices, svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr):
+def test_ml_models(dates, prices, trained_models):
     """Test models and determine a confidence score rating of the predictions generated."""
 
     model_scores = {
@@ -161,19 +152,13 @@ def test_ml_models(dates, prices, svr_lin, svr_poly, svr_rbf, lr, en, lasso, knr
         "knr": 0.0,
     }
 
-    # Create a testing model: (the score returns the coefficient of determination R^2 of the prediction (best score is 1.0)):
-    model_scores["svr_lin"] = svr_lin.score(dates, prices)
-    model_scores["svr_poly"] = svr_poly.score(dates, prices)
-    model_scores["svr_rbf"] = svr_rbf.score(dates, prices)
-    model_scores["lr"] = lr.score(dates, prices)
-    model_scores["en"] = en.score(dates, prices)
-    model_scores["lasso"] = lasso.score(dates, prices)
-    model_scores["knr"] = knr.score(dates, prices)
+    for key in trained_models.keys():
+        model_scores[key] = trained_models[key].score(dates, prices)
 
     return model_scores
 
 
-def make_new_predictions(svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr, next_date):
+def make_new_predictions(trained_models, next_date):
     """Makes predictions for the next day's stock price."""
 
     price_predictions = {
@@ -186,32 +171,30 @@ def make_new_predictions(svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr, next_da
         "knr": 0.0,
     }
 
-    price_predictions["svr_lin"] = svr_lin.predict(next_date)[0]
-    price_predictions["svr_poly"] = svr_poly.predict(next_date)[0]
-    price_predictions["svr_rbf"] = svr_rbf.predict(next_date)[0]
-    price_predictions["lr"] = lr.predict(next_date)[0]
-    price_predictions["en"] = en.predict(next_date)[0]
-    price_predictions["lasso"] = lasso.predict(next_date)[0]
-    price_predictions["knr"] = knr.predict(next_date)[0]
+    for key in trained_models.keys():
+        price_predictions[key] = trained_models[key].predict(next_date)[0]
 
     return price_predictions
 
 
 def make_prev_predictions(
-    dates, prices, svr_rbf, svr_lin, svr_poly, lr, en, lasso, knr
+    dates, prices, trained_models
 ):
     """Makes predictions on previous days of data, which the models were trained on."""
 
     prev_price_predictions = {
-        "svr_lin": list(svr_lin.predict(dates)),
-        "svr_poly": list(svr_poly.predict(dates)),
-        "svr_rbf": list(svr_rbf.predict(dates)),
-        "lr": list(lr.predict(dates)),
-        "en": list(en.predict(dates)),
-        "lasso": list(lasso.predict(dates)),
-        "knr": list(knr.predict(dates)),
+        "svr_lin": [],
+        "svr_poly": [],
+        "svr_rbf": [],
+        "lr": [],
+        "en": [],
+        "lasso": [],
+        "knr": [],
         "prices": prices,
     }
+
+    for key in trained_models.keys():
+        prev_price_predictions[key] = list(trained_models[key].predict(dates))
 
     return prev_price_predictions
 

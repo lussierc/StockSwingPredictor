@@ -3,6 +3,7 @@
 import data_cleaner
 
 from datetime import date
+from timeit import default_timer as timer
 import numpy as np
 import plotly.graph_objects as go
 from sklearn.linear_model import LinearRegression
@@ -67,19 +68,19 @@ def ml_predictions(dates, prices, next_date, stock_name, period):
 
     models = create_ml_models()  # creates and sets up SVR models
 
-    trained_models = train_ml_models(
+    trained_models, training_times = train_ml_models(
         models, dates, prices
     )  # trains SVR models with previous price/date data
 
-    model_scores = test_ml_models(
+    model_scores, testing_times = test_ml_models(
         dates, prices, trained_models
     )
 
-    next_day_predictions = make_new_predictions(
+    next_day_predictions, new_predictions_times = make_new_predictions(
         trained_models, next_date
     )
 
-    prev_predictions = make_prev_predictions(
+    prev_predictions, prev_predictions_times = make_prev_predictions(
         dates, prices, trained_models
     )
 
@@ -115,7 +116,6 @@ def ml_predictions(dates, prices, next_date, stock_name, period):
 def create_ml_models():
     """Creates SVR models."""
 
-
     svr_lin = SVR(kernel="linear", C=1e3)
     svr_poly = SVR(kernel="poly", C=1e3, degree=2)
     svr_rbf = SVR(kernel="rbf", C=1e3, degree=3, gamma="scale")
@@ -132,11 +132,17 @@ def train_ml_models(models, dates, prices):
     """Trains/fits SVR models."""
 
     trained_models = {}
+    training_times = {}
 
     for key in models.keys():
+        start = timer()
         trained_models[key] = models[key].fit(dates, prices)
+        end = timer()
 
-    return trained_models
+        time_elapsed = end - start
+        training_times[key] = time_elapsed
+
+    return trained_models, training_times
 
 
 def test_ml_models(dates, prices, trained_models):
@@ -151,11 +157,17 @@ def test_ml_models(dates, prices, trained_models):
         "lasso": 0.0,
         "knr": 0.0,
     }
+    testing_times = {}
 
     for key in trained_models.keys():
+        start = timer()
         model_scores[key] = trained_models[key].score(dates, prices)
+        end = timer()
 
-    return model_scores
+        time_elapsed = end - start
+        testing_times[key] = time_elapsed
+
+    return model_scores, testing_times
 
 
 def make_new_predictions(trained_models, next_date):
@@ -170,11 +182,19 @@ def make_new_predictions(trained_models, next_date):
         "lasso": 0.0,
         "knr": 0.0,
     }
+    new_predictions_times = {}
+
 
     for key in trained_models.keys():
+        start = timer()
         price_predictions[key] = trained_models[key].predict(next_date)[0]
+        end = timer()
 
-    return price_predictions
+        time_elapsed = end - start
+        new_predictions_times[key] = time_elapsed
+
+
+    return price_predictions, new_predictions_times
 
 
 def make_prev_predictions(
@@ -192,11 +212,17 @@ def make_prev_predictions(
         "knr": [],
         "prices": prices,
     }
+    prev_predictions_times = {}
 
     for key in trained_models.keys():
+        start = timer()
         prev_price_predictions[key] = list(trained_models[key].predict(dates))
+        end = timer()
 
-    return prev_price_predictions
+        time_elapsed = end - start
+        prev_predictions_times[key] = time_elapsed
+
+    return prev_price_predictions, prev_predictions_times
 
 
 def plot_predictions(

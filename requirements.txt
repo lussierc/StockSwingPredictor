@@ -3,7 +3,7 @@ numpy
 pandas
 sklearn
 datetime
-yfinance
+yfinance==0.1.63
 streamlit
 plotly
 prettytable

@@ -15,7 +15,7 @@ def main():
     elif choice == 2:
         # run the web UI to be implemented later
         print("\n\n*IMPORTANT: Here is the proper link if using the tool in DOCKER: http://localhost:8501")
-        os.system("streamlit run src/web_app.py")
+        os.system("streamlit run src/web_app.py local")
 
     else:
         print("Invalid option, running the CML...")

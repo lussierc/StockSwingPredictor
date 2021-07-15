@@ -2,14 +2,20 @@
 
 # imports:
 import sys
-import streamlit as st
+
 import pandas as pd
+import streamlit as st
 from PIL import Image
 from streamlit.hashing import _CodeHasher
 
-import prediction, scraper, data_cleaner, json_handler
+import data_cleaner
+import json_handler
+import prediction
+import scraper
 
-run_location = sys.argv[1] # determine whether it was run online or locally by system args
+run_location = sys.argv[
+    1
+]  # determine whether it was run online or locally by system args
 
 try:
     # Before Streamlit 0.65
@@ -254,7 +260,9 @@ def page_settings(state):
             st.markdown("### Export Options")
             if st.checkbox("Would you like to export results?", state.export_checkbox):
                 state.export_checkbox = True
-                st.markdown("#### Enter New or Existing Export File Name (filename.json):")
+                st.markdown(
+                    "#### Enter New or Existing Export File Name (filename.json):"
+                )
                 state.file_name = st.text_input(
                     "Enter the export filename.", state.input or ""
                 )

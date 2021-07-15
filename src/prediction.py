@@ -1,17 +1,16 @@
 """Creates a model and performs a stock price swing prediction using ML methods."""
 
-import data_cleaner
-
 from datetime import date
 from timeit import default_timer as timer
+
 import numpy as np
 import plotly.graph_objects as go
-from sklearn.linear_model import LinearRegression
-from sklearn.svm import SVR
+from sklearn.linear_model import ElasticNet, Lasso, LinearRegression
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import ElasticNet
-from sklearn.linear_model import Lasso
 from sklearn.neighbors import KNeighborsRegressor
+from sklearn.svm import SVR
+
+import data_cleaner
 
 
 def run_predictor(scraped_data, period):

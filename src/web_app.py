@@ -1,12 +1,21 @@
 """Web App user interface for the project using Streamlit."""
 
 # imports:
-import streamlit as st
+import sys
+
 import pandas as pd
+import streamlit as st
 from PIL import Image
 from streamlit.hashing import _CodeHasher
 
-import prediction, scraper, data_cleaner, json_handler
+import data_cleaner
+import json_handler
+import prediction
+import scraper
+
+run_location = sys.argv[
+    1
+]  # determine whether it was run online or locally by system args
 
 try:
     # Before Streamlit 0.65
@@ -29,7 +38,7 @@ def main():
     }
 
     st.sidebar.title(":mag: Pages")
-    page = st.sidebar.radio("Select your page", tuple(pages.keys()))
+    page = st.sidebar.radio("Select your page:", tuple(pages.keys()))
 
     # Display the selected page with the session state
     pages[page](state)
@@ -221,11 +230,18 @@ def page_settings(state):
 
     st.markdown("#### Choose dataset size to train models with:")
     options = ["5d", "1mo", "3mo", "6mo", "1y", "5y", "10y", "max"]
-    state.period = st.radio(
-        "Choose data length. Recommended data lengths/models for these data lengths can be found on the home screen. Overall, for most models 1-year of data seems to be most optimal.",
-        options,
-        options.index(state.radio) if state.radio else 0,
-    )
+    if run_location == "web":
+        state.period = st.radio(
+            "Choose amount of historical training data. 1 year is recommended, find more recommendations on homepage.",
+            options,
+            options.index(state.radio) if state.radio else 0,
+        )
+    else:
+        state.period = st.radio(
+            "Choose amount of historical training data. Recommended data lengths/models for these data lengths can be found on the home screen. Overall, for most models 1-year of data seems to be most optimal.",
+            options,
+            options.index(state.radio) if state.radio else 0,
+        )
 
     if st.button("Run the Tool", state.run):
         state.run = True
@@ -239,21 +255,25 @@ def page_settings(state):
 
     if state.run == True:
         st.markdown("## *Go to the dashboard to view your newly scraped data data.*")
-        st.markdown("### Export Options")
-        if st.checkbox("Would you like to export results?", state.export_checkbox):
-            state.export_checkbox = True
-            st.markdown("#### Enter New or Existing Export File Name (filename.json):")
-            state.file_name = st.text_input(
-                "Enter the export filename.", state.input or ""
-            )
-            if state.file_name:
-                for data in state.finalized_data:
-                    json_handler.append_json(
-                        data["prediction_results"], state.file_name
-                    )
-                st.markdown("Your data has been exported!")
-            else:
-                st.markdown("Enter a file name to export data!")
+
+        if run_location != "web":
+            st.markdown("### Export Options")
+            if st.checkbox("Would you like to export results?", state.export_checkbox):
+                state.export_checkbox = True
+                st.markdown(
+                    "#### Enter New or Existing Export File Name (filename.json):"
+                )
+                state.file_name = st.text_input(
+                    "Enter the export filename.", state.input or ""
+                )
+                if state.file_name:
+                    for data in state.finalized_data:
+                        json_handler.append_json(
+                            data["prediction_results"], state.file_name
+                        )
+                    st.markdown("Your data has been exported!")
+                else:
+                    st.markdown("Enter a file name to export data!")
 
 
 def display_state_values(state):

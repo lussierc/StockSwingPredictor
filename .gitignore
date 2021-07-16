@@ -3,7 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# MAC OS
+# Docker:
+.bash_history
+
+# MAC OS:
 **/.DS_Store
 
 # C extensions

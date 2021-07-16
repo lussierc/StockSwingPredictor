@@ -1,7 +1,11 @@
 """Will house the Command Line Interface (CML) for the tool."""
 
-import prediction, scraper, data_cleaner, json_handler
 from prettytable import PrettyTable
+
+import data_cleaner
+import json_handler
+import prediction
+import scraper
 
 
 class color:

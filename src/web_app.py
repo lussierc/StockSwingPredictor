@@ -141,14 +141,15 @@ def page_dashboard(state):
                     )
                 )
                 df = df.append(
-                    pd.DataFrame([stock_data["prediction_results"]["model_scores"]])
-                )
-                df = df.append(
                     pd.DataFrame(
                         [stock_data["prediction_results"]["next_day_predictions"]]
                     )
                 )
-                df.index = ["Swing Predicton", "Model Score", "Price Prediction ($)"]
+                df = df.append(
+                    pd.DataFrame([stock_data["prediction_results"]["model_scores"]])
+                )
+
+                df.index = ["Swing Predicton", "Price Prediction ($)", "Model Fit Score"]
                 df = df.transpose()
                 df # display chart
 

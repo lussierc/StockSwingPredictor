@@ -141,26 +141,51 @@ def page_dashboard(state):
                     )
                 )
                 df = df.append(
-                    pd.DataFrame([stock_data["prediction_results"]["model_scores"]])
-                )
-                df = df.append(
                     pd.DataFrame(
                         [stock_data["prediction_results"]["next_day_predictions"]]
                     )
                 )
-                df.index = ["Swing Predicton", "Model Score", "Price Prediction"]
+                df = df.append(
+                    pd.DataFrame([stock_data["prediction_results"]["model_scores"]])
+                )
+
+                df.index = [
+                    "Swing Predicton",
+                    "Price Prediction ($)",
+                    "Model Fit Score",
+                ]
                 df = df.transpose()
-                df
+                df  # display chart
+
                 st.markdown(
-                    "**The current price of the stock is $"
+                    "- The current price of the stock is *$"
                     + str(
                         round(stock_data["prediction_results"]["current_prev_close"], 2)
                     )
-                    + ".**"
+                    + "*."
                 )
-                st.markdown(
-                    "*Note:* View the home screen for information about the best models and training data size combinations."
-                )
+
+                if state.period == "1mo":
+                    st.markdown("- **Recommended Model (for 1mo):** SVR-RBF")
+                    st.markdown(
+                        "- *View the homescreen for more model & dataset size combination recommendations.*"
+                    )
+                elif state.period == "6mo":
+                    st.markdown(
+                        "- **Recommended Model (for 6mo):** SVR-Poly (most recommended), LR, EN, or Lasso."
+                    )
+                    st.markdown(
+                        "- *View the homescreen for more model & dataset size combination recommendations.*"
+                    )
+                elif state.period == "1y":
+                    st.markdown("- **Recommended Model (for 1yr):** SVR-Poly")
+                    st.markdown(
+                        "- *View the homescreen for more model & dataset size combination recommendations.*"
+                    )
+                else:
+                    st.markdown(
+                        "*Note:* View the home screen for information about the best models and training data size combinations."
+                    )
 
                 ############################################
                 st.markdown("### View Other Information:")
@@ -233,18 +258,12 @@ def page_settings(state):
 
     st.markdown("#### Choose dataset size to train models with:")
     options = ["5d", "1mo", "3mo", "6mo", "1y", "5y", "10y", "max"]
-    if run_location == "local":
-        state.period = st.radio(
-            "Choose amount of historical training data. Recommended data lengths/models for these data lengths can be found on the home screen. Overall, for most models 1-year of data seems to be most optimal.",
-            options,
-            options.index(state.radio) if state.radio else 0,
-        )
-    else:
-        state.period = st.radio(
-            "Choose amount of historical training data. 1 year is recommended, find more recommendations on homepage.",
-            options,
-            options.index(state.radio) if state.radio else 0,
-        )
+
+    state.period = st.radio(
+        "Choose amount of historical training data. 1 year is recommended, find more recommendations on homepage.",
+        options,
+        options.index(state.radio) if state.radio else 0,
+    )
 
     if st.button("Run the Tool", state.run_button):
         state.run_button_checked = True

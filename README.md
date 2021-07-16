@@ -53,7 +53,7 @@ First ensure Python and Pip are installed on your machine. Ensure you are in the
 
 You can install the required packages for the project using Pip by running `pip3 install -r requirements.txt` or `pip install -r requirements.txt` depending on your machine's Pip installation.
 
-Then, you can run the program by using the command `python3 src/ssp.py`.
+Then, you can run the program by using the command `python3 src/SSP.py`.
 
 ### Running with Docker
 
@@ -63,7 +63,7 @@ There are builder scripts for each type of machine. First ensure you are in the 
 
 1. `sh ./docker/build_macOS.sh` -- builds the container
 2. `sh ./docker/run_macOS.sh` -- enters the container
-3. `python3 src/ssp.py` -- run the program
+3. `python3 src/SSP.py` -- run the program
 
 #### OS-specific scripts to build and run containers
 The following bash scripts simplify building the container.
@@ -104,7 +104,7 @@ TOTAL                   181      0   100%
 ========================================================== 18 passed in 14.78s ===========================================================
 ```
 
-*Note:* `ssp.py`, `cml.py`, and `web_app.py` are excluded from the coverage report as since they are UIs, they don't have much code that can be tested automatically.
+*Note:* `SSP.py`, `cml.py`, and `web_app.py` are excluded from the coverage report as since they are UIs, they don't have much code that can be tested automatically.
 
 
 ## Preliminary Prediction Results

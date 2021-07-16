@@ -166,19 +166,19 @@ def page_dashboard(state):
                 )
 
                 if state.period == "1mo":
-                    st.markdown("- **Recommended Model (for 1mo):** SVR-RBF")
+                    st.markdown("- *Recommended Model (for 1mo):* SVR-RBF")
                     st.markdown(
                         "- *View the homescreen for more model & dataset size combination recommendations.*"
                     )
                 elif state.period == "6mo":
                     st.markdown(
-                        "- **Recommended Model (for 6mo):** SVR-Poly (most recommended), LR, EN, or Lasso."
+                        "- *Recommended Model (for 6mo):* SVR-Poly (most recommended), LR, EN, or Lasso."
                     )
                     st.markdown(
                         "- *View the homescreen for more model & dataset size combination recommendations.*"
                     )
                 elif state.period == "1y":
-                    st.markdown("- **Recommended Model (for 1yr):** SVR-Poly")
+                    st.markdown("- *Recommended Model (for 1yr):* SVR-Poly")
                     st.markdown(
                         "- *View the homescreen for more model & dataset size combination recommendations.*"
                     )

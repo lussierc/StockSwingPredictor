@@ -246,8 +246,8 @@ def page_settings(state):
             options.index(state.radio) if state.radio else 0,
         )
 
-    if st.button("Run the Tool", state.run):
-        state.run = True
+    if st.button("Run the Tool", state.run_button):
+        state.run_button_checked = True
         st.markdown(
             "### *PLEASE WAIT! Scraping data, training models, and generating prediction results NOW!*"
         )
@@ -256,7 +256,7 @@ def page_settings(state):
             state.scraped_data, state.period
         )
 
-    if state.run == True:
+    if state.run_button_checked == True:
         st.markdown("## *Go to the dashboard to view your newly scraped data data.*")
 
         if run_location == "local":

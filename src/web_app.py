@@ -93,7 +93,9 @@ def page_home(state):
     st.markdown(
         "This shows how accurate models are and which amount of training data they are most accuate with. \n This table displays the predictions on 9 different stocks over 5 different days for each time period of data. This was done from 3/30/2021-4/6/2021. With this, the percentage represents the number of predictions that were correct, out of a total 45 predictions that were made for each time period of data."
     )
-
+    st.markdown("## Get in Touch & Learn More:")
+    st.markdown("- View source code on the [Project GitHub](https://github.com/lussierc/StockSwingPredictor). Consider contributing.")
+    st.markdown("- View my personal website and get contact information [here](https://christianlussier.com).")
 
 def page_dashboard(state):
     """The prediction results dashboard page, where users can view generated results."""

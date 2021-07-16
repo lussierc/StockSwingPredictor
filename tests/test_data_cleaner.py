@@ -16,7 +16,6 @@ def test_clean_scraped_prediction_data():
     assert prices is not None
     assert dates[0] == 0
     assert dates[1] == 1
-    assert prices is not None
 
 
 @pytest.mark.parametrize(

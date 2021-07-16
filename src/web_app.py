@@ -70,9 +70,6 @@ def page_home(state):
     st.markdown(
         "After filling out the data fields for your chosen option, you can than click the button below to run the tool. After this, wait until the tool prompts you to `Go to the Prediction Dashboard to view your data`. Once prompted, you can then go to the Prediction Dashboard page and view your data."
     )
-    st.markdown(
-        "Within the Dashboard, you can then view information for all the stocks at once, or look at individual stocks and more specific information (pertaining to individual articles)."
-    )
 
     st.markdown("## Experimental Results and Optimal Settings:")
     st.markdown(

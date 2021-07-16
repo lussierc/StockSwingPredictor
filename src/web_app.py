@@ -230,15 +230,15 @@ def page_settings(state):
 
     st.markdown("#### Choose dataset size to train models with:")
     options = ["5d", "1mo", "3mo", "6mo", "1y", "5y", "10y", "max"]
-    if run_location == "web":
+    if run_location == "local":
         state.period = st.radio(
-            "Choose amount of historical training data. 1 year is recommended, find more recommendations on homepage.",
+            "Choose amount of historical training data. Recommended data lengths/models for these data lengths can be found on the home screen. Overall, for most models 1-year of data seems to be most optimal.",
             options,
             options.index(state.radio) if state.radio else 0,
         )
     else:
         state.period = st.radio(
-            "Choose amount of historical training data. Recommended data lengths/models for these data lengths can be found on the home screen. Overall, for most models 1-year of data seems to be most optimal.",
+            "Choose amount of historical training data. 1 year is recommended, find more recommendations on homepage.",
             options,
             options.index(state.radio) if state.radio else 0,
         )
@@ -256,7 +256,7 @@ def page_settings(state):
     if state.run == True:
         st.markdown("## *Go to the dashboard to view your newly scraped data data.*")
 
-        if run_location != "web":
+        if run_location == "local":
             st.markdown("### Export Options")
             if st.checkbox("Would you like to export results?", state.export_checkbox):
                 state.export_checkbox = True

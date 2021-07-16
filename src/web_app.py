@@ -57,7 +57,7 @@ def page_home(state):
 
     image = Image.open("ssp.png")  # load logo
     st.image(image, use_column_width=True)
-
+    st.markdown("*Note:* This is a conceptual tool and should not be used to make real/serious trading decisions.")
     st.markdown("## Tool Overview:")
     st.markdown(
         "The Stock Swing Predictor makes future stock price swing predictions for any stock for the next day. Price swings are simply whether or not a price goes up or down, so with this the tool predicts which way a stocks price will move or swing for the upcoming day.\nPredictions are made using seven different models and with the user's choice of dataset size. The models are trained using the stock price data of previous days."
@@ -93,6 +93,8 @@ def page_home(state):
     st.markdown("## Get in Touch & Learn More:")
     st.markdown("- View source code on the [Project GitHub](https://github.com/lussierc/StockSwingPredictor). Consider contributing.")
     st.markdown("- View my personal website and get contact information [here](https://christianlussier.com).")
+    st.markdown("## Disclaimer:")
+    st.markdown("We are not responsible for any investment losses incurred by users. This tool is by no means, a be-all-end all for stock prediction and while it offers promise it should not be used to make serious trading decisons. It is a conceptual tool that is somewhat accurate and is meant give users insights into the potential uses of ML for stock prediction.")
 
 def page_dashboard(state):
     """The prediction results dashboard page, where users can view generated results."""

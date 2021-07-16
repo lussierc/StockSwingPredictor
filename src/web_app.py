@@ -13,9 +13,12 @@ import json_handler
 import prediction
 import scraper
 
-run_location = sys.argv[
-    1
-]  # determine whether it was run online or locally by system args
+if len(sys.argv) > 1:
+    run_location = sys.argv[
+        1
+    ]  # determine whether it was run online or locally by system args
+else:
+    run_location = "web"
 
 try:
     # Before Streamlit 0.65

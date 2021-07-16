@@ -148,19 +148,37 @@ def page_dashboard(state):
                         [stock_data["prediction_results"]["next_day_predictions"]]
                     )
                 )
-                df.index = ["Swing Predicton", "Model Score", "Price Prediction"]
+                df.index = ["Swing Predicton", "Model Score", "Price Prediction ($)"]
                 df = df.transpose()
-                df
+                df # display chart
+
                 st.markdown(
-                    "**The current price of the stock is $"
+                    "- The current price of the stock is **$"
                     + str(
                         round(stock_data["prediction_results"]["current_prev_close"], 2)
                     )
-                    + ".**"
+                    + "**."
                 )
-                st.markdown(
-                    "*Note:* View the home screen for information about the best models and training data size combinations."
-                )
+
+                if state.period == "1mo":
+                    st.markdown(
+                        "- **Recommended Model (for 1mo):** SVR-RBF"
+                    )
+                    st.markdown("- *View the homescreen for more model & dataset size combination recommendations.*")
+                elif state.period == "6mo":
+                    st.markdown(
+                        "- **Recommended Model (for 6mo):** SVR-Poly (most recommended), LR, EN, or Lasso."
+                    )
+                    st.markdown("- *View the homescreen for more model & dataset size combination recommendations.*")
+                elif state.period == "1y":
+                    st.markdown(
+                        "- **Recommended Model (for 1yr):** SVR-Poly"
+                    )
+                    st.markdown("- *View the homescreen for more model & dataset size combination recommendations.*")
+                else:
+                    st.markdown(
+                        "*Note:* View the home screen for information about the best models and training data size combinations."
+                    )
 
                 ############################################
                 st.markdown("### View Other Information:")

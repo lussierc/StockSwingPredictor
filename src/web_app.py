@@ -184,7 +184,7 @@ def page_dashboard(state):
                     )
                 else:
                     st.markdown(
-                        "*Note:* View the home screen for information about the best models and training data size combinations."
+                        "- *Note:* View the home screen for information about the best models and training data size combinations."
                     )
 
                 ############################################
